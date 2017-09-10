@@ -9,7 +9,8 @@ import { Router, Route } from 'react-router';
 
 import { configureHistory, configureStore } from './configureStoreAndHistory';
 
-import Homepage from './Homepage/containers/Homepage';
+import HomePage from './containers/pages/HomePage';
+import ParticipantProfilePage from './containers/pages/ParticipantProfilePage';
 
 const initialState = Map();
 const store = configureStore(initialState);
@@ -18,7 +19,8 @@ const reactRouterReduxHistory = configureHistory(store);
 ReactDOM.render((
   <Provider store={store}>
     <Router history={reactRouterReduxHistory}>
-      <Route path="/" component={Homepage} />
+      <Route path="/" component={HomePage} />
+      <Route path="/participant-profile" component={ParticipantProfilePage} />
     </Router>
   </Provider>
 ), document.getElementById('app'));

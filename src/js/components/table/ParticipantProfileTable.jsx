@@ -2,29 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Form, Grid, Header, Input, Menu, Table, Checkbox, Icon } from 'semantic-ui-react';
 
-class Homepage extends React.Component {
+class ParticipantProfileTable extends React.Component {
   render() {
     return (
       <Container>
-        <Menu secondary>
-          <Menu.Header>
-            <Header
-              image="/src/assets/hackgt-logo.png"
-              content="Sponsorship Portal"
-              textAlign="center"
-            />
-          </Menu.Header>
-          <Menu.Item
-            position="center"
-            name="pile"
-          >
-            <Button primary>Your Pile</Button>
-          </Menu.Item>
-          <Menu.Item
-            position="right"
-            name="logout"
-          />
-        </Menu>
         <Grid centered>
           <Grid.Row columns="1">
             <Form>
@@ -85,9 +66,9 @@ class Homepage extends React.Component {
               <Table.Footer fullWidth>
                 <Table.Row>
                   <Table.HeaderCell />
-                  <Table.HeaderCell colSpan='4'>
-                    <Button size='small'>Add to Pile</Button>
-                    <Button size='small'>Add All to Pile</Button>
+                  <Table.HeaderCell colSpan="4">
+                    <Button size="small">Add to Pile</Button>
+                    <Button size="small">Add All to Pile</Button>
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Footer>
@@ -99,4 +80,4 @@ class Homepage extends React.Component {
   }
 }
 
-export default connect()(Homepage);
+export default ParticipantProfileTable;
