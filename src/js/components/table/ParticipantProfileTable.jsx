@@ -4,6 +4,7 @@ import { Button, Container, Form, Grid, Header, Input, Menu, Table, Checkbox, Ic
 
 class ParticipantProfileTable extends React.Component {
   render() {
+    const participants = this.props.participants;
     return (
       <Container>
         <Grid centered>
@@ -27,48 +28,35 @@ class ParticipantProfileTable extends React.Component {
                   <Table.HeaderCell>E-mail address</Table.HeaderCell>
                   <Table.HeaderCell>Resume</Table.HeaderCell>
                   <Table.HeaderCell>Skills</Table.HeaderCell>
+                  <Table.HeaderCell>Tags</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 
               <Table.Body>
-                <Table.Row>
-                  <Table.Cell collapsing>
-                    <Checkbox slider />
-                  </Table.Cell>
-                  <Table.Cell>John Lilki</Table.Cell>
-                  <Table.Cell>Georgia Tech</Table.Cell>
-                  <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-                  <Table.Cell><Button>View Resume</Button></Table.Cell>
-                  <Table.Cell>Java, Python, C</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell collapsing>
-                    <Checkbox slider />
-                  </Table.Cell>
-                  <Table.Cell>Jamie Harington</Table.Cell>
-                  <Table.Cell>Harvard</Table.Cell>
-                  <Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-                  <Table.Cell><Button>View Resume</Button></Table.Cell>
-                  <Table.Cell>Go, Ruby, Haskell</Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell collapsing>
-                    <Checkbox slider />
-                  </Table.Cell>
-                  <Table.Cell>Jill Lewis</Table.Cell>
-                  <Table.Cell>Princeton</Table.Cell>
-                  <Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-                  <Table.Cell><Button>View Resume</Button></Table.Cell>
-                  <Table.Cell>SQL, Docker, Kubernetes</Table.Cell>
-                </Table.Row>
+                {
+                  participants.map((participant) => {
+                    return (
+                      <Table.Row key={participant.id}>
+                        <Table.Cell collapsing>
+                          <Checkbox slider checked={participant.isSelected} />
+                        </Table.Cell>
+                        <Table.Cell>{participant.name || 'N/A'}</Table.Cell>
+                        <Table.Cell>{participant.school || 'N/A'}</Table.Cell>
+                        <Table.Cell>{participant.email || 'N/A'}</Table.Cell>
+                        <Table.Cell><Button>View Resume</Button></Table.Cell>
+                        <Table.Cell>Java, Python</Table.Cell>
+                        <Table.Cell>None</Table.Cell>
+                      </Table.Row>
+                    );
+                  })
+                }
               </Table.Body>
 
               <Table.Footer fullWidth>
                 <Table.Row>
                   <Table.HeaderCell />
                   <Table.HeaderCell colSpan="4">
-                    <Button size="small">Add to Pile</Button>
-                    <Button size="small">Add All to Pile</Button>
+                    <Button size="small">Select All Displaying</Button>
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Footer>
