@@ -3,7 +3,8 @@ import { Button, Header, Menu } from 'semantic-ui-react';
 
 class Navbar extends React.Component {
   render() {
-    const page = this.props.page;
+    const page = this.props.location.pathname;
+    const push = this.props.push;
     return (
       <Menu secondary>
         <Menu.Header>
@@ -18,8 +19,8 @@ class Navbar extends React.Component {
           name="pile"
         >
           <Button.Group>
-            <Button primary={page === 'HomePage'}>Home</Button>
-            <Button primary={page === 'ParticipantProfilePage'}>Pile</Button>
+            <Button primary={page === '/'} onClick={() => push('/')}>Home</Button>
+            <Button primary={page === '/participant-profile'} onClick={() => push('/participant-profile')}>Workspace</Button>
           </Button.Group>
         </Menu.Item>
         <Menu.Item
