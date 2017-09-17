@@ -35,19 +35,22 @@ class ParticipantProfileTable extends React.Component {
               <Table.Body>
                 {
                   participants.map((participant) => {
-                    return (
-                      <Table.Row key={participant.id}>
-                        <Table.Cell collapsing>
-                          <Checkbox slider checked={participant.isSelected} />
-                        </Table.Cell>
-                        <Table.Cell>{participant.name || 'N/A'}</Table.Cell>
-                        <Table.Cell>{participant.school || 'N/A'}</Table.Cell>
-                        <Table.Cell>{participant.email || 'N/A'}</Table.Cell>
-                        <Table.Cell><Button>View Resume</Button></Table.Cell>
-                        <Table.Cell>Java, Python</Table.Cell>
-                        <Table.Cell>None</Table.Cell>
-                      </Table.Row>
-                    );
+                    if (participant.isDisplaying) {
+                      return (
+                        <Table.Row key={participant.id}>
+                          <Table.Cell collapsing>
+                            <Checkbox slider checked={participant.isSelected} />
+                          </Table.Cell>
+                          <Table.Cell>{participant.name || 'N/A'}</Table.Cell>
+                          <Table.Cell>{participant.school || 'N/A'}</Table.Cell>
+                          <Table.Cell>{participant.email || 'N/A'}</Table.Cell>
+                          <Table.Cell><Button>View Resume</Button></Table.Cell>
+                          <Table.Cell>Java, Python</Table.Cell>
+                          <Table.Cell>None</Table.Cell>
+                        </Table.Row>
+                      );
+                    }
+                    return null;
                   })
                 }
               </Table.Body>
