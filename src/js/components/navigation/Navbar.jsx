@@ -15,7 +15,7 @@ class Navbar extends React.Component {
           />
         </Menu.Header>
         <Menu.Item
-          position="center"
+          position="left"
           name="pile"
         >
           <Button.Group>

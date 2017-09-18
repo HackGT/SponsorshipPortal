@@ -1,10 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Button, Container, Form, Grid, Header, Input, Menu, Table, Checkbox, Icon } from 'semantic-ui-react';
+import { Button, Container, Form, Grid, Input, Table, Checkbox } from 'semantic-ui-react';
 
 class ParticipantProfileTable extends React.Component {
   render() {
     const participants = this.props.participants;
+    const selectParticipant = this.props.selectParticipant;
+    const unSelectParticipant = this.props.unSelectParticipant;
+    // Thinking about letting user to "swipe right/swipe left" and blacklist participants
+    // const showParticipant = this.props.showParticipant;
+    // const hideParticipant = this.props.hideParticipant;
     return (
       <Container>
         <Grid centered>
@@ -35,15 +39,26 @@ class ParticipantProfileTable extends React.Component {
               <Table.Body>
                 {
                   participants.map((participant) => {
-                    if (participant.isDisplaying) {
+                    if (participant.get('isDisplaying')) {
                       return (
-                        <Table.Row key={participant.id}>
+                        <Table.Row key={participant.get('id')}>
                           <Table.Cell collapsing>
-                            <Checkbox slider checked={participant.isSelected} />
+                            <Checkbox
+                              slider
+                              checked={participant.get('isSelected')}
+                              onChange={(event, { value }) => {
+                                if (!value) {
+                                  // if checkbox state is false
+                                  unSelectParticipant(participant);
+                                } else {
+                                  selectParticipant(participant);
+                                }
+                              }}
+                            />
                           </Table.Cell>
-                          <Table.Cell>{participant.name || 'N/A'}</Table.Cell>
-                          <Table.Cell>{participant.school || 'N/A'}</Table.Cell>
-                          <Table.Cell>{participant.email || 'N/A'}</Table.Cell>
+                          <Table.Cell>{participant.get('name') || 'N/A'}</Table.Cell>
+                          <Table.Cell>{participant.get('school') || 'N/A'}</Table.Cell>
+                          <Table.Cell>{participant.get('email') || 'N/A'}</Table.Cell>
                           <Table.Cell><Button>View Resume</Button></Table.Cell>
                           <Table.Cell>Java, Python</Table.Cell>
                           <Table.Cell>None</Table.Cell>

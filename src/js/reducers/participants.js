@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import * as ACTION_TYPE from '../actionTypes';
 
 // Example list of participants

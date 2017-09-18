@@ -6,6 +6,6 @@ import participants from './participants';
 
 export default combineReducers({
   routing: routerReducer,
-  example: ExampleReducer,
   participants,
+  example: ExampleReducer,
 });
