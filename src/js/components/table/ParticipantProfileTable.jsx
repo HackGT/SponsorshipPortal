@@ -46,12 +46,12 @@ class ParticipantProfileTable extends React.Component {
                             <Checkbox
                               slider
                               checked={participant.get('isSelected')}
-                              onChange={(event, { value }) => {
-                                if (!value) {
+                              onChange={() => {
+                                if (!participant.get('isSelected')) {
                                   // if checkbox state is false
-                                  unSelectParticipant(participant);
-                                } else {
                                   selectParticipant(participant);
+                                } else {
+                                  unSelectParticipant(participant);
                                 }
                               }}
                             />

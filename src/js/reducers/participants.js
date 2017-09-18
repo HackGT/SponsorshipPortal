@@ -32,24 +32,32 @@ const initialState = List([
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case ACTION_TYPE.SELECT_PARTICIPANT: {
-      return state.find((participant) => {
-        return participant.id === action.payload.id;
-      }).set('isSelected', true);
+      return state.update(state.findIndex((participant) => {
+        return participant.get('id') === action.payload.get('id');
+      }), (participant) => {
+        return participant.set('isSelected', true);
+      });
     }
     case ACTION_TYPE.UNSELECT_PARTICIPANT: {
-      return state.find((participant) => {
-        return participant.id === action.payload.id;
-      }).set('isSelected', false);
+      return state.update(state.findIndex((participant) => {
+        return participant.get('id') === action.payload.get('id');
+      }), (participant) => {
+        return participant.set('isSelected', false);
+      });
     }
     case ACTION_TYPE.SHOW_PARTICIPANT: {
-      return state.find((participant) => {
-        return participant.id === action.payload.id;
-      }).set('isDisplaying', true);
+      return state.update(state.findIndex((participant) => {
+        return participant.get('id') === action.payload.get('id');
+      }), (participant) => {
+        return participant.set('isDisplaying', true);
+      });
     }
     case ACTION_TYPE.HIDE_PARTICIPANT: {
-      return state.find((participant) => {
-        return participant.id === action.payload.id;
-      }).set('isDisplaying', false);
+      return state.update(state.findIndex((participant) => {
+        return participant.get('id') === action.payload.get('id');
+      }), (participant) => {
+        return participant.set('isDisplaying', false);
+      });
     }
     default:
       return state;
