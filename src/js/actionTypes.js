@@ -1,2 +1,14 @@
+// Boilerplate examples
 export const CHANGING_MESSAGE = 'CHANGING_MESSAGE';
 export const CHANGED_MESSAGE = 'CHANGED_MESSAGE';
+
+// participants (profile list)
+export const LOAD_PARTICIPANTS = 'LOAD_PARTICIPANTS';
+export const SELECT_PARTICIPANT = 'SELECT_PARTICIPANT';
+export const UNSELECT_PARTICIPANT = 'UNSELECT_PARTICIPANT';
+export const TAG_PARTICIPANT = 'TAG_PARTICIPANT';
+export const SHOW_PARTICIPANT = 'SHOW_PARTICIPANT';
+export const HIDE_PARTICIPANT = 'HIDE_PARTICIPANT';
+
+// filters
+export const RESET_FILTERS = 'RESET_FILTERS';
