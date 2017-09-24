@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Container, Form, Grid, Input, Table, Checkbox } from 'semantic-ui-react';
+import { Button, Container, Form, Grid, Input, Table } from 'semantic-ui-react';
+
+import ParticipantSelectCheckbox from './ParticipantSelectCheckbox';
 
 class ParticipantProfileTable extends React.Component {
   render() {
@@ -43,7 +45,18 @@ class ParticipantProfileTable extends React.Component {
                       return (
                         <Table.Row key={participant.get('id')}>
                           <Table.Cell collapsing>
-                            <Checkbox
+                            <ParticipantSelectCheckbox
+                              checked={participant.get('isSelected')}
+                              onClick={() => {
+                                if (!participant.get('isSelected')) {
+                                  // if checkbox state is false
+                                  selectParticipant(participant);
+                                } else {
+                                  unSelectParticipant(participant);
+                                }
+                              }}
+                            />
+                            {/* <Checkbox
                               slider
                               checked={participant.get('isSelected')}
                               onChange={() => {
@@ -54,7 +67,7 @@ class ParticipantProfileTable extends React.Component {
                                   unSelectParticipant(participant);
                                 }
                               }}
-                            />
+                            /> */}
                           </Table.Cell>
                           <Table.Cell>{participant.get('name') || 'N/A'}</Table.Cell>
                           <Table.Cell>{participant.get('school') || 'N/A'}</Table.Cell>
