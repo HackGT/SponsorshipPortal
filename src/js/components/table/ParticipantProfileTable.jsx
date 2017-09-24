@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Container, Form, Grid, Input, Table } from 'semantic-ui-react';
+import { Button, Container, Grid, Table } from 'semantic-ui-react';
 
 import ParticipantSelectCheckbox from './ParticipantSelectCheckbox';
+import ParticipantProfileSearchBar from './ParticipantProfileSearchBar';
 
 class ParticipantProfileTable extends React.Component {
   render() {
@@ -15,14 +16,7 @@ class ParticipantProfileTable extends React.Component {
       <Container>
         <Grid centered>
           <Grid.Row columns="1">
-            <Form>
-              <Form.Field>
-                <Input
-                  label="HackGT Participant Search"
-                  placeholder="Enter name or keywords"
-                />
-              </Form.Field>
-            </Form>
+            <ParticipantProfileSearchBar />
           </Grid.Row>
           <Grid.Row columns="1">
             <Table compact celled definition>
