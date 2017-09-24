@@ -31,6 +31,9 @@ const initialState = List([
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case ACTION_TYPE.LOAD_PARTICIPANTS: {
+      return action.payload;
+    }
     case ACTION_TYPE.SELECT_PARTICIPANT: {
       return state.update(state.findIndex((participant) => {
         return participant.get('id') === action.payload.get('id');
