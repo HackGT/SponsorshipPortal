@@ -81,7 +81,20 @@ class ParticipantProfileTable extends React.Component {
                 <Table.Row>
                   <Table.HeaderCell />
                   <Table.HeaderCell colSpan="4">
-                    <Button size="small">Select All Displaying</Button>
+                    <Button
+                      size="small"
+                      onClick={
+                        () => {
+                          participants
+                            .filter((participant) => { return participant.get('isDisplaying'); })
+                            .forEach((participant) => {
+                              selectParticipant(participant);
+                            });
+                        }
+                      }
+                    >
+                      Select All Displaying
+                    </Button>
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Footer>

@@ -5,8 +5,8 @@ class ParticipantSelectCheckbox extends React.Component {
   render() {
     const checked = this.props.checked;
     const onClick = this.props.onClick;
-    const label = checked ? 'Select' : 'Remove';
-    const icon = checked ? 'plus' : 'user delete';
+    const label = checked ? 'Remove' : 'Select';
+    const icon = checked ? 'user delete' : 'plus';
     return (
       <Button
         content={label}
