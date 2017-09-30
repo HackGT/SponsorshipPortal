@@ -34,6 +34,20 @@ class ParticipantProfileFilters extends React.Component {
         >
           Selected ({participants.count(participant => participant.get('isSelected'))})
         </Button>
+        <Button
+          onClick={() => {
+            // show all the participants currently matched by the search
+            participants.forEach((participant) => {
+              if (participant.get('isSearched')) {
+                showParticipant(participant);
+              } else {
+                hideParticipant(participant);
+              }
+            });
+          }}
+        >
+          Searching ({participants.count(participant => participant.get('isSearched'))})
+        </Button>
       </Button.Group>
     );
   }

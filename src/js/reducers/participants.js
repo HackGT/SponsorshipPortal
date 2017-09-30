@@ -10,6 +10,7 @@ const initialState = List([
     email: 'john@example.com',
     isSelected: false,
     isDisplaying: true,
+    isSearched: false,
   }),
   Map({
     id: 2,
@@ -18,6 +19,7 @@ const initialState = List([
     email: 'john2@example.com',
     isSelected: true,
     isDisplaying: true,
+    isSearched: false,
   }),
   Map({
     id: 3,
@@ -26,6 +28,7 @@ const initialState = List([
     email: 'john3@example.com',
     isSelected: false,
     isDisplaying: true,
+    isSearched: false,
   }),
 ]);
 
