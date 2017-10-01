@@ -65,6 +65,15 @@ export default function reducer(state = initialState, action) {
         return participant.set('isDisplaying', false);
       });
     }
+    case ACTION_TYPE.SEARCH_PARTICIPANTS: {
+      // TODO: Remove dummy search
+      return state.map((participant) => {
+        if (participant.get('id') === 2) {
+          return participant.set('isDisplaying', true).set('isSearched', true);
+        }
+        return participant.set('isDisplaying', false);
+      });
+    }
     default:
       return state;
   }
