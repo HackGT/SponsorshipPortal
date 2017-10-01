@@ -10,6 +10,7 @@ const initialState = List([
     email: 'john@example.com',
     isSelected: false,
     isDisplaying: true,
+    isSearched: false,
   }),
   Map({
     id: 2,
@@ -18,6 +19,7 @@ const initialState = List([
     email: 'john2@example.com',
     isSelected: true,
     isDisplaying: true,
+    isSearched: false,
   }),
   Map({
     id: 3,
@@ -26,6 +28,7 @@ const initialState = List([
     email: 'john3@example.com',
     isSelected: false,
     isDisplaying: true,
+    isSearched: false,
   }),
 ]);
 
@@ -59,6 +62,15 @@ export default function reducer(state = initialState, action) {
       return state.update(state.findIndex((participant) => {
         return participant.get('id') === action.payload.get('id');
       }), (participant) => {
+        return participant.set('isDisplaying', false);
+      });
+    }
+    case ACTION_TYPE.SEARCH_PARTICIPANTS: {
+      // TODO: Remove dummy search
+      return state.map((participant) => {
+        if (participant.get('id') === 2) {
+          return participant.set('isDisplaying', true).set('isSearched', true);
+        }
         return participant.set('isDisplaying', false);
       });
     }

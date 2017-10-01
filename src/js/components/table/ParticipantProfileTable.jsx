@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Container, Grid, Table } from 'semantic-ui-react';
 
 import ParticipantSelectCheckbox from './ParticipantSelectCheckbox';
-import ParticipantProfileSearchBar from './ParticipantProfileSearchBar';
+import ParticipantProfileSearchBar from '../../containers/table/ParticipantProfileSearchBar';
+import ParticipantProfileFilters from '../../containers/table/ParticipantProfileFilters';
 
 class ParticipantProfileTable extends React.Component {
   render() {
@@ -15,8 +16,13 @@ class ParticipantProfileTable extends React.Component {
     return (
       <Container>
         <Grid centered>
-          <Grid.Row columns="1">
-            <ParticipantProfileSearchBar />
+          <Grid.Row columns="2">
+            <Grid.Column>
+              <ParticipantProfileSearchBar />
+            </Grid.Column>
+            <Grid.Column>
+              <ParticipantProfileFilters />
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row columns="1">
             <Table compact celled definition>
