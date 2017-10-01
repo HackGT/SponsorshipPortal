@@ -7,7 +7,11 @@ module:testrunner
 module:jobs
 
 
-GET     /                                       ResumeParser.Index
+GET     /parse                                       ResumeParser.Index
+GET     /search                                 SearchEngine.Index
+GET     /participants                           Participants.Index
+GET     /save                                   Sponsors.Save
+GET     /load                                   Sponsors.Load
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
