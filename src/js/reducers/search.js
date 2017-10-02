@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import * as ACTION_TYPE from '../actionTypes';
 
 const initialState = Map({
-  keyword: null,
+  keyword: '',
 });
 
 export default function reducer(state = initialState, action) {

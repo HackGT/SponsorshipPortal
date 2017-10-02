@@ -8,6 +8,24 @@ class ParticipantProfileFilters extends React.Component {
     const participants = this.props.participants;
     const showParticipant = this.props.showParticipant;
     const hideParticipant = this.props.hideParticipant;
+    const keyword = this.props.keyword;
+    const searchFilterButton = (keyword === '') ? false : (
+      <Button
+        onClick={() => {
+          // show all the participants currently matched by the search
+          participants.forEach((participant) => {
+            if (participant.get('isSearched')) {
+              showParticipant(participant);
+            } else {
+              hideParticipant(participant);
+            }
+          });
+        }}
+      >
+        Searching: {keyword} ({participants.count(participant => participant.get('isSearched'))})
+      </Button>
+    );
+
     return (
       <Button.Group>
         <Button
@@ -34,20 +52,7 @@ class ParticipantProfileFilters extends React.Component {
         >
           Selected ({participants.count(participant => participant.get('isSelected'))})
         </Button>
-        <Button
-          onClick={() => {
-            // show all the participants currently matched by the search
-            participants.forEach((participant) => {
-              if (participant.get('isSearched')) {
-                showParticipant(participant);
-              } else {
-                hideParticipant(participant);
-              }
-            });
-          }}
-        >
-          Searching ({participants.count(participant => participant.get('isSearched'))})
-        </Button>
+        {searchFilterButton}
       </Button.Group>
     );
   }
@@ -56,6 +61,7 @@ class ParticipantProfileFilters extends React.Component {
 export default connect((state) => {
   return {
     participants: state.get('participants'),
+    keyword: state.get('search').get('keyword'),
   };
 }, (dispatch) => {
   return {
