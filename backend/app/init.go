@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/HackGT/SponsorshipPortal/backend/app/controllers"
 	"github.com/blevesearch/bleve"
 	"github.com/revel/revel"
 )
@@ -30,13 +31,15 @@ func init() {
 		revel.ActionInvoker,           // Invoke the action.
 	}
 
-	// open a new index
-	mapping := bleve.NewIndexMapping()
-	_, err := bleve.New("example.bleve", mapping)
-	if err != nil {
-		revel.ERROR.Println(err)
-		return
-	}
+	//open a new index
+	// mapping := bleve.NewIndexMapping()
+	// bleveIndex, err := bleve.New("example.bleve", mapping)
+	// if err != nil {
+	// 	revel.ERROR.Println(err)
+	// 	return
+	// }
+	// controllers.BleveIndex = bleveIndex
+	controllers.BleveIndex, _ = bleve.Open("example.bleve")
 
 	// register startup functions with OnAppStart
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
