@@ -15,7 +15,7 @@ const render = (store, reactRouterReduxHistory) => {
       <Router history={reactRouterReduxHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={HomePage} />
-          <Route path="participant-profile" component={ParticipantProfilePage} />
+          {/* <Route path="participant-profile" component={ParticipantProfilePage} /> */}
           <Route path="export" component={ExportPage} />
         </Route>
       </Router>
