@@ -7,7 +7,7 @@ import ConnectedParticipantProfileTable from '../table/ConnectedParticipantProfi
 class ParticipantProfilePage extends React.Component {
   render() {
     return (
-      <Container>
+      <Container style={{ marginBottom: '40px' }}>
         <ConnectedParticipantProfileTable />
       </Container>
     );

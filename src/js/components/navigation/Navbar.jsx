@@ -21,7 +21,7 @@ class Navbar extends React.Component {
           >
             <Button.Group>
               <Button primary={page === '/'} onClick={() => push('/')}>Home</Button>
-              <Button primary={page === '/participant-profile'} onClick={() => push('/participant-profile')}>Workspace</Button>
+              {/* <Button primary={page === '/participant-profile'} onClick={() => push('/participant-profile')}>Workspace</Button> */}
               <Button primary={page === '/export'} onClick={() => push('/export')}>Export</Button>
             </Button.Group>
           </Menu.Item>

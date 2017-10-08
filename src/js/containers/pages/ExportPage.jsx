@@ -6,7 +6,7 @@ import { Container, Button } from 'semantic-ui-react';
 class ExportPage extends React.Component {
   render() {
     return (
-      <Container>
+      <Container style={{ marginBottom: '40px' }}>
         <h2>Choose An Export Format</h2>
         <p>
           <Button secondary>Download</Button>
