@@ -9,3 +9,5 @@ const store = configureStore(initialState);
 const reactRouterReduxHistory = configureHistory(store);
 
 render(store, reactRouterReduxHistory);
+
+export default store;
