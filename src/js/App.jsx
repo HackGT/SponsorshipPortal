@@ -7,7 +7,7 @@ export default function App({ children, location }) {
     <div>
       <ConnectedNavbar location={location} />
       <GlobalLoader />
-      <div style={{ marginTop: '1.5em' }}>{children}</div>
+      <div style={{ paddingTop: '100px' }}>{children}</div>
     </div>
   );
 }
