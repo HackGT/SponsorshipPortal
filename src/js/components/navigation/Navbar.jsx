@@ -26,10 +26,10 @@ class Navbar extends React.Component {
                 <Button primary={page === '/export'} onClick={() => push('/export')}>Export</Button>
               </Button.Group>
             </Menu.Item>
-            <Menu.Item
+            {/* <Menu.Item
               position="right"
               name="logout"
-            />
+            /> */}
           </Menu>
         </Container>
       </div>
