@@ -6,7 +6,7 @@ import { Router, Route, IndexRoute } from 'react-router';
 
 import App from './App';
 import HomePage from './containers/pages/HomePage';
-import ParticipantProfilePage from './containers/pages/ParticipantProfilePage';
+// import ParticipantProfilePage from './containers/pages/ParticipantProfilePage';
 import ExportPage from './containers/pages/ExportPage';
 
 const render = (store, reactRouterReduxHistory) => {
