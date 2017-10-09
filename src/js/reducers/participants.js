@@ -1,4 +1,4 @@
-import { List, Map } from 'immutable';
+import { List, Map, Set } from 'immutable';
 import * as ACTION_TYPE from '../actionTypes';
 
 // Example list of participants
@@ -66,12 +66,12 @@ export default function reducer(state = initialState, action) {
       });
     }
     case ACTION_TYPE.SEARCH_PARTICIPANTS: {
-      // TODO: Remove dummy search
+      const searchedSet = Set(action.payload);
       return state.map((participant) => {
-        if (participant.get('id') === 2) {
+        if (searchedSet.has(participant.get('id'))) {
           return participant.set('isDisplaying', true).set('isSearched', true);
         }
-        return participant.set('isDisplaying', false);
+        return participant.set('isDisplaying', false).set('isSearched', false);
       });
     }
     default:
