@@ -9,14 +9,19 @@ import * as ACTION_TYPES from '../actionTypes';
 
 export function searchByKeyword(keyword) {
   return (dispatch) => {
-    if (keyword === 'John Doe 2') {
-      dispatch({
-        type: ACTION_TYPES.SEARCH_PARTICIPANTS,
-      });
-    }
+    // Change the Currently Cached Keyword
     dispatch({
       type: ACTION_TYPES.SEARCH_BY_KEYWORD,
       payload: keyword,
+    });
+    // Show Loader
+    dispatch({
+      type: ACTION_TYPES.LOADER_ON,
+    });
+    // Send Search Request
+    dispatch({
+      type: ACTION_TYPES.SEARCH_PARTICIPANTS,
+      payload: ['1', '2'],
     });
   };
 }
