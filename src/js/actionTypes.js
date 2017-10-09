@@ -22,3 +22,6 @@ export const SEARCH_BY_KEYWORD_FAILURE = 'SEARCH_BY_KEYWORD_FAILURE';
 export const LOADER_ON = 'LOADER_ON';
 export const LOADER_OFF = 'LOADER_OFF';
 
+// auth
+export const LOG_IN = 'LOG_IN';
+
