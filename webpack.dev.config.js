@@ -4,7 +4,7 @@ const Merge = require('webpack-merge');
 const BaseConfig = require('./webpack.base.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const PORT = 9000;
+const PORT = 8500;
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './src/index.html',
