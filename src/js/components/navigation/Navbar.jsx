@@ -6,7 +6,7 @@ class Navbar extends React.Component {
     const page = this.props.location.pathname;
     const push = this.props.push;
     return (
-      <div style={{ position: 'fixed', width: '100vw', backgroundColor: '#ffffff' }}>
+      <div style={{ zIndex: 9999, position: 'fixed', top: 0, width: '100vw', backgroundColor: '#ffffff' }}>
         <Container>
           <Menu secondary>
             <Menu.Header>
