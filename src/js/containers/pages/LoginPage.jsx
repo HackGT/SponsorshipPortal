@@ -14,6 +14,7 @@ class LoginPage extends React.Component {
       password: '',
     };
   }
+
   render() {
     return (
       <Container style={{ marginTop: '20vh' }}>
@@ -63,16 +64,10 @@ class LoginPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    state,
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     logIn: (username, password) => dispatch(logIn(username, password)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(null, mapDispatchToProps)(LoginPage);

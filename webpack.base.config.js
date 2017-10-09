@@ -58,6 +58,12 @@ module.exports = {
         use: ['file-loader?[name].[ext]&mimetype=application/x-font-truetype'],
       },
     ],
+    // loaders: [
+    //   {
+    //     test: /particles\.js/,
+    //     loader: 'exports?particlesJS=window.particlesJS,pJSDom=window.pJSDom',
+    //   },
+    // ],
   },
   plugins: [ExtractTextPluginConfig],
   resolve: {
