@@ -1,9 +1,9 @@
 #particle {
-  background-color: #b61924;
+  background-color: #f0cccc;
   position:fixed;
   top:0;
   right:0;
   bottom:0;
   left:0;
-  z-index:0; 
+  z-index: -9999; 
 }
