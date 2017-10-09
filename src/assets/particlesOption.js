@@ -2,14 +2,14 @@
 const particlesOption = {
   "particles": {
     "number": {
-      "value": 400,
+      "value": 80,
       "density": {
         "enable": true,
         "value_area": 800
       }
     },
     "color": {
-      "value": "#fff"
+      "value": "#000000"
     },
     "shape": {
       "type": "circle",
@@ -28,7 +28,7 @@ const particlesOption = {
     },
     "opacity": {
       "value": 0.5,
-      "random": true,
+      "random": false,
       "anim": {
         "enable": false,
         "speed": 1,
@@ -37,7 +37,7 @@ const particlesOption = {
       }
     },
     "size": {
-      "value": 10,
+      "value": 3,
       "random": true,
       "anim": {
         "enable": false,
@@ -47,16 +47,16 @@ const particlesOption = {
       }
     },
     "line_linked": {
-      "enable": false,
-      "distance": 500,
-      "color": "#ffffff",
+      "enable": true,
+      "distance": 150,
+      "color": "#591111",
       "opacity": 0.4,
-      "width": 2
+      "width": 1
     },
     "move": {
       "enable": true,
       "speed": 6,
-      "direction": "bottom",
+      "direction": "none",
       "random": false,
       "straight": false,
       "out_mode": "out",
@@ -73,11 +73,11 @@ const particlesOption = {
     "events": {
       "onhover": {
         "enable": true,
-        "mode": "bubble"
+        "mode": "repulse"
       },
       "onclick": {
         "enable": true,
-        "mode": "repulse"
+        "mode": "push"
       },
       "resize": true
     },
@@ -85,14 +85,14 @@ const particlesOption = {
       "grab": {
         "distance": 400,
         "line_linked": {
-          "opacity": 0.5
+          "opacity": 1
         }
       },
       "bubble": {
         "distance": 400,
-        "size": 4,
-        "duration": 0.3,
-        "opacity": 1,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
         "speed": 3
       },
       "repulse": {
@@ -108,6 +108,6 @@ const particlesOption = {
     }
   },
   "retina_detect": true
-};
+}
 
 export default particlesOption;
