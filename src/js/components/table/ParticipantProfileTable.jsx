@@ -73,7 +73,6 @@ class ParticipantProfileTable extends React.Component {
                           <Table.Cell>{participant.get('school') || 'N/A'}</Table.Cell>
                           <Table.Cell>{participant.get('email') || 'N/A'}</Table.Cell>
                           <Table.Cell><Button>View Resume</Button></Table.Cell>
-                          <Table.Cell>Java, Python</Table.Cell>
                           <Table.Cell>None</Table.Cell>
                         </Table.Row>
                       );

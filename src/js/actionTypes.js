@@ -21,4 +21,9 @@ export const SEARCH_BY_KEYWORD_FAILURE = 'SEARCH_BY_KEYWORD_FAILURE';
 // ui
 export const LOADER_ON = 'LOADER_ON';
 export const LOADER_OFF = 'LOADER_OFF';
+export const MODAL_ON = 'MODAL_ON';
+export const MODAL_OFF = 'MODAL_OFF';
+
+// auth
+export const LOG_IN = 'LOG_IN';
 
