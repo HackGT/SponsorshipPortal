@@ -1,4 +1,5 @@
 import 'semantic-ui-css/semantic.min.css';
+import 'whatwg-fetch';
 import { Map } from 'immutable';
 import { configureHistory, configureStore } from './configureStoreAndHistory';
 
