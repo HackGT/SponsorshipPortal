@@ -22,6 +22,8 @@ SyncHelper.saveSelectionSnapshot = () => {
     }),
   }).then((response) => {
     if (response.ok) {
+      // Now that it has been saved, remove the 'beforeunload' listener that prevents user from exiting
+      window.removeEventListener('beforeunload', SyncHelper.preventExitHelper);
       return response.json();
     }
     throw new Error('POST /save connection lost');

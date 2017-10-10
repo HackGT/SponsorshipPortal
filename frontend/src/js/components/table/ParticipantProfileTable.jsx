@@ -7,6 +7,8 @@ import ParticipantProfileFilters from '../../containers/table/ParticipantProfile
 
 import PDFHelper from '../../service/PDFHelper';
 
+import SyncHelper from '../../service/SyncHelper';
+
 class ParticipantProfileTable extends React.Component {
   render() {
     const participants = this.props.participants;
@@ -35,8 +37,6 @@ class ParticipantProfileTable extends React.Component {
                   <Table.HeaderCell>School</Table.HeaderCell>
                   <Table.HeaderCell>E-mail address</Table.HeaderCell>
                   <Table.HeaderCell>Resume</Table.HeaderCell>
-                  <Table.HeaderCell>Skills</Table.HeaderCell>
-                  <Table.HeaderCell>Tags</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 
@@ -56,6 +56,8 @@ class ParticipantProfileTable extends React.Component {
                                 } else {
                                   unSelectParticipant(participant);
                                 }
+                                // request auto save
+                                SyncHelper.requestSync();
                               }}
                             />
                             {/* <Checkbox
@@ -83,7 +85,6 @@ class ParticipantProfileTable extends React.Component {
                               View Resume
                             </Button>
                           </Table.Cell>
-                          <Table.Cell>None</Table.Cell>
                         </Table.Row>
                       );
                     }
