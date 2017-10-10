@@ -1,9 +1,10 @@
 {
-  "name": "SponsorshipPortal",
+  "name": "sponsorship-portal",
   "version": "1.0.0",
   "main": "index.jsx",
   "scripts": {
     "start": "rm -rf ./build && webpack-dev-server --env=dev --colors --hot --inline",
+    "build": "rm -rf ./build && webpack --env prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
