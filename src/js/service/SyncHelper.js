@@ -42,13 +42,11 @@ SyncHelper.fetchSelectionSnapshot = () => {
     }
     throw new Error('POST /load connection lost');
   }).then((json) => {
-    if (!json.state) {
-      throw new Error('Invalid snapshot');
-    }
-    if (json.state === 'none') {
+    const state = JSON.parse(json.state);
+    if (!Set.isSet(state)) {
       return Promise.resolve(Set([]));
     } else {
-      return Promise.resolve(JSON.parse(json.state));
+      return Promise.resolve(state);
     }
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
