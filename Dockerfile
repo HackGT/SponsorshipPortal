@@ -1,4 +1,4 @@
-FROM alpine
+FROM debian:8
 
 ADD backend.tar.gz /www
 
