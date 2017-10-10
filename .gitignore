@@ -33,4 +33,9 @@ chrome-user-data
 *react*min*.js
 src/node_modules
 package-lock.json
-backend/public/
+
+# ignore generated client files
+/backend/public/
+
+# ignore generated project
+backend.tar.gz
