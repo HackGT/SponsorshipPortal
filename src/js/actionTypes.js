@@ -23,6 +23,7 @@ export const LOADER_ON = 'LOADER_ON';
 export const LOADER_OFF = 'LOADER_OFF';
 export const MODAL_ON = 'MODAL_ON';
 export const MODAL_OFF = 'MODAL_OFF';
+export const UI_UPDATE_SYNC_STATUS = 'UI_UPDATE_SYNC_STATUS';
 
 // auth
 export const LOG_IN = 'LOG_IN';

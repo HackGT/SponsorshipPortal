@@ -5,7 +5,8 @@ import NotificationHelper from './NotificationHelper';
 
 const SyncHelper = {};
 
-SyncHelper.saveSelectionSnapshot = (participantsList) => {
+SyncHelper.saveSelectionSnapshot = () => {
+  const participantsList = store.getState().get('participants');
   const selectionSnapshot = Set(participantsList.filter((participant) => {
     return participant.get('isSelected');
   }).map((participant) => {
@@ -50,6 +51,24 @@ SyncHelper.fetchSelectionSnapshot = () => {
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
   });
+};
+
+// Called when sync is needed. Update the UI and prevent users from accidentally exiting.
+SyncHelper.requestSync = () => {
+  // This function should remain idempotent
+  if (!window.needSync) {
+    // Prevent users from accidentally leaving the page
+    window.addEventListener('beforeunload', SyncHelper.preventExitHelper);
+    window.needSync = true;
+    NotificationHelper.updateSyncStatus('Saving...');
+  }
+};
+
+// Helper function used with window.addEventListener('beforeunload', ...) to prevent user from accidentally exiting the page
+SyncHelper.preventExitHelper = (e) => {
+  const dialogText = 'You are leaving the Sponsorship Portal. Are you sure?';
+  e.returnValue = dialogText;
+  return dialogText;
 };
 
 export default SyncHelper;

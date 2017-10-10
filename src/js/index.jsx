@@ -24,9 +24,3 @@ export default store;
 // Particle Js Decorations
 window.particlesJS('particle', particlesOption);
 
-// Prevent users from accidentally leaving the page
-window.onbeforeunload = (e) => {
-  const dialogText = 'You are leaving the Sponsorship Portal. Are you sure?';
-  e.returnValue = dialogText;
-  return dialogText;
-};

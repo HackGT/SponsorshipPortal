@@ -6,6 +6,7 @@ import Navbar from '../../components/navigation/Navbar';
 function mapStateToProps(state, ownProps) {
   return {
     location: ownProps.location,
+    ui: state.get('ui'),
   };
 }
 

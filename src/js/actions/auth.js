@@ -3,6 +3,7 @@ import { loaderOn, loaderOff } from './ui';
 import { loadParticipants } from './participants';
 import { HOST } from '../configs';
 import NotificationHelper from '../service/NotificationHelper';
+import SyncHelper from '../service/SearchHelper';
 
 export function logIn(username, password) { // eslint-disable-line import/prefer-default-export
   // Request Server Auth login
@@ -34,6 +35,14 @@ export function logIn(username, password) { // eslint-disable-line import/prefer
       });
       // Fetch participants and sync selection state
       dispatch(loadParticipants());
+      // Initialize Auto Syncing. See SyncHelper.requestSync for more info.
+      window.needSync = false;
+      window.setInterval(() => {
+        if (window.needSync) {
+          SyncHelper.saveSelectionSnapshot();
+          NotificationHelper.updateSyncStatus('Progress Saved');
+        }
+      }, 3000);
     }).catch(() => {
       dispatch(loaderOff()); // let user try another credential, prevent the loader/dimmer from not shutting down
       NotificationHelper.showModalWithMessage('Login Failure: Please check your credentials');

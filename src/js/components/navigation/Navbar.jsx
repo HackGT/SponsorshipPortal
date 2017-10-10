@@ -4,6 +4,8 @@ import { Container, Button, Header, Menu } from 'semantic-ui-react';
 class Navbar extends React.Component {
   render() {
     const page = this.props.location.pathname;
+    const ui = this.props.ui;
+    const syncStatus = ui.get('syncStatus');
     const push = this.props.push;
     return (
       <div style={{ zIndex: 9999, position: 'fixed', top: 0, width: '100vw', backgroundColor: '#ffffff' }}>
@@ -26,10 +28,10 @@ class Navbar extends React.Component {
                 <Button primary={page === '/export'} onClick={() => push('/export')}>Export</Button>
               </Button.Group>
             </Menu.Item>
-            {/* <Menu.Item
+            <Menu.Item
               position="right"
-              name="logout"
-            /> */}
+              name={syncStatus}
+            />
           </Menu>
         </Container>
       </div>
