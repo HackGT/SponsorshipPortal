@@ -17,7 +17,7 @@ export function loadParticipants() {
   return (dispatch) => {
     fetch(`${HOST}/participants`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: new Headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         token: store.getState().get('auth').get('token'),
       }),

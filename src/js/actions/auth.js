@@ -10,7 +10,7 @@ export function logIn(username, password) { // eslint-disable-line import/prefer
     dispatch(loaderOn());
     return fetch(`${HOST}/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: new Headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         username,
         password,
