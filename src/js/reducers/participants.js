@@ -8,6 +8,7 @@ const initialState = List([
     name: 'Loading',
     school: '...',
     email: '...',
+    resumeId: 'loading',
     isSelected: false,
     isDisplaying: true,
     isSearched: false,
