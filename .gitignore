@@ -29,6 +29,7 @@ chrome-user-data
 *.iml
 .vscode
 *.swp
+.#*
 *.swo
 *react*min*.js
 !src/node_modules
