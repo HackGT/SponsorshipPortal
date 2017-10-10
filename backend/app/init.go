@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/HackGT/SponsorshipPortal/backend/app/controllers"
+	"github.com/HouzuoGuo/tiedot/db"
 	"github.com/blevesearch/bleve"
 	"github.com/revel/revel"
 )
@@ -12,6 +12,12 @@ var (
 
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
+
+	// BleveIndex global reference
+	BleveIndex bleve.Index
+
+	// PortalDB application database
+	PortalDB *db.DB
 )
 
 func init() {
@@ -38,8 +44,21 @@ func init() {
 	// 	revel.ERROR.Println(err)
 	// 	return
 	// }
-	// controllers.BleveIndex = bleveIndex
-	controllers.BleveIndex, _ = bleve.Open("example.bleve")
+	// controllers.BleveIndex = bleveIndex\
+	myDBDir := "/home/brow/Documents/PortalDB"
+	BleveIndex, _ = bleve.Open("example.bleve")
+	PortalDB, _ = db.OpenDB(myDBDir)
+	if err := PortalDB.Create("Participants"); err != nil {
+		revel.ERROR.Println(err)
+	}
+	if err := PortalDB.Create("Sponsors"); err != nil {
+		revel.ERROR.Println(err)
+	}
+
+	sponsors := PortalDB.Use("Sponsors")
+	if err := sponsors.Index([]string{"username"}); err != nil {
+		revel.ERROR.Println(err)
+	}
 
 	// register startup functions with OnAppStart
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
