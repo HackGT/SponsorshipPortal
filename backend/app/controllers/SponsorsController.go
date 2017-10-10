@@ -63,7 +63,11 @@ func (c Sponsors) Load() revel.Result {
 	if err != nil {
 		return c.RenderError(err)
 	}
-	res["state"] = readBack["state"]
+	if val, ok := readBack["state"]; ok {
+		res["state"] = val
+		return c.RenderJSON(res)
+	}
+	res["status"] = "none"
 	return c.RenderJSON(res)
 }
 
