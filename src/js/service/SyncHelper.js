@@ -42,11 +42,10 @@ SyncHelper.fetchSelectionSnapshot = () => {
     }
     throw new Error('POST /load connection lost');
   }).then((json) => {
-    const state = JSON.parse(json.state);
-    if (!Set.isSet(state)) {
+    if (!Set.isSet(json.state)) {
       return Set([]);
     } else {
-      return state;
+      return JSON.parse(json.state);
     }
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
