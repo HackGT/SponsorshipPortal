@@ -15,7 +15,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 module.exports = Merge(BaseConfig, {
   output: {
-    path: path.resolve('build'),
+    path: path.resolve('./backend/public'),
     filename: 'bundle.js',
   },
   devtool: '#source-map',
