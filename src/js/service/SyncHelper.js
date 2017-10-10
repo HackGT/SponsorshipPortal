@@ -32,6 +32,7 @@ SyncHelper.fetchSelectionSnapshot = () => {
     method: 'POST',
   }).then((response) => {
     if (response.ok) {
+      // TODO: handle edge case for first-time user who has not yet saved any snapshots
       return response.json(); // should be immutable.js Set
     }
     throw new Error('POST /load connection lost');
