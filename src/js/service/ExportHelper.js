@@ -27,7 +27,7 @@ ExportHelper.participantsListToCSVHelper = (participantsList) => {
   } catch (err) {
     // Errors are thrown for bad options, or if the data is empty and no fields are provided.
     // Be sure to provide fields if it is possible that your data array will be empty.
-    console.error(err);
+    console.error(err); // eslint-disable-line
   }
 
   return null;
