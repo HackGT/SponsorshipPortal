@@ -1,0 +1,5 @@
+git:
+    remote: https://github.com/HackGT/SponsorshipPortal.git
+    branch: master
+
+target_port: 9000
