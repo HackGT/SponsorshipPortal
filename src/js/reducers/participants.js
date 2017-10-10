@@ -4,28 +4,10 @@ import * as ACTION_TYPE from '../actionTypes';
 // Example list of participants
 const initialState = List([
   Map({
-    id: 1,
-    name: 'John Doe',
-    school: 'Georgia Tech',
-    email: 'john@example.com',
-    isSelected: false,
-    isDisplaying: true,
-    isSearched: false,
-  }),
-  Map({
-    id: 2,
-    name: 'John Doe 2',
-    school: 'Georgia Tech',
-    email: 'john2@example.com',
-    isSelected: true,
-    isDisplaying: true,
-    isSearched: false,
-  }),
-  Map({
-    id: 3,
-    name: 'John Doe 3',
-    school: 'Georgia Tech',
-    email: 'john3@example.com',
+    id: 'loading',
+    name: 'Loading',
+    school: '...',
+    email: '...',
     isSelected: false,
     isDisplaying: true,
     isSearched: false,
