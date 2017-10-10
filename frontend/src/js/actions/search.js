@@ -3,6 +3,7 @@ import * as ACTION_TYPES from '../actionTypes';
 import { loaderOn, loaderOff } from './ui';
 import { HOST } from '../configs';
 import store from '../index';
+import NotificationHelper from '../service/NotificationHelper';
 
 export function searchByKeyword(keyword) {
   return (dispatch) => {

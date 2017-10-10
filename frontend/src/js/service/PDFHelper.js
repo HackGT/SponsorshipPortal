@@ -1,5 +1,6 @@
 import { HOST } from '../configs';
 import NotificationHelper from './NotificationHelper';
+import store from '../index';
 
 const PDFHelper = {};
 
