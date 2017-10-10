@@ -18,6 +18,8 @@ const render = (store, reactRouterReduxHistory) => {
           {/* <Route path="participant-profile" component={ParticipantProfilePage} /> */}
           <Route path="export" component={ExportPage} />
         </Route>
+        <Route path="*" exact component={App} />
+        {/* <Redirect from="*" to="/" /> */}
       </Router>
     </Provider>
   ), document.getElementById('app'));
