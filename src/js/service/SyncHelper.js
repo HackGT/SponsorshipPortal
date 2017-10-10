@@ -45,7 +45,7 @@ SyncHelper.fetchSelectionSnapshot = () => {
     if (!json.state) {
       throw new Error('Invalid snapshot');
     }
-    if (json.state === 'none') {
+    if (!Set.isSet(json.state)) {
       return Promise.resolve(Set([]));
     } else {
       return Promise.resolve(JSON.parse(json.state));
