@@ -8,13 +8,19 @@ import '../css/index.css';
 
 import render from './Routes';
 
+// initializae store and router
 const initialState = Map();
 const store = configureStore(initialState);
 const reactRouterReduxHistory = configureHistory(store);
 
+// Starts rendering
 render(store, reactRouterReduxHistory);
 
+/**
+ * Expose store globally
+ */
 export default store;
 
 // Particle Js Decorations
 window.particlesJS('particle', particlesOption);
+

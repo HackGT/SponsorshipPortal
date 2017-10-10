@@ -6,6 +6,7 @@ const initialState = Map({
   loader: false,
   modalActive: false,
   modalMessage: '',
+  syncStatus: 'Please log in',
 });
 
 export default function reducer(state = initialState, action) {
@@ -21,6 +22,9 @@ export default function reducer(state = initialState, action) {
     }
     case ACTION_TYPE.MODAL_OFF: {
       return state.set('modalActive', false);
+    }
+    case ACTION_TYPE.UI_UPDATE_SYNC_STATUS: {
+      return state.set('syncStatus', action.payload.message);
     }
     default:
       return state;
