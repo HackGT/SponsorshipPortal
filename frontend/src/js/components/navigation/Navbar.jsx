@@ -19,16 +19,16 @@ class Navbar extends React.Component {
                 textAlign="center"
               />
             </Menu.Header>
-            <Menu.Item
+            {/* <Menu.Item
               position="left"
               name="pile"
             >
               <Button.Group>
                 <Button primary={page === '/'} onClick={() => push('/')}>Home</Button>
-                {/* <Button primary={page === '/participant-profile'} onClick={() => push('/participant-profile')}>Workspace</Button> */}
+                <Button primary={page === '/participant-profile'} onClick={() => push('/participant-profile')}>Workspace</Button>
                 <Button primary={page === '/export'} onClick={() => push('/export')}>Export</Button>
               </Button.Group>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item
               position="right"
               name={syncStatus}
