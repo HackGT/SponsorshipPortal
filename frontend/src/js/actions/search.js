@@ -10,9 +10,12 @@ export function searchByKeyword(keyword) {
     dispatch(loaderOn());
 
     return fetch(`${HOST}/search`, {
-      token: store.getState().get('auth').get('token'),
       method: 'POST',
-      query: keyword,
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({
+        query: keyword,
+        token: store.getState().get('auth').get('token'),
+      }),
     }).then((response) => {
       if (response.ok) {
         return response.json(); // should be immutable.js Set
