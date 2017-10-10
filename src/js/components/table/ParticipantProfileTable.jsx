@@ -5,6 +5,8 @@ import ParticipantSelectCheckbox from './ParticipantSelectCheckbox';
 import ParticipantProfileSearchBar from '../../containers/table/ParticipantProfileSearchBar';
 import ParticipantProfileFilters from '../../containers/table/ParticipantProfileFilters';
 
+import PDFHelper from '../../service/PDFHelper';
+
 class ParticipantProfileTable extends React.Component {
   render() {
     const participants = this.props.participants;
@@ -72,7 +74,15 @@ class ParticipantProfileTable extends React.Component {
                           <Table.Cell>{participant.get('name') || 'N/A'}</Table.Cell>
                           <Table.Cell>{participant.get('school') || 'N/A'}</Table.Cell>
                           <Table.Cell>{participant.get('email') || 'N/A'}</Table.Cell>
-                          <Table.Cell><Button>View Resume</Button></Table.Cell>
+                          <Table.Cell>
+                            <Button
+                              onClick={() => {
+                                PDFHelper.showResumeInNewTab(participant.get('resumeId'));
+                              }}
+                            >
+                              View Resume
+                            </Button>
+                          </Table.Cell>
                           <Table.Cell>None</Table.Cell>
                         </Table.Row>
                       );
