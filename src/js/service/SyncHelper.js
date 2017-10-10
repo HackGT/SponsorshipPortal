@@ -44,9 +44,9 @@ SyncHelper.fetchSelectionSnapshot = () => {
   }).then((json) => {
     const state = JSON.parse(json.state);
     if (!Set.isSet(state)) {
-      return Promise.resolve(Set([]));
+      return Set([]);
     } else {
-      return Promise.resolve(state);
+      return state;
     }
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
