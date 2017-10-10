@@ -2,8 +2,11 @@
 set -euxo pipefail
 
 # install and build webpack
-npm install -y
-npm run build
+(
+    cd frontend/
+    npm install -y
+    npm run build
+)
 
 # Move around weird go paths
 APP_PATH="${GOPATH}"/src/github.com/HackGT/SponsorshipPortal/
