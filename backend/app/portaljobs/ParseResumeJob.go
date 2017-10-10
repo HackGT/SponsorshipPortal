@@ -16,7 +16,7 @@ type ParseResume struct {
 
 func (p ParseResume) Run() {
 	revel.INFO.Println(p.ResumeURL)
-	out, err := exec.Command("ruby", "/home/brow/Documents/textextract.rb", p.ResumeURL).Output()
+	out, err := exec.Command("ruby", "./textextract.rb", p.ResumeURL).Output()
 	if err != nil {
 		revel.ERROR.Println(err)
 		return

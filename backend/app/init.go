@@ -23,7 +23,8 @@ var (
 func init() {
 	// Filters is the default set of global filters.
 	revel.Filters = []revel.Filter{
-		revel.PanicFilter,             // Recover from panics and display an error page instead.
+		revel.PanicFilter, // Recover from panics and display an error page instead.
+		CORSFilter,
 		revel.RouterFilter,            // Use the routing table to select the right Action
 		revel.FilterConfiguringFilter, // A hook for adding or removing per-Action filters.
 		revel.ParamsFilter,            // Parse parameters into Controller.Params.
@@ -38,15 +39,18 @@ func init() {
 	}
 
 	//open a new index
-	// mapping := bleve.NewIndexMapping()
-	// bleveIndex, err := bleve.New("example.bleve", mapping)
-	// if err != nil {
-	// 	revel.ERROR.Println(err)
-	// 	return
-	// }
-	// controllers.BleveIndex = bleveIndex\
-	myDBDir := "/home/brow/Documents/PortalDB"
-	BleveIndex, _ = bleve.Open("example.bleve")
+	var err error
+	BleveIndex, err = bleve.Open("resume.bleve")
+	if err != nil {
+		mapping := bleve.NewIndexMapping()
+		BleveIndex, err = bleve.New("resume.bleve", mapping)
+		if err != nil {
+			revel.ERROR.Println(err)
+		}
+	}
+
+	myDBDir := "./PortalDB"
+
 	PortalDB, _ = db.OpenDB(myDBDir)
 	if err := PortalDB.Create("Participants"); err != nil {
 		revel.ERROR.Println(err)
@@ -76,6 +80,20 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 	c.Response.Out.Header().Add("X-Frame-Options", "SAMEORIGIN")
 	c.Response.Out.Header().Add("X-XSS-Protection", "1; mode=block")
 	c.Response.Out.Header().Add("X-Content-Type-Options", "nosniff")
+
+	fc[0](c, fc[1:]) // Execute the next filter stage.
+}
+
+var CORSFilter = func(c *revel.Controller, fc []revel.Filter) {
+	c.Response.Out.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Response.Out.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	c.Response.Out.Header().Set("Access-Control-Allow-Headers",
+		"Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+	// Stop here for a Preflighted OPTIONS request.
+	if c.Request.Method == "OPTIONS" {
+		return
+	}
 
 	fc[0](c, fc[1:]) // Execute the next filter stage.
 }

@@ -13,7 +13,7 @@ type Search struct {
 func (c Search) Index() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
-	phrase := jsonData["q"].(string)
+	phrase := jsonData["query"].(string)
 	tokenStr := jsonData["token"].(string)
 	res := make(map[string]interface{})
 	_, valid := ParseToken(tokenStr)
