@@ -16,8 +16,11 @@ import NotificationHelper from '../service/NotificationHelper';
 export function loadParticipants() {
   return (dispatch) => {
     fetch(`${HOST}/participants`, {
-      token: store.getState().get('auth').get('token'),
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: store.getState().get('auth').get('token'),
+      }),
     }).then((response) => {
       if (response.ok) {
         return response.json();

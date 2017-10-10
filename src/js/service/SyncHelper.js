@@ -13,9 +13,12 @@ SyncHelper.saveSelectionSnapshot = (participantsList) => {
   }));
 
   return fetch(`${HOST}/save`, {
-    token: store.getState().get('auth').get('token'),
     method: 'POST',
-    state: JSON.stringify(selectionSnapshot),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      token: store.getState().get('auth').get('token'),
+      state: JSON.stringify(selectionSnapshot),
+    }),
   }).then((response) => {
     if (response.ok) {
       return response.json();
@@ -28,8 +31,11 @@ SyncHelper.saveSelectionSnapshot = (participantsList) => {
 
 SyncHelper.fetchSelectionSnapshot = () => {
   return fetch(`${HOST}/load`, {
-    token: store.getState().get('auth').get('token'),
+    headers: { 'Content-Type': 'application/json' },
     method: 'POST',
+    body: JSON.stringify({
+      token: store.getState().get('auth').get('token'),
+    }),
   }).then((response) => {
     if (response.ok) {
       return response.json(); // should be resolved to immutable.js Set
