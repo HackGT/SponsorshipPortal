@@ -14,7 +14,7 @@ SyncHelper.saveSelectionSnapshot = (participantsList) => {
 
   return fetch(`${HOST}/save`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: new Headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
       token: store.getState().get('auth').get('token'),
       state: JSON.stringify(selectionSnapshot),
@@ -31,7 +31,7 @@ SyncHelper.saveSelectionSnapshot = (participantsList) => {
 
 SyncHelper.fetchSelectionSnapshot = () => {
   return fetch(`${HOST}/load`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: new Headers({ 'Content-Type': 'application/json' }),
     method: 'POST',
     body: JSON.stringify({
       token: store.getState().get('auth').get('token'),
