@@ -32,7 +32,7 @@ chrome-user-data
 .#*
 *.swo
 *react*min*.js
-!src/node_modules
+src/node_modules
 package-lock.json
 
 # ignore generated client files

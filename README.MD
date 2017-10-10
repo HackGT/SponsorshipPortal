@@ -1,3 +1,1 @@
-# HackGT Sponsorship Portal
-
-To run, install dependencies `yarn install` or `npm install` and then run `npm start`
+# SponsorshipPortal [![Build Status](https://travis-ci.org/HackGT/SponsorshipPortal.svg?branch=master)](https://travis-ci.org/HackGT/SponsorshipPortal)

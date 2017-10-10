@@ -4,7 +4,7 @@
   "main": "index.jsx",
   "scripts": {
     "start": "rm -rf ./build && webpack-dev-server --env=dev --colors --hot --inline",
-    "build": "rm -rf ./backend/public && $(npm bin)/webpack --env prod --output-path=./backend/public/",
+    "build": "rm -rf ../backend/public && $(npm bin)/webpack --env prod --output-path=../backend/public/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
