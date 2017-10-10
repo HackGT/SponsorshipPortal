@@ -32,10 +32,18 @@ SyncHelper.fetchSelectionSnapshot = () => {
     method: 'POST',
   }).then((response) => {
     if (response.ok) {
-      // TODO: handle edge case for first-time user who has not yet saved any snapshots
-      return response.json(); // should be immutable.js Set
+      return response.json(); // should be resolved to immutable.js Set
     }
     throw new Error('POST /load connection lost');
+  }).then((json) => {
+    if (!json.state) {
+      throw new Error('Invalid snapshot');
+    }
+    if (json.state === 'none') {
+      return Promise.resolve(Set([]));
+    } else {
+      return Promise.resolve(JSON.parse(json.state));
+    }
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
   });
