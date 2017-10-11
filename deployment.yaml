@@ -2,4 +2,8 @@ git:
     remote: https://github.com/HackGT/SponsorshipPortal.git
     branch: master
 
+secrets:
+  - AWS_ACCESS_KEY_ID
+  - AWS_SECRET_ACCESS_KEY
+
 target_port: 8000
