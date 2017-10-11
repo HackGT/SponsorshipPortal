@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"path/filepath"
 	"strconv"
 	"time"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/HackGT/SponsorshipPortal/backend/app/portaljobs"
 	"github.com/HouzuoGuo/tiedot/db"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/revel/modules/jobs/app/jobs"
@@ -108,12 +110,21 @@ func (c Participants) ViewResume() revel.Result {
 		Region: aws.String("us-east-1"),
 	}))
 	svc := s3.New(sess)
-	req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
-		Bucket: aws.String("registration-dev-uploads"),
-		Key:    aws.String(resumeID),
-		ResponseContentDisposition: aws.String(`inline;filename="resume.pdf"`),
-		ResponseContentType:        aws.String("application/pdf"),
-	})
+	var req *request.Request
+	if filepath.Ext(resumeID) == ".pdf" {
+		req, _ = svc.GetObjectRequest(&s3.GetObjectInput{
+			Bucket: aws.String("registration-dev-uploads"),
+			Key:    aws.String(resumeID),
+			ResponseContentDisposition: aws.String(`inline;filename=resume.pdf`),
+			ResponseContentType:        aws.String("application/pdf"),
+		})
+	} else {
+		req, _ = svc.GetObjectRequest(&s3.GetObjectInput{
+			Bucket: aws.String("registration-dev-uploads"),
+			Key:    aws.String(resumeID),
+		})
+	}
+
 	urlStr, err := req.Presign(time.Minute)
 	if err != nil {
 		return c.RenderError(err)

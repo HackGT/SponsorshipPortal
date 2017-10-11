@@ -37,7 +37,6 @@ export function searchByKeyword(keyword) {
       // Finish loading
       dispatch(loaderOff());
     }).catch((err) => {
-      console.log(err);
       NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
     });
   };
