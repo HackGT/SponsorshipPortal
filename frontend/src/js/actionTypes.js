@@ -27,4 +27,5 @@ export const UI_UPDATE_SYNC_STATUS = 'UI_UPDATE_SYNC_STATUS';
 
 // auth
 export const LOG_IN = 'LOG_IN';
+export const LOG_OUT = 'LOG_OUT';
 
