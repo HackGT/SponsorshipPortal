@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 
 	"github.com/HackGT/SponsorshipPortal/backend/app"
+	"github.com/HouzuoGuo/tiedot/db"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/revel/revel"
 )
@@ -82,6 +84,28 @@ func (c Sponsors) FlagParticipant() revel.Result {
 		res["error"] = "invalid token"
 		return c.RenderJSON(res)
 	}
+	// convert uuid to participant in tiedot
+	participants := app.PortalDB.Use("Participants")
+	var query interface{}
+	json.Unmarshal([]byte(fmt.Sprintf(`[{"eq": "%s", "in": ["uuid"]}]`, participantID)), &query)
+	queryResult := make(map[int]struct{})
+	if err := db.EvalQuery(query, participants, &queryResult); err != nil {
+		return c.RenderError(err)
+	}
+	if len(queryResult) == 0 {
+		res["status"] = "participant does not exist"
+		return c.RenderJSON(res)
+	}
+	for id := range queryResult {
+		_, err := participants.Read(id)
+		if err != nil {
+			return c.RenderError(err)
+		}
+		if err == nil {
+			participantID = strconv.Itoa(id)
+		}
+	}
+	// store participant in flagged array
 	sponsors := app.PortalDB.Use("Sponsors")
 	claims := token.Claims.(jwt.MapClaims)
 	id, err := strconv.Atoi(claims["id"].(string))

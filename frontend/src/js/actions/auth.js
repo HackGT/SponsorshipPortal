@@ -3,7 +3,7 @@ import { loaderOn, loaderOff } from './ui';
 import { loadParticipants } from './participants';
 import { HOST } from '../configs';
 import NotificationHelper from '../service/NotificationHelper';
-import SyncHelper from '../service/SearchHelper';
+import SyncHelper from '../service/SyncHelper';
 
 export function logIn(username, password) { // eslint-disable-line import/prefer-default-export
   // Request Server Auth login
@@ -41,6 +41,7 @@ export function logIn(username, password) { // eslint-disable-line import/prefer
         if (window.needSync) {
           SyncHelper.saveSelectionSnapshot();
           NotificationHelper.updateSyncStatus('Progress Saved');
+          window.needSync = false;
         }
       }, 3000);
     }).catch(() => {

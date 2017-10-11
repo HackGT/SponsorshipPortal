@@ -6,9 +6,12 @@ const PDFHelper = {};
 
 PDFHelper.showResumeInNewTab = (resumeId) => {
   fetch(`${HOST}/viewResume`, {
-    token: store.getState().get('auth').get('token'),
     method: 'POST',
-    resumeId,
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({
+      resumeId,
+      token: store.getState().get('auth').get('token'),
+    }),
   }).then((response) => {
     if (response.ok) {
       return response.json();

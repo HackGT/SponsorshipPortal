@@ -64,6 +64,11 @@ func init() {
 		revel.ERROR.Println(err)
 	}
 
+	participants := PortalDB.Use("Participants")
+	if err := participants.Index([]string{"uuid"}); err != nil {
+		revel.ERROR.Println(err)
+	}
+
 	// register startup functions with OnAppStart
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
 	// ( order dependent )

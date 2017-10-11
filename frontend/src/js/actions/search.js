@@ -22,21 +22,22 @@ export function searchByKeyword(keyword) {
       }
       throw new Error('POST /search connection lost');
     }).then((json) => {
-      if (!json.hits) {
+      if (!json.results.hits) {
         throw new Error('Invalid search response');
       }
-      const searchedIdSet = Set(json.hits.map(hit => hit.id));
+      const searchedIdSet = Set(json.results.hits.map(hit => hit.id));
       // Update participants state
       dispatch({
         type: ACTION_TYPES.SEARCH_PARTICIPANTS,
         payload: searchedIdSet,
       });
       // Change the Currently Cached Keyword for display
-      updateCurrentKeyword(keyword);
+      dispatch(updateCurrentKeyword(keyword));
 
       // Finish loading
       dispatch(loaderOff());
-    }).catch(() => {
+    }).catch((err) => {
+      console.log(err);
       NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
     });
   };
