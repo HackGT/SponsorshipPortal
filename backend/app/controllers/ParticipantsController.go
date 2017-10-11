@@ -111,6 +111,8 @@ func (c Participants) ViewResume() revel.Result {
 	req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: aws.String("registration-dev-uploads"),
 		Key:    aws.String(resumeID),
+		ResponseContentDisposition: aws.String(`inline;filename="resume.pdf"`),
+		ResponseContentType:        aws.String("application/pdf"),
 	})
 	urlStr, err := req.Presign(time.Minute)
 	if err != nil {

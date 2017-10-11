@@ -12,7 +12,6 @@ SyncHelper.saveSelectionSnapshot = () => {
   }).map((participant) => {
     return participant.get('id');
   }));
-
   return fetch(`${HOST}/save`, {
     method: 'POST',
     headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -45,10 +44,10 @@ SyncHelper.fetchSelectionSnapshot = () => {
     }
     throw new Error('POST /load connection lost');
   }).then((json) => {
-    if (!Set.isSet(json.state)) {
+    if (!json.state) {
       return Set([]);
     } else {
-      return JSON.parse(json.state);
+      return Set(JSON.parse(json.state));
     }
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
