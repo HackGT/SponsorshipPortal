@@ -6,7 +6,7 @@ const initialState = Map({
   loader: false,
   modalActive: false,
   modalMessage: '',
-  syncStatus: 'Please log in',
+  syncStatus: '...',
 });
 
 export default function reducer(state = initialState, action) {

@@ -6,8 +6,8 @@ import ParticipantProfileSearchBar from '../../containers/table/ParticipantProfi
 import ParticipantProfileFilters from '../../containers/table/ParticipantProfileFilters';
 
 import PDFHelper from '../../service/PDFHelper';
-
 import SyncHelper from '../../service/SyncHelper';
+import ExportHelper from '../../service/ExportHelper';
 
 class ParticipantProfileTable extends React.Component {
   render() {
@@ -20,12 +20,22 @@ class ParticipantProfileTable extends React.Component {
     return (
       <Container>
         <Grid centered>
-          <Grid.Row columns="2">
+          <Grid.Row columns="3">
             <Grid.Column>
               <ParticipantProfileSearchBar />
             </Grid.Column>
             <Grid.Column>
               <ParticipantProfileFilters />
+            </Grid.Column>
+            <Grid.Column>
+              <Button
+                secondary
+                onClick={() => {
+                  ExportHelper.exportCSV();
+                }}
+              >
+                Export Selections to CSV
+              </Button>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns="1">
@@ -97,7 +107,7 @@ class ParticipantProfileTable extends React.Component {
                 <Table.Row>
                   <Table.HeaderCell />
                   <Table.HeaderCell colSpan="4">
-                    <Button
+                    {/* <Button
                       size="small"
                       onClick={
                         () => {
@@ -110,7 +120,7 @@ class ParticipantProfileTable extends React.Component {
                       }
                     >
                       Select All Displaying
-                    </Button>
+                    </Button> */}
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Footer>

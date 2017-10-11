@@ -7,6 +7,7 @@ import { List, Map } from 'immutable';
 import * as ACTION_TYPES from '../actionTypes';
 import { HOST } from '../configs';
 import { loaderOff } from './ui';
+import { logOut } from './auth';
 import store from '../index';
 import SyncHelper from '../service/SyncHelper';
 import NotificationHelper from '../service/NotificationHelper';
@@ -27,6 +28,12 @@ export function loadParticipants() {
       }
       throw new Error('Lost server connection');
     }).then((json) => {
+      if (json.error) {
+        // token expired, log the user out
+        dispatch(logOut());
+        return;
+      }
+      // If token correct
       SyncHelper.fetchSelectionSnapshot().then((selectedIdSet) => {
         // Syncing selection state from server and merge into participantsList
         const participantsList = List(Object.entries(json).map((entry) => {
