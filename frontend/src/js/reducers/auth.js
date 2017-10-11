@@ -3,7 +3,7 @@ import * as ACTION_TYPE from '../actionTypes';
 
 const initialState = Map({
   active: false,
-  username: null,
+  // username: null,
   token: null,
 });
 
@@ -12,8 +12,14 @@ export default function reducer(state = initialState, action) {
     case ACTION_TYPE.LOG_IN: {
       return Map({
         active: true,
-        username: action.payload.username,
+        // username: action.payload.username,
         token: action.payload.token,
+      });
+    }
+    case ACTION_TYPE.LOG_OUT: {
+      return Map({
+        active: false,
+        token: null,
       });
     }
     default:
