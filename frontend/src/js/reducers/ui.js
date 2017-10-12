@@ -5,6 +5,7 @@ import * as ACTION_TYPE from '../actionTypes';
 const initialState = Map({
   loader: false,
   modalActive: false,
+  tableLoader: false,
   modalMessage: '',
   syncStatus: '...',
 });
@@ -16,6 +17,12 @@ export default function reducer(state = initialState, action) {
     }
     case ACTION_TYPE.LOADER_OFF: {
       return state.set('loader', false);
+    }
+    case ACTION_TYPE.TABLE_LOADER_ON: {
+      return state.set('tableLoader', true);
+    }
+    case ACTION_TYPE.TABLE_LOADER_OFF: {
+      return state.set('tableLoader', false);
     }
     case ACTION_TYPE.MODAL_ON: {
       return state.set('modalMessage', action.payload.message).set('modalActive', true);
