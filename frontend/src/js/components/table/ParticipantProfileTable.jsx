@@ -27,14 +27,16 @@ class ParticipantProfileTable extends React.Component {
             <Loader size="huge">Loading</Loader>
           </Dimmer>
           <Grid centered>
-            <Grid.Row columns="3">
+            <Grid.Row column="1">
               <Grid.Column>
                 <ParticipantProfileSearchBar />
               </Grid.Column>
-              <Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column width={10}>
                 <ParticipantProfileFilters />
               </Grid.Column>
-              <Grid.Column>
+              <Grid.Column width={6}>
                 <Button
                   secondary
                   onClick={() => {
