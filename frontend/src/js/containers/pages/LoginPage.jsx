@@ -19,7 +19,7 @@ class LoginPage extends React.Component {
     return (
       <Container style={{ marginTop: '20vh' }}>
         <Segment>
-          <h1>Welcome to HackGT Sponsorship Portal</h1>
+          <h1>Welcome</h1>
           <h3>Please Log in with your Sponsorship Portal Credentials</h3>
         </Segment>
         <Segment inverted raised>

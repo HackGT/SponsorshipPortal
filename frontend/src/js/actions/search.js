@@ -1,13 +1,13 @@
 import { Set } from 'immutable';
 import * as ACTION_TYPES from '../actionTypes';
-import { loaderOn, loaderOff } from './ui';
+import { tableLoaderOn, tableLoaderOff } from './ui';
 import { HOST } from '../configs';
 import store from '../index';
 import NotificationHelper from '../service/NotificationHelper';
 
 export function searchByKeyword(keyword) {
   return (dispatch) => {
-    dispatch(loaderOn());
+    dispatch(tableLoaderOn());
 
     return fetch(`${HOST}/search`, {
       method: 'POST',
@@ -35,8 +35,8 @@ export function searchByKeyword(keyword) {
       dispatch(updateCurrentKeyword(keyword));
 
       // Finish loading
-      dispatch(loaderOff());
-    }).catch((err) => {
+      dispatch(tableLoaderOff());
+    }).catch(() => {
       NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
     });
   };
