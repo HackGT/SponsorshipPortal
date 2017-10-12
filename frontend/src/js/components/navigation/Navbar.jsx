@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Header, Menu } from 'semantic-ui-react';
 import logo from '../../../assets/hackgt-logo.png';
+import { TITLE } from '../../configs';
 
 class Navbar extends React.Component {
   render() {
@@ -15,7 +16,7 @@ class Navbar extends React.Component {
             <Menu.Header>
               <Header
                 image={logo}
-                content="Sponsorship Portal"
+                content={TITLE}
                 textAlign="center"
               />
             </Menu.Header>

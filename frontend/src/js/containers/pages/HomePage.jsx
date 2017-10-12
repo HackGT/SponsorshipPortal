@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Step } from 'semantic-ui-react';
+import { TITLE } from '../../configs';
 
 import ParticipantProfilePage from './ParticipantProfilePage';
 import ExportPage from './ExportPage';
@@ -17,8 +18,8 @@ class HomePage extends React.Component {
     return (
       <div>
         <Container textAlign="center" style={{ marginBottom: '40px' }}>
-          <h1>Welcome to HackGT Sponsorship Portal</h1>
-          <h3>Access, Manage, Recruit and Contact Talents</h3>
+          <h1>{TITLE}</h1>
+          {/* <h3>Access, Manage, Recruit and Contact Talents</h3> */}
           <Step.Group size="small" items={steps} />
         </Container>
         <ParticipantProfilePage />
