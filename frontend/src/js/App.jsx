@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ConnectedNavbar from './containers/navigation/ConnectedNavbar';
 import GlobalLoader from './containers/global/GlobalLoader';
 import GlobalModal from './containers/global/GlobalModal';
+import PDFModal from './containers/global/PDFModal';
 import LoginPage from './containers/pages/LoginPage';
 
 function App({ children, location, loggedIn }) {
@@ -11,6 +12,7 @@ function App({ children, location, loggedIn }) {
       <ConnectedNavbar location={location} />
       <GlobalLoader />
       <GlobalModal />
+      <PDFModal />
       {
         loggedIn ? <div style={{ paddingTop: '100px' }}>{children}</div> : <LoginPage />
       }

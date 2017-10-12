@@ -94,13 +94,24 @@ class ParticipantProfileTable extends React.Component {
                             <Table.Cell>{participant.get('name') || 'N/A'}</Table.Cell>
                             <Table.Cell>{participant.get('email') || 'N/A'}</Table.Cell>
                             <Table.Cell>
-                              <Button
-                                onClick={() => {
-                                  PDFHelper.showResumeInNewTab(participant.get('resumeId'));
-                                }}
-                              >
-                                View Resume
-                              </Button>
+                              <Button.Group>
+                                <Button
+                                  positive
+                                  onClick={() => {
+                                    PDFHelper.showResumeInModal(participant.get('resumeId'));
+                                  }}
+                                >
+                                  Read
+                                </Button>
+                                <Button.Or />
+                                <Button
+                                  onClick={() => {
+                                    PDFHelper.showResumeInNewTab(participant.get('resumeId'));
+                                  }}
+                                >
+                                  Download
+                                </Button>
+                              </Button.Group>
                             </Table.Cell>
                           </Table.Row>
                         );
