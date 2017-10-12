@@ -5,7 +5,7 @@ const json2csv = require('json2csv');
 const ExportHelper = {};
 
 ExportHelper.participantsListToCSVHelper = (participantsList) => {
-  const fields = ['name', 'school', 'email'];
+  const fields = ['name', 'email'];
 
   // Filter and Normalize participantsList to fit the API
   const selectedParticipants = [];
@@ -14,7 +14,6 @@ ExportHelper.participantsListToCSVHelper = (participantsList) => {
     if (participant.get('isSelected')) {
       selectedParticipants.push({
         name: participant.get('name'),
-        school: participant.get('school'),
         email: participant.get('email'),
       });
     }
