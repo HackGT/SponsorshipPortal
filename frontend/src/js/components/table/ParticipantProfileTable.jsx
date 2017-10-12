@@ -44,7 +44,6 @@ class ParticipantProfileTable extends React.Component {
                 <Table.Row>
                   <Table.HeaderCell />
                   <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell>School</Table.HeaderCell>
                   <Table.HeaderCell>E-mail address</Table.HeaderCell>
                   <Table.HeaderCell>Resume</Table.HeaderCell>
                 </Table.Row>
@@ -84,7 +83,6 @@ class ParticipantProfileTable extends React.Component {
                             /> */}
                           </Table.Cell>
                           <Table.Cell>{participant.get('name') || 'N/A'}</Table.Cell>
-                          <Table.Cell>{participant.get('school') || 'N/A'}</Table.Cell>
                           <Table.Cell>{participant.get('email') || 'N/A'}</Table.Cell>
                           <Table.Cell>
                             <Button
