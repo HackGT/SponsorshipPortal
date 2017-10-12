@@ -8,7 +8,6 @@ import * as ACTION_TYPE from '../../actionTypes';
 function PDFModal({ active, url, close }) {
   return (
     <Modal
-      basic
       size="fullscreen"
       open={active}
       closeOnDimmerClick={false}
