@@ -21,13 +21,23 @@ PDFHelper.showResumeInNewTab = (resumeId) => {
     if (!json.fileURL) {
       throw new Error('Invalid URL response');
     }
-    // window.open(json.fileURL, '_blank'); // open pdf in a new tab / window / popup depending on browser settings
 
-    // Use anchor element to avoid being recognized as pop up
-    const link = document.createElement('a');
-    link.setAttribute('href', json.fileURL);
-    link.setAttribute('target', '_blank');
-    link.click();
+    /*
+     * Try to load the pdf without being recogized as a pop up
+     * This has different behaviors depending on browsers 
+     */
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    if (isChrome) {
+      // Should work on Chrome and Webkit
+      // Use anchor element to avoid being recognized as pop up
+      const link = document.createElement('a');
+      link.setAttribute('href', json.fileURL);
+      link.setAttribute('target', '_blank');
+      link.click();
+    } else {
+      // Works on Firefox
+      window.open(json.fileURL, '_blank');
+    }
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
   });
