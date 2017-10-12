@@ -4,6 +4,7 @@ import { Button, Container, Grid, Table, Dimmer, Loader, Segment } from 'semanti
 import ParticipantSelectCheckbox from './ParticipantSelectCheckbox';
 import ParticipantProfileSearchBar from '../../containers/table/ParticipantProfileSearchBar';
 import ParticipantProfileFilters from '../../containers/table/ParticipantProfileFilters';
+import AlphabeticalFilters from '../../containers/table/AlphabeticalFilters';
 
 import PDFHelper from '../../service/PDFHelper';
 import SyncHelper from '../../service/SyncHelper';
@@ -45,6 +46,11 @@ class ParticipantProfileTable extends React.Component {
                 >
                   Export Selections to CSV
                 </Button>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                <AlphabeticalFilters />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row columns="1">
