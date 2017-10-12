@@ -7,7 +7,9 @@ const initialState = Map({
   modalActive: false,
   tableLoader: false,
   modalMessage: '',
-  syncStatus: '...',
+  syncStatus: '',
+  pdfUrl: '',
+  pdfModalActive: false,
 });
 
 export default function reducer(state = initialState, action) {
@@ -29,6 +31,15 @@ export default function reducer(state = initialState, action) {
     }
     case ACTION_TYPE.MODAL_OFF: {
       return state.set('modalActive', false);
+    }
+    case ACTION_TYPE.UI_UPDATE_PDF_URL: {
+      return state.set('pdfUrl', action.payload.url);
+    }
+    case ACTION_TYPE.UI_PDF_MODAL_ON: {
+      return state.set('pdfModalActive', true);
+    }
+    case ACTION_TYPE.UI_PDF_MODAL_OFF: {
+      return state.set('pdfModalActive', false);
     }
     case ACTION_TYPE.UI_UPDATE_SYNC_STATUS: {
       return state.set('syncStatus', action.payload.message);

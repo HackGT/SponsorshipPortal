@@ -32,3 +32,17 @@ export function updateSyncStatus(message) {
     },
   };
 }
+
+export function showPDFAtURLInModal(url) {
+  return (dispatch) => {
+    dispatch({
+      type: ACTION_TYPES.UI_UPDATE_PDF_URL,
+      payload: {
+        url,
+      },
+    });
+    dispatch({
+      type: ACTION_TYPES.UI_PDF_MODAL_ON,
+    });
+  };
+}

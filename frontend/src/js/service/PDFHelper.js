@@ -1,9 +1,13 @@
 import { HOST } from '../configs';
 import NotificationHelper from './NotificationHelper';
 import store from '../index';
+import { showPDFAtURLInModal } from '../actions/ui';
 
 const PDFHelper = {};
 
+/**
+ * Show Resume in a new tab or window
+ */
 PDFHelper.showResumeInNewTab = (resumeId) => {
   fetch(`${HOST}/viewResume`, {
     method: 'POST',
@@ -38,6 +42,33 @@ PDFHelper.showResumeInNewTab = (resumeId) => {
       // Works on Firefox
       window.open(json.fileURL, '_blank');
     }
+  }).catch(() => {
+    NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
+  });
+};
+
+/**
+ * Show Resume PDF files in a Modal
+ */
+PDFHelper.showResumeInModal = (resumeId) => {
+  fetch(`${HOST}/viewResume`, {
+    method: 'POST',
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({
+      resumeId,
+      token: store.getState().get('auth').get('token'),
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error('POST /viewResume connection lost');
+  }).then((json) => {
+    if (!json.fileURL) {
+      throw new Error('Invalid URL response');
+    }
+
+    store.dispatch(showPDFAtURLInModal(json.fileURL));
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
   });
