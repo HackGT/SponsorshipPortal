@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Grid, Table, Dimmer, Loader } from 'semantic-ui-react';
+import { Button, Container, Grid, Table, Dimmer, Loader, Segment } from 'semantic-ui-react';
 
 import ParticipantSelectCheckbox from './ParticipantSelectCheckbox';
 import ParticipantProfileSearchBar from '../../containers/table/ParticipantProfileSearchBar';
@@ -19,12 +19,13 @@ class ParticipantProfileTable extends React.Component {
     // const showParticipant = this.props.showParticipant;
     // const hideParticipant = this.props.hideParticipant;
     return (
-      <Dimmer
-        active={loaderActive}
-      >
-        <Loader size="huge">Loading</Loader>
-
-        <Container>
+      <Container>
+        <Dimmer.Dimmable as={Segment} blurring dimmed={loaderActive}>
+          <Dimmer
+            active={loaderActive}
+          >
+            <Loader size="huge">Loading</Loader>
+          </Dimmer>
           <Grid centered>
             <Grid.Row columns="3">
               <Grid.Column>
@@ -131,8 +132,8 @@ class ParticipantProfileTable extends React.Component {
               </Table>
             </Grid.Row>
           </Grid>
-        </Container>
-      </Dimmer>
+        </Dimmer.Dimmable>
+      </Container>
     );
   }
 }
