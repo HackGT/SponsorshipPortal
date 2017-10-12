@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"strconv"
 	"time"
 
@@ -18,9 +19,9 @@ type Login struct {
 	*revel.Controller
 }
 
-const (
-	mySigningKey = "WOW,MuchShibe,ToDogge"
-	superToken   = "mytoken"
+var (
+	mySigningKey = os.Getenv("signingKey")
+	superToken   = os.Getenv("superToken")
 )
 
 func (c Login) Index() revel.Result {
