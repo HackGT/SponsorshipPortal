@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Header, Menu } from 'semantic-ui-react';
+import { Container, Header, Menu, Button } from 'semantic-ui-react';
 import logo from '../../../assets/hackgt-logo.png';
 import { TITLE } from '../../configs';
 
@@ -7,7 +7,18 @@ class Navbar extends React.Component {
   render() {
     // const page = this.props.location.pathname;
     const ui = this.props.ui;
+    const auth = this.props.auth;
+    const logOut = this.props.logOut;
+    const isLoggedIn = auth.get('active');
     const syncStatus = ui.get('syncStatus');
+    const logoutButton = (!isLoggedIn) ? false : (
+      <Button
+        onClick={() => { logOut(); }}
+        basic
+      >
+        Sign out
+      </Button>
+    );
     // const push = this.props.push;
     return (
       <div style={{ zIndex: 9999, position: 'fixed', top: 0, width: '100vw', backgroundColor: '#ffffff' }}>
@@ -32,8 +43,10 @@ class Navbar extends React.Component {
             </Menu.Item> */}
             <Menu.Item
               position="right"
-              name={syncStatus}
-            />
+            >
+              {syncStatus}
+              {logoutButton}
+            </Menu.Item>
           </Menu>
         </Container>
       </div>

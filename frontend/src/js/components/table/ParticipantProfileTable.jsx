@@ -27,7 +27,7 @@ class ParticipantProfileTable extends React.Component {
             <Loader size="huge">Loading</Loader>
           </Dimmer>
           <Grid centered>
-            <Grid.Row column="1">
+            <Grid.Row columns="1">
               <Grid.Column>
                 <ParticipantProfileSearchBar />
               </Grid.Column>
