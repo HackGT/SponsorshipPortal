@@ -22,9 +22,6 @@ class ParticipantProfileSearchBar extends React.Component {
           // TODO: Send request to backend and fetch search result
           console.log(this.state.content); // eslint-disable-line no-console
           this.props.searchByKeyword(this.state.content);
-          this.setState({
-            content: '',
-          });
         }}
       >
         <Form.Field>
