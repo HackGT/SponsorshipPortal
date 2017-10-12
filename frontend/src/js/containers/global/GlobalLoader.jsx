@@ -6,6 +6,7 @@ function GlobalLoader({ active }) {
   return (
     <Dimmer
       active={active}
+      inverted
     >
       <Loader>Loading</Loader>
     </Dimmer>

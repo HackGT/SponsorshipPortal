@@ -5,6 +5,7 @@ import * as actions from '../../actions/participants';
 function mapStateToProps(state) {
   return {
     participants: state.get('participants'),
+    loaderActive: state.get('ui').get('tableLoader'),
   };
 }
 
