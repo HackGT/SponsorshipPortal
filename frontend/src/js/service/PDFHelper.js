@@ -21,7 +21,13 @@ PDFHelper.showResumeInNewTab = (resumeId) => {
     if (!json.fileURL) {
       throw new Error('Invalid URL response');
     }
-    window.open(json.fileURL, '_blank'); // open pdf in a new tab / window / popup depending on browser settings
+    // window.open(json.fileURL, '_blank'); // open pdf in a new tab / window / popup depending on browser settings
+
+    // Use anchor element to avoid being recognized as pop up
+    const link = document.createElement('a');
+    link.setAttribute('href', json.fileURL);
+    link.setAttribute('target', '_blank');
+    link.click();
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
   });
