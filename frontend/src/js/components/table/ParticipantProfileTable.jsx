@@ -4,6 +4,7 @@ import { Button, Container, Grid, Table, Dimmer, Loader, Segment } from 'semanti
 import ParticipantSelectCheckbox from './ParticipantSelectCheckbox';
 import ParticipantProfileSearchBar from '../../containers/table/ParticipantProfileSearchBar';
 import ParticipantProfileFilters from '../../containers/table/ParticipantProfileFilters';
+import AlphabeticalFilters from '../../containers/table/AlphabeticalFilters';
 
 import PDFHelper from '../../service/PDFHelper';
 import SyncHelper from '../../service/SyncHelper';
@@ -27,7 +28,7 @@ class ParticipantProfileTable extends React.Component {
             <Loader size="huge">Loading</Loader>
           </Dimmer>
           <Grid centered>
-            <Grid.Row columns="1">
+            <Grid.Row columns={1}>
               <Grid.Column>
                 <ParticipantProfileSearchBar />
               </Grid.Column>
@@ -47,7 +48,8 @@ class ParticipantProfileTable extends React.Component {
                 </Button>
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row columns="1">
+            <AlphabeticalFilters />
+            <Grid.Row columns={1}>
               <Table compact celled definition>
                 <Table.Header>
                   <Table.Row>
