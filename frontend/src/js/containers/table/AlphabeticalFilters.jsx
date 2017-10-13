@@ -11,11 +11,12 @@ class AlphabeticalFilters extends React.Component {
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
     return (
-      <Button.Group widths="26">
+      <Button.Group>
         {
           letters.map((letter) => {
             return (
               <Button
+                style={{ width: '3%' }}
                 key={letter}
                 onClick={() => {
                   // show participants with name starting at this letter

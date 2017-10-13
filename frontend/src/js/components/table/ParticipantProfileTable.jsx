@@ -28,7 +28,7 @@ class ParticipantProfileTable extends React.Component {
             <Loader size="huge">Loading</Loader>
           </Dimmer>
           <Grid centered>
-            <Grid.Row columns="1">
+            <Grid.Row columns={1}>
               <Grid.Column>
                 <ParticipantProfileSearchBar />
               </Grid.Column>
@@ -53,7 +53,7 @@ class ParticipantProfileTable extends React.Component {
                 <AlphabeticalFilters />
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row columns="1">
+            <Grid.Row columns={1}>
               <Table compact celled definition>
                 <Table.Header>
                   <Table.Row>
