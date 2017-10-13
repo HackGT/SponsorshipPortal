@@ -48,11 +48,7 @@ class ParticipantProfileTable extends React.Component {
                 </Button>
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row>
-              <Grid.Column>
-                <AlphabeticalFilters />
-              </Grid.Column>
-            </Grid.Row>
+            <AlphabeticalFilters />
             <Grid.Row columns={1}>
               <Table compact celled definition>
                 <Table.Header>

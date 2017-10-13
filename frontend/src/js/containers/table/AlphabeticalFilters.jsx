@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+import { Button, Grid } from 'semantic-ui-react';
 import * as actions from '../../actions/participants';
 
 class AlphabeticalFilters extends React.Component {
@@ -11,30 +11,58 @@ class AlphabeticalFilters extends React.Component {
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
     return (
-      <Button.Group>
-        {
-          letters.map((letter) => {
-            return (
-              <Button
-                style={{ width: '3%' }}
-                key={letter}
-                onClick={() => {
-                  // show participants with name starting at this letter
-                  participants.forEach((participant) => {
-                    if (participant.get('name').toLowerCase().charAt(0) === letter) {
-                      showParticipant(participant);
-                    } else {
-                      hideParticipant(participant);
-                    }
-                  });
-                }}
-              >
-                {letter.toUpperCase()}
-              </Button>
-            );
-          })
-        }
-      </Button.Group>
+      <Grid>
+        <Grid.Row>
+          <Button.Group widths="13" fluid>
+            {
+              letters.slice(0, 13).map((letter) => {
+                return (
+                  <Button
+                    basic
+                    key={letter}
+                    onClick={() => {
+                      // show participants with name starting at this letter
+                      participants.forEach((participant) => {
+                        if (participant.get('name').toLowerCase().charAt(0) === letter) {
+                          showParticipant(participant);
+                        } else {
+                          hideParticipant(participant);
+                        }
+                      });
+                    }}
+                  >
+                    {letter.toUpperCase()}
+                  </Button>
+                );
+              })
+            }
+          </Button.Group>
+          <Button.Group width="13" fluid>
+            {
+              letters.slice(13, 26).map((letter) => {
+                return (
+                  <Button
+                    basic
+                    key={letter}
+                    onClick={() => {
+                      // show participants with name starting at this letter
+                      participants.forEach((participant) => {
+                        if (participant.get('name').toLowerCase().charAt(0) === letter) {
+                          showParticipant(participant);
+                        } else {
+                          hideParticipant(participant);
+                        }
+                      });
+                    }}
+                  >
+                    {letter.toUpperCase()}
+                  </Button>
+                );
+              })
+            }
+          </Button.Group>
+        </Grid.Row>
+      </Grid>
     );
   }
 }
