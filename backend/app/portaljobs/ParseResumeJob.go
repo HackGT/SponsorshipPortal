@@ -1,6 +1,7 @@
 package portaljobs
 
 import (
+	"os"
 	"os/exec"
 
 	"github.com/HackGT/SponsorshipPortal/backend/app"
@@ -16,7 +17,7 @@ type ParseResume struct {
 
 func (p ParseResume) Run() {
 	revel.INFO.Println(p.ResumeURL)
-	out, err := exec.Command("ruby", "/home/brow/Documents/textextract.rb", p.ResumeURL).Output()
+	out, err := exec.Command("ruby", os.Getenv("parsePath"), p.ResumeURL).Output()
 	if err != nil {
 		revel.ERROR.Println(err)
 		return

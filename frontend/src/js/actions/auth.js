@@ -3,7 +3,7 @@ import { loaderOn, loaderOff } from './ui';
 import { loadParticipants } from './participants';
 import { HOST } from '../configs';
 import NotificationHelper from '../service/NotificationHelper';
-import SyncHelper from '../service/SearchHelper';
+import SyncHelper from '../service/SyncHelper';
 
 export function logIn(username, password) { // eslint-disable-line import/prefer-default-export
   // Request Server Auth login
@@ -29,10 +29,12 @@ export function logIn(username, password) { // eslint-disable-line import/prefer
       dispatch({
         type: ACTION_TYPES.LOG_IN,
         payload: {
-          username,
+          // username,
           token: json.token,
         },
       });
+      // Save token to localStorage
+      window.localStorage.setItem('token', json.token);
       // Fetch participants and sync selection state
       dispatch(loadParticipants());
       // Initialize Auto Syncing. See SyncHelper.requestSync for more info.
@@ -41,11 +43,45 @@ export function logIn(username, password) { // eslint-disable-line import/prefer
         if (window.needSync) {
           SyncHelper.saveSelectionSnapshot();
           NotificationHelper.updateSyncStatus('Progress Saved');
+          window.needSync = false;
         }
       }, 3000);
     }).catch(() => {
       dispatch(loaderOff()); // let user try another credential, prevent the loader/dimmer from not shutting down
       NotificationHelper.showModalWithMessage('Login Failure: Please check your credentials');
     });
+  };
+}
+
+export function logInWithToken(token) {
+  return (dispatch) => {
+    dispatch(loaderOn());
+    dispatch({
+      type: ACTION_TYPES.LOG_IN,
+      payload: {
+        token,
+      },
+    });
+
+    // Fetch participants and sync selection state; If the token is expired, this will also log it out
+    dispatch(loadParticipants());
+    // Initialize Auto Syncing. See SyncHelper.requestSync for more info.
+    window.needSync = false;
+    window.setInterval(() => {
+      if (window.needSync) {
+        SyncHelper.saveSelectionSnapshot();
+        NotificationHelper.updateSyncStatus('Progress Saved');
+      }
+    }, 3000);
+    dispatch(loaderOff());
+  };
+}
+
+export function logOut() {
+  return (dispatch) => {
+    dispatch({
+      type: ACTION_TYPES.LOG_OUT,
+    });
+    window.localStorage.clear(); // clean expired token, if any
   };
 }

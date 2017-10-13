@@ -24,7 +24,13 @@ export const LOADER_OFF = 'LOADER_OFF';
 export const MODAL_ON = 'MODAL_ON';
 export const MODAL_OFF = 'MODAL_OFF';
 export const UI_UPDATE_SYNC_STATUS = 'UI_UPDATE_SYNC_STATUS';
+export const TABLE_LOADER_ON = 'TABLE_LOADER_ON';
+export const TABLE_LOADER_OFF = 'TABLE_LOADER_OFF';
+export const UI_UPDATE_PDF_URL = 'UI_UPDATE_PDF_URL';
+export const UI_PDF_MODAL_ON = 'UI_PDF_MODAL_ON';
+export const UI_PDF_MODAL_OFF = 'UI_PDF_MODAL_OFF';
 
 // auth
 export const LOG_IN = 'LOG_IN';
+export const LOG_OUT = 'LOG_OUT';
 

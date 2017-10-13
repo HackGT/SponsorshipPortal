@@ -1,13 +1,25 @@
 import React from 'react';
-import { Container, Button, Header, Menu } from 'semantic-ui-react';
+import { Container, Header, Menu, Button } from 'semantic-ui-react';
 import logo from '../../../assets/hackgt-logo.png';
+import { TITLE } from '../../configs';
 
 class Navbar extends React.Component {
   render() {
-    const page = this.props.location.pathname;
+    // const page = this.props.location.pathname;
     const ui = this.props.ui;
+    const auth = this.props.auth;
+    const logOut = this.props.logOut;
+    const isLoggedIn = auth.get('active');
     const syncStatus = ui.get('syncStatus');
-    const push = this.props.push;
+    const logoutButton = (!isLoggedIn) ? false : (
+      <Button
+        onClick={() => { logOut(); }}
+        basic
+      >
+        Sign out
+      </Button>
+    );
+    // const push = this.props.push;
     return (
       <div style={{ zIndex: 9999, position: 'fixed', top: 0, width: '100vw', backgroundColor: '#ffffff' }}>
         <Container>
@@ -15,24 +27,26 @@ class Navbar extends React.Component {
             <Menu.Header>
               <Header
                 image={logo}
-                content="Sponsorship Portal"
+                content={TITLE}
                 textAlign="center"
               />
             </Menu.Header>
-            <Menu.Item
+            {/* <Menu.Item
               position="left"
               name="pile"
             >
               <Button.Group>
                 <Button primary={page === '/'} onClick={() => push('/')}>Home</Button>
-                {/* <Button primary={page === '/participant-profile'} onClick={() => push('/participant-profile')}>Workspace</Button> */}
+                <Button primary={page === '/participant-profile'} onClick={() => push('/participant-profile')}>Workspace</Button>
                 <Button primary={page === '/export'} onClick={() => push('/export')}>Export</Button>
               </Button.Group>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item
               position="right"
-              name={syncStatus}
-            />
+            >
+              {syncStatus}
+              {logoutButton}
+            </Menu.Item>
           </Menu>
         </Container>
       </div>

@@ -12,7 +12,6 @@ SyncHelper.saveSelectionSnapshot = () => {
   }).map((participant) => {
     return participant.get('id');
   }));
-
   return fetch(`${HOST}/save`, {
     method: 'POST',
     headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -22,6 +21,8 @@ SyncHelper.saveSelectionSnapshot = () => {
     }),
   }).then((response) => {
     if (response.ok) {
+      // Now that it has been saved, remove the 'beforeunload' listener that prevents user from exiting
+      window.removeEventListener('beforeunload', SyncHelper.preventExitHelper);
       return response.json();
     }
     throw new Error('POST /save connection lost');
@@ -43,10 +44,10 @@ SyncHelper.fetchSelectionSnapshot = () => {
     }
     throw new Error('POST /load connection lost');
   }).then((json) => {
-    if (!Set.isSet(json.state)) {
+    if (!json.state) {
       return Set([]);
     } else {
-      return JSON.parse(json.state);
+      return Set(JSON.parse(json.state));
     }
   }).catch(() => {
     NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');

@@ -9,7 +9,8 @@ class ParticipantProfileFilters extends React.Component {
     const showParticipant = this.props.showParticipant;
     const hideParticipant = this.props.hideParticipant;
     const keyword = this.props.keyword;
-    const searchFilterButton = (keyword === '') ? false : (
+    const searchedCount = participants.count(participant => participant.get('isSearched'));
+    let searchFilterButton = (keyword === '') ? false : (
       <Button
         onClick={() => {
           // show all the participants currently matched by the search
@@ -22,9 +23,17 @@ class ParticipantProfileFilters extends React.Component {
           });
         }}
       >
-        Searching: {keyword} ({participants.count(participant => participant.get('isSearched'))})
+        Searching: {keyword} ({searchedCount})
       </Button>
     );
+
+    if (keyword !== '' && searchedCount === 0) {
+      searchFilterButton = (
+        <Button color="olive">
+          No Result Found
+        </Button>
+      );
+    }
 
     return (
       <Button.Group>
@@ -52,6 +61,20 @@ class ParticipantProfileFilters extends React.Component {
         >
           Selected ({participants.count(participant => participant.get('isSelected'))})
         </Button>
+        {/* <Button
+          onClick={() => {
+            // fetch set of id of participants that the user has met
+            participants.forEach((participant) => {
+              if (participant.get('isSelected')) {
+                showParticipant(participant);
+              } else {
+                hideParticipant(participant);
+              }
+            });
+          }}
+        >
+          Met ({participants.count(participant => participant.get('isSelected'))})
+        </Button> */}
         {searchFilterButton}
       </Button.Group>
     );
