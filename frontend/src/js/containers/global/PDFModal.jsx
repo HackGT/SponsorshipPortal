@@ -8,7 +8,7 @@ import * as ACTION_TYPE from '../../actionTypes';
 function PDFModal({ active, url, close }) {
   return (
     <Modal
-      size="fullscreen"
+      size="large"
       open={active}
       closeOnDimmerClick={false}
     >
@@ -19,9 +19,7 @@ function PDFModal({ active, url, close }) {
       </Modal.Content>
       <Modal.Actions>
         <Button
-          basic
           color="red"
-          inverted
           onClick={() => {
             close();
           }}
