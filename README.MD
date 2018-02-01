@@ -4,7 +4,7 @@
 
 You must have a working Go and Node.js installation in order to run this project. 
 
-Instructions to install Go can be found here: https://golang.org/doc/install. Make sure you have a GOHOME directory setup.
+Instructions to install Go can be found here: https://golang.org/doc/install. Make sure you have a `GOHOME` directory set up.
 
 Install Node.js from the official site: https://nodejs.org/en/download/.
 
@@ -12,7 +12,7 @@ Install Node.js from the official site: https://nodejs.org/en/download/.
 
 Get the source code by executing `go get github.com/HackGT/SponsorshipPortal` 
 
-You may get an error `no buildable Go source files`, this is harmless.
+You may get an error `no buildable Go source files`; this is harmless.
 
 For development work run the frontend and backend separately.
 
@@ -31,6 +31,6 @@ You should now be ready to run the backend. Execute `revel run`
 
 ## Contributing
 
-The frontend is a standard React app with Redux for state management. React documentation can be found here: https://reactjs.org/.
+The frontend is a standard React (https://reactjs.org/) app with Redux for state management.
 
 The backend is written using the Revel framework. Please read the tutorial on the official site: http://revel.github.io/.
