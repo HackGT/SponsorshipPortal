@@ -29,5 +29,8 @@ Navigate to the `backend` directory and execute `go get github.com/revel/cmd/rev
 
 You should now be ready to run the backend. Execute `revel run`
 
+## Contributing
 
+The frontend is a standard React app with Redux for state management. React documentation can be found here: https://reactjs.org/.
 
+The backend is written using the Revel framework. Please read the tutorial on the official site: http://revel.github.io/.
