@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 import { Map } from 'immutable';
 import 'particles.js';
 // import particlesOption from '../assets/particlesOption';
+import 'react-table/react-table.css';
 import { configureHistory, configureStore } from './configureStoreAndHistory';
 import '../css/index.css';
 import { logInWithToken } from './actions/auth';

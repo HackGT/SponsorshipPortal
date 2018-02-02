@@ -19,7 +19,7 @@
     "react/prop-types": 0,
     "react/prefer-stateless-function": 0,
     "react/sort-comp": 0,
-    "no-console": 1,
+    "no-console": 0,
     "no-unused-vars": ["warn", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
     "space-before-function-paren": 2,
     "no-sequences": 0

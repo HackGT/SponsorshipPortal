@@ -14,7 +14,7 @@ function App({ children, location, loggedIn }) {
       <GlobalModal />
       <PDFModal />
       {
-        loggedIn ? <div style={{ paddingTop: '100px' }}>{children}</div> : <LoginPage />
+        loggedIn ? <div>{ children }</div> : <LoginPage />
       }
     </div>
   );

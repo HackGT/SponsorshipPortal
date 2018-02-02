@@ -21,7 +21,7 @@ class Navbar extends React.Component {
     );
     // const push = this.props.push;
     return (
-      <div style={{ zIndex: 9999, position: 'fixed', top: 0, width: '100vw', backgroundColor: '#ffffff' }}>
+      <div style={{ top: 0, width: '100vw', backgroundColor: '#ffffff', borderBottom: '1px solid grey' }}>
         <Container>
           <Menu secondary>
             <Menu.Header>

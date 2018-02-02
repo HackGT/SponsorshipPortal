@@ -19,8 +19,6 @@ class ParticipantProfileSearchBar extends React.Component {
       <Form
         onSubmit={() => {
           // Works when clicking "Search" action or pressing enter
-          // TODO: Send request to backend and fetch search result
-          console.log(this.state.content); // eslint-disable-line no-console
           this.props.searchByKeyword(this.state.content);
         }}
       >
