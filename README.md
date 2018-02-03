@@ -34,8 +34,6 @@ dep ensure
 revel run
 ```
 
-Execute `revel run`
-
 ## Contributing
 
 The frontend is a standard React (https://reactjs.org/) app with Redux for state management.
