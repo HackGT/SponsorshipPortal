@@ -25,12 +25,41 @@ npm install
 npm start
 ```
 
-Navigate to the `backend` directory and execute `go get github.com/revel/cmd/revel`
+Navigate to the `backend` directory and execute 
 
-You should now be ready to run the backend. Execute `revel run`
+```
+go get github.com/revel/cmd/revel
+go get -u github.com/golang/dep/cmd/dep
+dep ensure
+revel run
+```
+
+Execute `revel run`
 
 ## Contributing
 
 The frontend is a standard React (https://reactjs.org/) app with Redux for state management.
 
 The backend is written using the Revel framework. Please read the tutorial on the official site: http://revel.github.io/.
+
+## Backend Code Layout
+
+The directory structure of a generated Revel application:
+
+    conf/             Configuration directory
+        app.conf      Main app configuration file
+        routes        Routes definition file
+
+    app/              App sources
+        init.go       Interceptor registration
+        controllers/  App controllers go here
+        views/        Templates directory
+
+    messages/         Message files
+
+    public/           Public static assets
+        css/          CSS files
+        js/           Javascript files
+        images/       Image files
+
+    tests/            Test suites
