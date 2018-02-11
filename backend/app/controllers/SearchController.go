@@ -14,6 +14,7 @@ type Search struct {
 	*revel.Controller
 }
 
+// TODO: convert to SQL
 func (c Search) Index() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)

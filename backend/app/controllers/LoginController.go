@@ -24,6 +24,7 @@ var (
 	superToken   = os.Getenv("superToken")
 )
 
+// TODO: convert to SQL
 func (c Login) Index() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
@@ -43,6 +44,7 @@ func (c Login) Index() revel.Result {
 	return c.RenderJSON(resp)
 }
 
+// TODO: convert to SQL
 func (c Login) AddUser() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
@@ -82,6 +84,7 @@ func (c Login) AddUser() revel.Result {
 	return c.RenderJSON(resp)
 }
 
+// TODO: convert to SQL
 func IsValidUser(username string, password string) (string, bool) {
 	sponsors := app.PortalDB.Use("Sponsors")
 	var query interface{}

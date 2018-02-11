@@ -22,6 +22,7 @@ type Participants struct {
 	*revel.Controller
 }
 
+// TODO: convert to SQL
 func (c Participants) Index() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
@@ -51,6 +52,7 @@ func (c Participants) Index() revel.Result {
 	return c.RenderJSON(res)
 }
 
+// TODO: convert to SQL
 func (c Participants) Add() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
@@ -78,6 +80,7 @@ func (c Participants) Add() revel.Result {
 	return c.RenderJSON(resp)
 }
 
+// DEPRECATED FUNCTION
 func startJob(resumeID string, id string, name string, email string) string {
 	sess := session.Must(session.NewSession(&aws.Config{
 		Region: aws.String("us-east-1"),
