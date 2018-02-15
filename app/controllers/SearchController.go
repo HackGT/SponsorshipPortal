@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/HackGT/SponsorshipPortal/backend/app"
+	"github.com/HackGT/SponsorshipPortal/app"
 	"github.com/blevesearch/bleve"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/revel/revel"
@@ -45,7 +45,7 @@ func (c Search) Index() revel.Result {
 		for _, element := range searchResults.Hits {
 			resultUUID += element.ID
 		}
-		fmt.Println(fmt.Sprintf(`{ 
+		fmt.Println(fmt.Sprintf(`{
 			hackgtmetricsversion: 1,
 			serviceName: "sponsorshipportal-hackgt4-search",
 			values: {value:1},

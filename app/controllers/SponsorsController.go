@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/HackGT/SponsorshipPortal/backend/app"
+	"github.com/HackGT/SponsorshipPortal/app"
 	"github.com/HouzuoGuo/tiedot/db"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/revel/revel"

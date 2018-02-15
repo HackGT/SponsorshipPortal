@@ -4,7 +4,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/HackGT/SponsorshipPortal/backend/app"
+	"github.com/HackGT/SponsorshipPortal/app"
 	"github.com/revel/revel"
 )
 

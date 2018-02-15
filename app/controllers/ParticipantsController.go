@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/HackGT/SponsorshipPortal/backend/app"
-	"github.com/HackGT/SponsorshipPortal/backend/app/portaljobs"
+	"github.com/HackGT/SponsorshipPortal/app"
+	"github.com/HackGT/SponsorshipPortal/app/portaljobs"
 	"github.com/HouzuoGuo/tiedot/db"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
