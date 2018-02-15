@@ -1,37 +1,56 @@
-# SponsorshipPortal [![Build Status](https://travis-ci.org/HackGT/SponsorshipPortal.svg?branch=master)](https://travis-ci.org/HackGT/SponsorshipPortal)
+# SponsorshipPortal
+[![Build Status](https://travis-ci.org/HackGT/SponsorshipPortal.svg?branch=master)](https://travis-ci.org/HackGT/SponsorshipPortal)
 
 ## Getting Started
 
-You must have a working Go and Node.js installation in order to run this project. 
-
-Instructions to install Go can be found here: https://golang.org/doc/install. Make sure you have a `GOHOME` directory set up.
-
-Install Node.js from the official site: https://nodejs.org/en/download/.
+You must have a working Go and Node.js installation in order to run this project.
+- Instructions to install Go can be found here: https://golang.org/doc/install. Make sure you have a `GOHOME` directory set up.
+- Install Node.js from the official site: https://nodejs.org/en/download.
 
 ## Installing
 
-Get the source code by executing `go get github.com/HackGT/SponsorshipPortal` 
-
+Get the source code:
+```
+go get github.com/HackGT/SponsorshipPortal
+```
 You may get an error `no buildable Go source files`; this is harmless.
 
 For development work run the frontend and backend separately.
 
+### Install dependencies
+
 Before running the frontend for development change the file `frontend/src/js/configs.js` to assign the HOST to `export const HOST = window.location.protocol + '//' + 'localhost:9000';` This needs to be done or server-side communication won't work. (TODO: host should change automatically from environment variable)
 
-To run the frontend navigate to the `frontend` directory and execute 
-
+Install frontend dependencies:
 ```
+# from project root
+cd frontend
 npm install
-npm start
 ```
 
-Navigate to the `backend` directory and execute 
-
+Install backend dependencies:
 ```
+# from project root
+cd backend
 go get github.com/revel/cmd/revel
 go get -u github.com/golang/dep/cmd/dep
 dep ensure
+```
+
+### Start the app!
+
+Start the backend
+```
+# from project root
+cd backend
 revel run
+```
+
+Start the frontend and navigate to `localhost:8500`.
+```
+# from project root
+cd frontend
+npm start
 ```
 
 ## Contributing

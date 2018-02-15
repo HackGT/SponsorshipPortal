@@ -24,7 +24,6 @@
 #   go-tests = true
 #   unused-packages = true
 
-
 [[constraint]]
   name = "github.com/HouzuoGuo/tiedot"
   version = "3.4.0"
@@ -43,15 +42,29 @@
 
 [[constraint]]
   name = "github.com/revel/modules"
-  version = "0.17.0"
+  version = "0.19.0"
+
+[[constraint]]
+  name = "github.com/revel/cron"
+  version = "0.19.0"
 
 [[constraint]]
   name = "github.com/revel/revel"
-  version = "0.17.0"
+  version = "0.19.0"
+
+# Override revel/log15 and xeonx/timeago to set lockfile to tip of master branch
+# because dep will pull the most recent tagged version by default and
+# revel 0.19.0 depends on more recent code.
+# As of this writing (2018/02/14)
+# - revel/log15 is on revision 793412a
+# - xeonx/timeago is on revision 714e669
+[[override]]
+  name = "github.com/revel/log15"
+  branch = "master"
 
 [[override]]
-  name = "github.com/revel/cron"
-  version = "0.17.0"
+  name = "github.com/xeonx/timeago"
+  branch = "master"
 
 [[constraint]]
   branch = "master"
