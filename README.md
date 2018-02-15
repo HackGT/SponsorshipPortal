@@ -1,11 +1,12 @@
-# SponsorshipPortal
-[![Build Status](https://travis-ci.org/HackGT/SponsorshipPortal.svg?branch=master)](https://travis-ci.org/HackGT/SponsorshipPortal)
+# SponsorshipPortal [![Build Status](https://travis-ci.org/HackGT/SponsorshipPortal.svg?branch=master)](https://travis-ci.org/HackGT/SponsorshipPortal)
 
 ## Getting Started
 
 You must have a working Go and Node.js installation in order to run this project.
 - Instructions to install Go can be found here: https://golang.org/doc/install. Make sure you have a `GOHOME` directory set up.
+  - After Go is running, install `dep`, the dependency manager we are using for this project. `go get -u github.com/golang/dep/cmd/dep`
 - Install Node.js from the official site: https://nodejs.org/en/download.
+  - This project uses the `yarn` dependency manager. Find more information at https://yarnpkg.com. You can use `npm` at your own risk.
 
 ## Installing
 
@@ -25,15 +26,14 @@ Install frontend dependencies:
 ```
 # from project root
 cd frontend
-npm install
+yarn
 ```
 
 Install backend dependencies:
 ```
 # from project root
 cd backend
-go get github.com/revel/cmd/revel
-go get -u github.com/golang/dep/cmd/dep
+go get -u github.com/revel/cmd/revel
 dep ensure
 ```
 
@@ -46,7 +46,7 @@ cd backend
 revel run
 ```
 
-Start the frontend and navigate to `localhost:8500`.
+Then, in a new shell, start the frontend and navigate to `localhost:8500`.
 ```
 # from project root
 cd frontend
@@ -61,22 +61,19 @@ The backend is written using the Revel framework. Please read the tutorial on th
 
 ## Backend Code Layout
 
-The directory structure of a generated Revel application:
+The directory structure of a Revel application:
+```
+conf/             Configuration directory
+    app.conf      Main app configuration file
+    routes        Routes definition file
 
-    conf/             Configuration directory
-        app.conf      Main app configuration file
-        routes        Routes definition file
+app/              App sources
+    init.go       Interceptor registration
+    controllers/  App controllers go here
 
-    app/              App sources
-        init.go       Interceptor registration
-        controllers/  App controllers go here
-        views/        Templates directory
+public/           Public static assets - this is not used in development
 
-    messages/         Message files
+tests/            Test suites
 
-    public/           Public static assets
-        css/          CSS files
-        js/           Javascript files
-        images/       Image files
-
-    tests/            Test suites
+vendor/           Vendored dependencies, do not edit this directory - managed by dep
+```
