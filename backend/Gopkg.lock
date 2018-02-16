@@ -257,8 +257,10 @@
 [[projects]]
   name = "github.com/revel/modules"
   packages = [
+    "jobs/app/controllers",
     "jobs/app/jobs",
     "static/app/controllers",
+    "testrunner/app",
     "testrunner/app/controllers"
   ]
   revision = "f97a4d0320f4ee755526333a0286f787a5bf6d8b"
@@ -349,6 +351,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7914531389fd730601ab744c9362f1bafc5c0890396740eef7f4c3881f90fa68"
+  inputs-digest = "31bcea54c247a1ab47e22f6a614366a79875224b472791643d99ab9c55d61ec8"
   solver-name = "gps-cdcl"
   solver-version = 1
