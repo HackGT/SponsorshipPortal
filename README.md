@@ -3,30 +3,21 @@
 ## Getting Started
 
 You must have a working Go and Node.js installation in order to run this project.
-- Instructions to install Go can be found here: https://golang.org/doc/install.
-  - After Go is running, install `dep`, the dependency manager we are using for this project. `go get -u github.com/golang/dep/cmd/dep`
-- Install Node.js from the official site: https://nodejs.org/en/download.
-  - This project uses the `yarn` dependency manager. Find more information at https://yarnpkg.com. You can use `npm` at your own risk.
 
 If you are new to developing with tools (or new in general), consider installing with your system's package manager when possible.
 Please ensure your language and runtime versions match the ones below.
 
-1. [go 1.9](https://golang.org) - For running the webserver for the backend
-  - [install](https://golang.org/doc/install)
-  - Make sure you have a `GOHOME` directory set up
-2. [dep](https://golang.github.io/dep/) - Dependency manager for go
-  - install with `go get -u github.com/golang/dep/cmd/dep` after go is working
-3. [Node.js 8.9.4](https://nodejs.org/en/) - Used to build and run the frontend in development
-  - [[download](https://nodejs.org/en/download/)]
-4. [yarn](https://yarnpkg.com/) - Dependency manager for Node.js (use `npm` at your own risk!)
-  - [[install](https://yarnpkg.com/en/docs/install)]
+1. [go 1.9](https://golang.org) [[install](https://golang.org/doc/install)] - For running the webserver for the backend
+Make sure you have a `GOHOME` directory set up
+2. [dep](https://golang.github.io/dep/) - Dependency manager for go - install with `go get -u github.com/golang/dep/cmd/dep` after go is working
+3. [Node.js 8.9.4](https://nodejs.org/en/) [[download](https://nodejs.org/en/download/)] - Used to build and run the frontend in development
+4. [yarn](https://yarnpkg.com/) [[install](https://yarnpkg.com/en/docs/install)] - Dependency manager for Node.js (use `npm` at your own risk!)
 
 ### On MacOS (with [homebrew](https://brew.sh))
 
 This is a (semi-opinionated) guide to getting started with these tools and languages on MacOS.
 
-> Package managers are great! Use them!
-> - Andrew Dai Feb 15 2018
+> "Package managers are great! Use them!" - Andrew Dai Feb 15 2018
 
 To follow along, setup [homebrew](https://brew.sh) if you have not already.
 We will be installing all the tools in the previous section with `brew` or
