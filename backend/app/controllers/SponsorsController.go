@@ -15,6 +15,7 @@ type Sponsors struct {
 	*revel.Controller
 }
 
+// TODO: convert to SQL
 func (c Sponsors) Save() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
@@ -45,6 +46,7 @@ func (c Sponsors) Save() revel.Result {
 	return c.RenderJSON(res)
 }
 
+// TODO: convert to SQL
 func (c Sponsors) Load() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
@@ -73,6 +75,7 @@ func (c Sponsors) Load() revel.Result {
 	return c.RenderJSON(res)
 }
 
+// TODO: convert to SQL
 func (c Sponsors) FlagParticipant() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
@@ -139,6 +142,7 @@ func (c Sponsors) FlagParticipant() revel.Result {
 	return c.RenderJSON(res)
 }
 
+// TODO: convert to SQL
 func (c Sponsors) PeopleMet() revel.Result {
 	var jsonData map[string]interface{}
 	c.Params.BindJSON(&jsonData)
