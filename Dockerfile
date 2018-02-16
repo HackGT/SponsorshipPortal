@@ -14,14 +14,11 @@ RUN go get -u github.com/revel/cmd/revel
 COPY backend/Gopkg.* ./
 RUN dep ensure -vendor-only
 COPY backend .
-COPY --from=build-frontend frontend/build ./app/public
+COPY --from=build-frontend frontend/build ./public
 RUN revel package github.com/HackGT/SponsorshipPortal/backend prod
-RUN pwd
-RUN ls
 
 FROM alpine:latest as run-server
-EXPOSE 9000
 WORKDIR /www
 COPY --from=build-backend /go/src/github.com/HackGT/SponsorshipPortal/backend/backend.tar.gz .
 RUN tar -xf backend.tar.gz
-CMD sh run.sh
+CMD run.sh
