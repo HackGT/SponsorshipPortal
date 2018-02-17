@@ -9,7 +9,7 @@ import (
 	"github.com/HackGT/SponsorshipPortal/controller"
 )
 
-func createRouter() http.Handler {
+func NewRouter() http.Handler {
 	r := mux.NewRouter()
 
 	// Load controllers
