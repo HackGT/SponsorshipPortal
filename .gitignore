@@ -1,5 +1,4 @@
 .DS_STORE
-node_modules
 *~
 *.pyc
 static
@@ -32,11 +31,9 @@ chrome-user-data
 .#*
 *.swo
 *react*min*.js
-src/node_modules
-package-lock.json
 
-# ignore generated client files
-/backend/public/
+# go dependencies
+vendor
 
-# ignore generated project
-backend.tar.gz
+# node dependencies
+node_modules

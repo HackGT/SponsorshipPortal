@@ -16,18 +16,18 @@ const BabelLoaderConfig = {
 };
 
 module.exports = {
-  entry: ['./src/js/index.jsx'],
+  entry: ['./client/js/index.jsx'],
   module: {
     rules: [
       {
         test: /\.js$/,
         use: [BabelLoaderConfig, 'eslint-loader'],
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, 'client'),
       },
       {
         test: /\.jsx$/,
         use: [BabelLoaderConfig, 'eslint-loader'],
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, 'client'),
       },
       { test: /\.css$/,
         use: ExtractTextPlugin.extract({
