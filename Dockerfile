@@ -1,17 +1,22 @@
-FROM debian:8
+FROM node:carbon-alpine as build-frontend
+WORKDIR /client
+COPY ./client/package.json .
+COPY ./client/yarn.lock .
+RUN yarn --production
+COPY client .
+RUN npm run build
 
-ADD backend.tar.gz /www
+FROM golang:1.9-alpine as build-backend
+WORKDIR /go/src/github.com/HackGT/SponsorshipPortal
+RUN apk update && apk add git
+RUN go get -u github.com/golang/dep/cmd/dep
+COPY Gopkg.* ./
+RUN dep ensure -vendor-only
+COPY . .
+RUN go build
 
-ADD backend/textextract.rb /www
-
-ENV parsePath /www/textextract.rb
-
-RUN apt-get update && apt-get install -y \
-    ruby \
-    ruby-dev \
-    build-essential \
-    default-jre
-
-RUN gem install yomu
-
-CMD /www/run.sh
+FROM alpine:latest
+WORKDIR /www
+COPY --from=build-frontend /client/static client/static
+COPY --from=build-backend /go/src/github.com/HackGT/SponsorshipPortal .
+CMD ./SponsorshipPortal
