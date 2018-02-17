@@ -16,7 +16,7 @@ func NewRouter() http.Handler {
 	controller.Load(r)
 
 	// Add handler for static files
-	r.Methods("GET").Handler(http.FileServer(http.Dir("./static/")))
+	r.Methods("GET").Handler(http.FileServer(http.Dir("./client/static/")))
 
 	// Attach logging and recovery middlewares
 	var handler http.Handler
