@@ -1,39 +1,23 @@
-.DS_STORE
-*~
-*.pyc
-static
-.grunt
-_SpecRunner.html
-__benchmarks__
-build/
-remote-repo/
-coverage/
-.module-cache
-*.gem
-docs/.bundle
-docs/code
-docs/_site
-docs/.sass-cache
-docs/js/*
-docs/downloads/*.zip
-docs/vendor/bundle
-fixtures/dom/public/react-dom.js
-fixtures/dom/public/react.js
-test/the-files-to-test.generated.js
-*.log*
-chrome-user-data
-*.sublime-project
-*.sublime-workspace
-.idea
-*.iml
-.vscode
-*.swp
-.#*
-*.swo
-*react*min*.js
-
 # go dependencies
 vendor
 
-# node dependencies
-node_modules
+# node
+client/node_modules
+npm-debug.log
+
+# frontend build/output directories
+client/static
+client/build
+
+# editor/IDE configs
+*.sublime-project
+*.sublime-workspace
+*.iml
+.vscode
+.#*
+*~
+*.swo
+*.swp
+
+# misc
+.DS_STORE
