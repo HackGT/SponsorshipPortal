@@ -5,11 +5,12 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/sirupsen/logrus"
 
 	"github.com/HackGT/SponsorshipPortal/controller"
 )
 
-func NewRouter() http.Handler {
+func NewRouter(logger *logrus.Logger) http.Handler {
 	r := mux.NewRouter()
 
 	// Load controllers
@@ -20,7 +21,7 @@ func NewRouter() http.Handler {
 
 	// Attach logging and recovery middlewares
 	var handler http.Handler
-	handler = handlers.LoggingHandler(log.Writer(), r)
-	handler = handlers.RecoveryHandler(handlers.RecoveryLogger(log))(handler)
+	handler = handlers.LoggingHandler(logger.Writer(), r)
+	handler = handlers.RecoveryHandler(handlers.RecoveryLogger(logger))(handler)
 	return handler
 }
