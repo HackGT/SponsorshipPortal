@@ -126,6 +126,10 @@ config/           App server config package
 
 controllers/      App controllers go here
     controller.go Root controller, register other controllers here
+    
+database/         Utility package for initializing a database connection from config
+    
+logger/           Utility package for initializing a logger from loaded config
 
 models/           App models go here
 

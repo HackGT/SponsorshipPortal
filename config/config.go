@@ -8,9 +8,9 @@ import (
 )
 
 type Config struct {
-	Prod   bool `default:"false"`
-	Server *ServerConfig
-	DB     *DatabaseConfig
+	Prod     bool `default:"false"`
+	Server   *ServerConfig
+	Database *DatabaseConfig
 }
 
 func Load() (*Config, error) {
@@ -24,7 +24,7 @@ func Load() (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	config.DB, err = LoadDatabaseConfig()
+	config.Database, err = LoadDatabaseConfig()
 	if err != nil {
 		return nil, err
 	}
@@ -54,6 +54,7 @@ func (config *ServerConfig) Addr() string {
 }
 
 type DatabaseConfig struct {
+	ConnectionString string `default:"dbname='portal'"`
 }
 
 func LoadDatabaseConfig() (*DatabaseConfig, error) {

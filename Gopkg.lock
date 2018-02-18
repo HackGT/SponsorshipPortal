@@ -20,10 +20,28 @@
   version = "v1.6.1"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/jmoiron/sqlx"
+  packages = [
+    ".",
+    "reflectx"
+  ]
+  revision = "05cef0741ade10ca668982355b3f3f0bcf0ff0a8"
+
+[[projects]]
   name = "github.com/kelseyhightower/envconfig"
   packages = ["."]
   revision = "f611eb38b3875cc3bd991ca91c51d06446afa14c"
   version = "v1.3.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/lib/pq"
+  packages = [
+    ".",
+    "oid"
+  ]
+  revision = "88edab0803230a3898347e77b474f8c1820a1f20"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -49,6 +67,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bacccc14ca0b604bd50e8eecfb17b87a8cf4af2e4c16384f5c5c73055bebdbdd"
+  inputs-digest = "2e0919b35ce4915610ad998897a817c977568b02bcd4d03710b97f9de12d56f5"
   solver-name = "gps-cdcl"
   solver-version = 1

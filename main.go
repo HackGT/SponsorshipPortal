@@ -10,7 +10,10 @@ func main() {
 	// Parts of this is adapted from
 	// https://github.com/gorilla/mux#graceful-shutdown
 
-	app := New()
+	app, err := New()
+	if err != nil {
+		panic(err)
+	}
 	log := app.Logger
 
 	// Start the server in a goroutine so it does not block

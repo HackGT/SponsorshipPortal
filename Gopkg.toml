@@ -14,6 +14,14 @@
   name = "github.com/sirupsen/logrus"
   version = "1.0"
 
+[[constraint]]
+  name = "github.com/jmoiron/sqlx"
+  branch = "master"
+
+[[constraint]]
+  name = "github.com/lib/pq"
+  branch = "master"
+
 [prune]
   go-tests = true
   unused-packages = true
