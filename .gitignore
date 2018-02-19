@@ -1,42 +1,23 @@
-.DS_STORE
-node_modules
-*~
-*.pyc
-static
-.grunt
-_SpecRunner.html
-__benchmarks__
-build/
-remote-repo/
-coverage/
-.module-cache
-*.gem
-docs/.bundle
-docs/code
-docs/_site
-docs/.sass-cache
-docs/js/*
-docs/downloads/*.zip
-docs/vendor/bundle
-fixtures/dom/public/react-dom.js
-fixtures/dom/public/react.js
-test/the-files-to-test.generated.js
-*.log*
-chrome-user-data
+# go dependencies
+vendor
+
+# node
+client/node_modules
+npm-debug.log
+
+# frontend build/output directories
+client/static
+client/build
+
+# editor/IDE configs
 *.sublime-project
 *.sublime-workspace
-.idea
 *.iml
 .vscode
-*.swp
 .#*
+*~
 *.swo
-*react*min*.js
-src/node_modules
-package-lock.json
+*.swp
 
-# ignore generated client files
-/backend/public/
-
-# ignore generated project
-backend.tar.gz
+# misc
+.DS_STORE
