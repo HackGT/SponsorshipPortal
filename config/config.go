@@ -95,6 +95,9 @@ func LoadDatabaseConfig() (*DatabaseConfig, error) {
 				config.User = dbUrl.User.Username()
 				config.Password, _ = dbUrl.User.Password()
 			}
+			if len(dbUrl.Path) > 1 {
+				config.DbName = dbUrl.Path[1:]
+			}
 		}
 	}
 
