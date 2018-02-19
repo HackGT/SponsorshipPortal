@@ -4,13 +4,15 @@ import (
 	"context"
 	"os"
 	"os/signal"
+
+	"github.com/HackGT/SponsorshipPortal/server"
 )
 
 func main() {
 	// Parts of this is adapted from
 	// https://github.com/gorilla/mux#graceful-shutdown
 
-	app, err := New()
+	app, err := server.New()
 	if err != nil {
 		panic(err)
 	}
