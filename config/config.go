@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	nurl "net/url"
 	"time"
 
 	"github.com/kelseyhightower/envconfig"
@@ -54,7 +55,11 @@ func (config *ServerConfig) Addr() string {
 }
 
 type DatabaseConfig struct {
-	ConnectionString string `default:"dbname='portal'"`
+	Host             string `default="localhost:5432"`
+	DbName           string `default="portal"`
+	User             string
+	Password         string
+	ConnectionString string
 }
 
 func LoadDatabaseConfig() (*DatabaseConfig, error) {
@@ -62,5 +67,36 @@ func LoadDatabaseConfig() (*DatabaseConfig, error) {
 	if err := envconfig.Process("", &config); err != nil {
 		return nil, err
 	}
+
+	if config.ConnectionString == "" {
+
+		var userinfo *nurl.Userinfo
+		if config.User != "" {
+			if config.Password == "" {
+				userinfo = nurl.User(config.User)
+			} else {
+				userinfo = nurl.UserPassword(config.User, config.Password)
+			}
+		}
+		dbUrl := &nurl.URL{
+			Scheme: "postgres",
+			Host:   config.Host,
+			User:   userinfo,
+			Path:   config.DbName,
+		}
+		config.ConnectionString = dbUrl.String()
+	} else {
+		dbUrl, err := nurl.Parse(config.ConnectionString)
+		if err != nil {
+			// TODO parse the "<key>=<value>[ <key>=<value>...]" format
+		} else {
+			config.Host = dbUrl.Host
+			if dbUrl.User != nil {
+				config.User = dbUrl.User.Username()
+				config.Password, _ = dbUrl.User.Password()
+			}
+		}
+	}
+
 	return &config, nil
 }
