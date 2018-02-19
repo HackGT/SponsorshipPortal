@@ -2,13 +2,49 @@ package main
 
 import (
 	"context"
+	"flag"
 	"os"
 	"os/signal"
 
+	"github.com/mattes/migrate"
+	"github.com/sirupsen/logrus"
+
+	"github.com/HackGT/SponsorshipPortal/config"
+	"github.com/HackGT/SponsorshipPortal/database"
+	"github.com/HackGT/SponsorshipPortal/logger"
 	"github.com/HackGT/SponsorshipPortal/server"
 )
 
-func main() {
+var runMigrations = flag.Bool("migrate", false, "run database migrations and exit")
+
+func dbMigrate() {
+	conf, err := config.Load()
+	if err != nil {
+		panic(err)
+	}
+
+	log := logger.New(conf).WithFields(logrus.Fields{
+		"host":   conf.Database.Host,
+		"user":   conf.Database.User,
+		"dbname": conf.Database.DbName,
+	})
+
+	log.Info("Migrating database...")
+
+	err = database.Migrate(conf.Database.ConnectionString)
+	if err != nil {
+		if err == migrate.ErrNoChange {
+			log.Warn("No changes detected.")
+		} else {
+			log.WithError(err).Fatal("Failed to migrate database")
+		}
+	}
+
+	log.Info("Finished migrating.")
+	os.Exit(0)
+}
+
+func startServer() {
 	// Parts of this is adapted from
 	// https://github.com/gorilla/mux#graceful-shutdown
 
@@ -42,4 +78,13 @@ func main() {
 
 	log.Info("Shutting down")
 	os.Exit(0)
+}
+
+func main() {
+	flag.Parse()
+	if *runMigrations {
+		dbMigrate()
+	} else {
+		startServer()
+	}
 }
