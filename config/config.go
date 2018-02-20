@@ -64,7 +64,7 @@ type DatabaseConfig struct {
 
 func LoadDatabaseConfig() (*DatabaseConfig, error) {
 	var config DatabaseConfig
-	if err := envconfig.Process("", &config); err != nil {
+	if err := envconfig.Process("DB", &config); err != nil {
 		return nil, err
 	}
 
