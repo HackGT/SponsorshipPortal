@@ -16,4 +16,4 @@ secrets:
   - superToken
 
 env:
-    DB_CONNECTIONSTRING: "postgres://sponsorshipportal:LfwA8vQR38Fw@postgres-postgresql/sponsorshipportal-dev?sslmode=disable"
+    PG_URL: "postgres://sponsorshipportal:LfwA8vQR38Fw@postgres-postgresql/sponsorshipportal-dev?sslmode=disable"

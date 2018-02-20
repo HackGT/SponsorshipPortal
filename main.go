@@ -31,7 +31,7 @@ func dbMigrate() {
 
 	log.Info("Migrating database...")
 
-	err = database.Migrate(conf.Database.ConnectionString)
+	err = database.Migrate(conf.Database.URL)
 	if err != nil {
 		if err == migrate.ErrNoChange {
 			log.Warn("No changes detected.")
