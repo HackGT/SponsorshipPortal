@@ -19,4 +19,4 @@ FROM alpine:latest
 WORKDIR /www
 COPY --from=build-frontend /client/static client/static
 COPY --from=build-backend /go/src/github.com/HackGT/SponsorshipPortal .
-CMD ./SponsorshipPortal
+CMD ./SponsorshipPortal --migrate && ./SponsorshipPortal
