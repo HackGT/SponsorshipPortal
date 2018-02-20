@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/HackGT/SponsorshipPortal/config"
 	"github.com/HackGT/SponsorshipPortal/database"
@@ -15,16 +15,17 @@ type App struct {
 	Server *http.Server
 	Config *config.Config
 	DB     *sqlx.DB
-	Logger *logrus.Logger
 }
 
 func New() (*App, error) {
+	app := &App{}
+
 	config, err := config.Load()
 	if err != nil {
 		return nil, err
 	}
-
-	log := logger.New(config)
+	app.Config = config
+	logger.SetGlobalLogger(config)
 
 	log.Infof("Connecting to database with config: %+v", config.Database)
 	db, err := database.New(config.Database)
@@ -32,9 +33,10 @@ func New() (*App, error) {
 		log.WithError(err).Warn("Failed to initialize database connection")
 		return nil, err
 	}
+	app.DB = db
 
 	log.Infof("Initializing server with config: %+v", config.Server)
-	r := NewRouter(log)
+	r := app.NewRouter()
 	server := &http.Server{
 		Addr: config.Server.Addr(),
 		// Good practice to set timeouts to avoid Slowloris attacks.
@@ -43,11 +45,7 @@ func New() (*App, error) {
 		IdleTimeout:  config.Server.IdleTimeout,
 		Handler:      r,
 	}
+	app.Server = server
 
-	return &App{
-		Server: server,
-		Config: config,
-		DB:     db,
-		Logger: log,
-	}, nil
+	return app, nil
 }

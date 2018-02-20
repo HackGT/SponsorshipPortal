@@ -18,3 +18,13 @@ func New(config *config.Config) *logrus.Logger {
 
 	return log
 }
+
+func SetGlobalLogger(config *config.Config) {
+	if config.Prod {
+		logrus.SetLevel(logrus.InfoLevel)
+		logrus.SetFormatter(&logrus.JSONFormatter{})
+	} else {
+		logrus.SetLevel(logrus.DebugLevel)
+		logrus.SetFormatter(&logrus.TextFormatter{})
+	}
+}

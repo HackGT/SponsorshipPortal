@@ -7,7 +7,7 @@ import (
 	"os/signal"
 
 	"github.com/mattes/migrate"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/HackGT/SponsorshipPortal/config"
 	"github.com/HackGT/SponsorshipPortal/database"
@@ -23,7 +23,7 @@ func dbMigrate() {
 		panic(err)
 	}
 
-	log := logger.New(conf).WithFields(logrus.Fields{
+	log := logger.New(conf).WithFields(log.Fields{
 		"host":   conf.Database.Host,
 		"user":   conf.Database.User,
 		"dbname": conf.Database.DbName,
@@ -52,7 +52,6 @@ func startServer() {
 	if err != nil {
 		panic(err)
 	}
-	log := app.Logger
 
 	// Start the server in a goroutine so it does not block
 	go func() {
