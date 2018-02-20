@@ -6,6 +6,9 @@ deployment:
     memory: 1024Mi
     memory_request: 500Mi
 
+health:
+    path: /_health
+
 secrets:
   - AWS_ACCESS_KEY_ID
   - AWS_SECRET_ACCESS_KEY
