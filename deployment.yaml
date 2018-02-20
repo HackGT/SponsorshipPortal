@@ -12,4 +12,5 @@ secrets:
   - signingKey
   - superToken
 
-target_port: 9000
+env:
+    DB_CONNECTIONSTRING: "postgres://sponsorshipportal:LfwA8vQR38Fw@postgres-postgresql/sponsorshipportal-dev?sslmode=disable"
