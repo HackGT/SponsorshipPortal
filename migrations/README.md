@@ -1,4 +1,4 @@
-# MIgrations
+# Migrations
 
 All migrations should be written with a `up` and `down` scripts that will
 apply and remove the schema changes respectively.
