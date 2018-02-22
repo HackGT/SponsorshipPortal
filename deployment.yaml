@@ -15,5 +15,5 @@ secrets:
   - signingKey
   - superToken
 
-env:
-    PG_URL: "postgres://sponsorshipportal:LfwA8vQR38Fw@postgres-postgresql/sponsorshipportal-dev?sslmode=disable"
+wants:
+    postgres: PG_URL
