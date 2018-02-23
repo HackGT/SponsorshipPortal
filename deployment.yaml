@@ -16,4 +16,5 @@ secrets:
   - superToken
 
 wants:
-    postgres: PG_URL
+    postgres:
+        env: PG_URL
