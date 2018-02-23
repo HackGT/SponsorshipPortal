@@ -44,6 +44,18 @@
   revision = "88edab0803230a3898347e77b474f8c1820a1f20"
 
 [[projects]]
+  name = "github.com/mattes/migrate"
+  packages = [
+    ".",
+    "database",
+    "database/postgres",
+    "source",
+    "source/file"
+  ]
+  revision = "035c07716cd373d88456ec4d701402df52584cb4"
+  version = "v3.0.1"
+
+[[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   revision = "d682213848ed68c0a260ca37d6dd5ace8423f5ba"
@@ -67,6 +79,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2e0919b35ce4915610ad998897a817c977568b02bcd4d03710b97f9de12d56f5"
+  inputs-digest = "47daa5674ac8011585370b5343199c50178072778c79ea87b868a182046b8767"
   solver-name = "gps-cdcl"
   solver-version = 1

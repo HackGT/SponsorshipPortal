@@ -55,20 +55,20 @@ func (config *ServerConfig) Addr() string {
 }
 
 type DatabaseConfig struct {
-	Host             string `default="localhost:5432"`
-	DbName           string `default="portal"`
-	User             string
-	Password         string
-	ConnectionString string
+	Host     string `default="localhost:5432"`
+	DbName   string `default="portal"`
+	User     string
+	Password string
+	URL      string
 }
 
 func LoadDatabaseConfig() (*DatabaseConfig, error) {
 	var config DatabaseConfig
-	if err := envconfig.Process("", &config); err != nil {
+	if err := envconfig.Process("PG", &config); err != nil {
 		return nil, err
 	}
 
-	if config.ConnectionString == "" {
+	if config.URL == "" {
 
 		var userinfo *nurl.Userinfo
 		if config.User != "" {
@@ -84,9 +84,9 @@ func LoadDatabaseConfig() (*DatabaseConfig, error) {
 			User:   userinfo,
 			Path:   config.DbName,
 		}
-		config.ConnectionString = dbUrl.String()
+		config.URL = dbUrl.String()
 	} else {
-		dbUrl, err := nurl.Parse(config.ConnectionString)
+		dbUrl, err := nurl.Parse(config.URL)
 		if err != nil {
 			// TODO parse the "<key>=<value>[ <key>=<value>...]" format
 		} else {
@@ -94,6 +94,9 @@ func LoadDatabaseConfig() (*DatabaseConfig, error) {
 			if dbUrl.User != nil {
 				config.User = dbUrl.User.Username()
 				config.Password, _ = dbUrl.User.Password()
+			}
+			if len(dbUrl.Path) > 1 {
+				config.DbName = dbUrl.Path[1:]
 			}
 		}
 	}
