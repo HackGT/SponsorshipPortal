@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/gorilla/handlers"
@@ -9,6 +10,12 @@ import (
 	ctrl "github.com/HackGT/SponsorshipPortal/controller"
 	"github.com/HackGT/SponsorshipPortal/logger"
 )
+
+func loggingMiddleware(out io.Writer) mux.MiddlewareFunc {
+	return func(next http.Handler) http.Handler {
+		return handlers.LoggingHandler(out, next)
+	}
+}
 
 func (app *App) NewRouter() http.Handler {
 	r := mux.NewRouter()
@@ -22,8 +29,7 @@ func (app *App) NewRouter() http.Handler {
 
 	// Attach logging and recovery middlewares
 	log := logger.New(app.Config)
-	var handler http.Handler
-	handler = handlers.LoggingHandler(log.Writer(), r)
-	handler = handlers.RecoveryHandler(handlers.RecoveryLogger(log))(handler)
-	return handler
+	r.Use(loggingMiddleware(log.Writer()))
+	r.Use(handlers.RecoveryHandler(handlers.RecoveryLogger(log)))
+	return r
 }
