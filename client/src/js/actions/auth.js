@@ -1,11 +1,14 @@
 import * as ACTION_TYPES from '../actionTypes';
 import { loaderOn, loaderOff } from './ui';
 import { loadParticipants } from './participants';
-import { HOST } from '../configs';
+import { HOST, IS_DEV_ENV } from '../configs';
 import NotificationHelper from '../service/NotificationHelper';
 import SyncHelper from '../service/SyncHelper';
 
-export function logIn(username, password) { // eslint-disable-line import/prefer-default-export
+export function logIn(username, password) {
+  if (IS_DEV_ENV) {
+    return logInDev();
+  }
   // Request Server Auth login
   return (dispatch) => {
     dispatch(loaderOn());
@@ -73,6 +76,26 @@ export function logInWithToken(token) {
         NotificationHelper.updateSyncStatus('Progress Saved');
       }
     }, 3000);
+    dispatch(loaderOff());
+  };
+}
+
+// logIn used only for frontend developement and experiments
+function logInDev() {
+  // mock token response
+  const json = { token: 'test_token' };
+
+  return (dispatch) => {
+    dispatch(loaderOn());
+    dispatch({
+      type: ACTION_TYPES.LOG_IN,
+      payload: {
+        token: json.token,
+      },
+    });
+    // Save token to localStorage
+    window.localStorage.setItem('token', json.token);
+    dispatch(loadParticipants());
     dispatch(loaderOff());
   };
 }

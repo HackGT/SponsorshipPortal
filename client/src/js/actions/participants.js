@@ -5,7 +5,7 @@
  */
 import { List, Map } from 'immutable';
 import * as ACTION_TYPES from '../actionTypes';
-import { HOST } from '../configs';
+import { HOST, IS_DEV_ENV } from '../configs';
 import { loaderOff } from './ui';
 import { logOut } from './auth';
 import store from '../index';
@@ -15,6 +15,9 @@ import NotificationHelper from '../service/NotificationHelper';
 
 // Fetch participants from REST API
 export function loadParticipants() {
+  if (IS_DEV_ENV) {
+    return loadParticipantsDev();
+  }
   return (dispatch) => {
     fetch(`${HOST}/participants`, {
       method: 'POST',
@@ -56,6 +59,41 @@ export function loadParticipants() {
     }).catch(() => {
       NotificationHelper.showModalWithMessage('Connection lost. Please reload this page.');
     });
+  };
+}
+
+function loadParticipantsDev() {
+  // mock response
+  const json = {
+    1640627800689991751: {
+      email: 'anish.visaria@gatech.edu',
+      name: 'Anish Visaria',
+      resumeId: 'dfdsfsdfds',
+    },
+    2904581336711582906: {
+      email: 'robert@gatech.edu',
+      name: 'Robert Li',
+      resumeId: 'dfdsfsdfds',
+    },
+  };
+
+  return (dispatch) => {
+    const participantsList = List(Object.entries(json).map((entry) => {
+      return Map({
+        id: entry[0],
+        name: entry[1].name,
+        email: entry[1].email,
+        resumeId: entry[1].resumeId,
+        isSelected: false, // This is stateless dummy data
+        isSearched: false,
+        isDisplaying: true,
+      });
+    }));
+    dispatch({
+      type: ACTION_TYPES.LOAD_PARTICIPANTS,
+      payload: participantsList,
+    });
+    dispatch(loaderOff());
   };
 }
 
