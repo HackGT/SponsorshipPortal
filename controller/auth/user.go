@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"strconv"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -8,9 +9,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gorilla/mux"
+	"github.com/jmoiron/sqlx"
 
 	"github.com/HackGT/SponsorshipPortal/model/user"
 )
+
+type userController struct {
+	db *sqlx.DB
+}
 
 type User struct {
 	Email    string
@@ -18,7 +24,7 @@ type User struct {
 	Org_id   int64
 }
 
-func Create(w http.ResponseWriter, r *http.Request) {
+func (u userController) Create(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var jsonUser User
 	response, _ := ioutil.ReadAll(r.Body)
@@ -30,20 +36,19 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			w.Write([]byte("Unspecified error adding user."))
 		} else {
-			execReqChan := make(chan *QueryRequest, 1)
-			execRespChan := make(chan *SQLResultErrorPair, 1)
-			db := &Connection{
-				ExecReq:  execReqChan,
-				ExecResp: execRespChan,
-			}
-			execRespChan <- &SQLResultErrorPair{}
-			user.Create(db, jsonUser.Org_id, jsonUser.Email, string(hashedPassword))
-			w.Write([]byte("Email: " + string(jsonUser.Email) + ", Password Hash: " + string(hashedPassword) + ", Org_Id: " + string(jsonUser.Org_id) + ". User added to database."))
+			user.Create(u.db, jsonUser.Org_id, jsonUser.Email, string(hashedPassword))
+			w.Write([]byte("Email: " + string(jsonUser.Email) + ", Password Hash: " + string(hashedPassword) + ", Org_Id: " + strconv.FormatInt(jsonUser.Org_id, 10) + ". User added to database."))
 		}
 	}
 
 }
 
-func Load(r *mux.Router) {
-	r.Methods("PUT").HandlerFunc(Create)
+func Login(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Placeholder"))
+}
+
+func Load(r *mux.Router, db *sqlx.DB) {
+	u := &userController{db}
+	r.HandleFunc("", u.Create).Methods("PUT")
+	r.HandleFunc("/login", Login).Methods("POST")
 }
