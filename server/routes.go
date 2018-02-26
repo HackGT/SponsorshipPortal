@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 
 	ctrl "github.com/HackGT/SponsorshipPortal/controller"
-	"github.com/HackGT/SponsorshipPortal/middleware/auth"
 	"github.com/HackGT/SponsorshipPortal/logger"
 )
 

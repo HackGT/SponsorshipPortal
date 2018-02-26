@@ -10,7 +10,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
+	log "github.com/sirupsen/logrus"
 
+	"github.com/HackGT/SponsorshipPortal/middleware/auth"
 	"github.com/HackGT/SponsorshipPortal/model/user"
 )
 
@@ -30,25 +32,29 @@ func (u userController) Create(w http.ResponseWriter, r *http.Request) {
 	response, _ := ioutil.ReadAll(r.Body)
 	err := json.Unmarshal(response, &jsonUser)
 	if err != nil {
-		w.Write([]byte(string(response) + "\nMalformed JSON Request"))
+		log.WithError(err).Warn("Error while unmarshalling json request.")
+		http.Error(w, "Malformed JSON Request", http.StatusBadRequest)
 	} else {
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(jsonUser.Password), bcrypt.DefaultCost)
 		if err != nil {
-			w.Write([]byte("Unspecified error adding user."))
+			log.WithError(err).Warn("Error while generating password hash.")
+			http.Error(w, "Unspecified error while adding user.", http.StatusInternalServerError)
 		} else {
 			user.Create(u.db, jsonUser.Org_id, jsonUser.Email, string(hashedPassword))
-			w.Write([]byte("Email: " + string(jsonUser.Email) + ", Password Hash: " + string(hashedPassword) + ", Org_Id: " + strconv.FormatInt(jsonUser.Org_id, 10) + ". User added to database."))
+			log.Debug("Email: " + string(jsonUser.Email) + ", Password Hash: " + string(hashedPassword) + ", Org_Id: " + strconv.FormatInt(jsonUser.Org_id, 10) + ". User added to database.")
+			//Currently unimplemented, send JWT back
 		}
 	}
 
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Placeholder"))
+func (u userController) Login(w http.ResponseWriter, r *http.Request) {
+	//Placeholder
 }
 
 func Load(r *mux.Router, db *sqlx.DB) {
 	u := &userController{db}
 	r.HandleFunc("", u.Create).Methods("PUT")
-	r.HandleFunc("/login", Login).Methods("POST")
+	r.HandleFunc("/login", u.Login).Methods("POST")
+	r.Use(auth.RequireNoAuthentication())
 }

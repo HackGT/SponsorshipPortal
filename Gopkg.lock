@@ -2,6 +2,17 @@
 
 
 [[projects]]
+  name = "github.com/SermoDigital/jose"
+  packages = [
+    ".",
+    "crypto",
+    "jws",
+    "jwt"
+  ]
+  revision = "f6df55f235c24f236d11dbcf665249a59ac2021f"
+  version = "1.1"
+
+[[projects]]
   name = "github.com/gorilla/context"
   packages = ["."]
   revision = "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
@@ -64,7 +75,11 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
-  packages = ["ssh/terminal"]
+  packages = [
+    "bcrypt",
+    "blowfish",
+    "ssh/terminal"
+  ]
   revision = "650f4a345ab4e5b245a3034b110ebc7299e68186"
 
 [[projects]]
@@ -79,6 +94,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "47daa5674ac8011585370b5343199c50178072778c79ea87b868a182046b8767"
+  inputs-digest = "ad00c34bddf322244fb247f144af4ab27e783c174b443760b8f6b91bf3050c42"
   solver-name = "gps-cdcl"
   solver-version = 1
