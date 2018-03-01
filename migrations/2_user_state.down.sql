@@ -1,0 +1,1 @@
+ALTER TABLE sponsors DROP COLUMN state;

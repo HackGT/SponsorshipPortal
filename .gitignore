@@ -21,3 +21,4 @@ client/build
 
 # misc
 .DS_STORE
+gin-bin
