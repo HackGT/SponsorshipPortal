@@ -2,6 +2,7 @@ package auth
 
 import (
 	"time"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -12,13 +13,8 @@ import (
 )
 
 //Leeways for token expiration and token not-before times. Default to 5 minutes
-const expLeeway time.Duration = 5 * time.Minute
-const nbfLeeway time.Duration = 5 * time.Minute
-
-//Here are the ECDSA public-private key pair
-//When in production, generate an actual key pair using OpenSSL
-var ecdsaPrivateKey = []byte("placeholder")
-var ecdsaPublicKey = []byte("placeholder")
+const expLeeway time.Duration = 3 * time.Minute
+const nbfLeeway time.Duration = 3 * time.Minute
 
 type reqAuthHandler struct {
 	handler http.Handler
@@ -44,7 +40,19 @@ func (a reqAuthHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	validator := jws.NewValidator(nil, expLeeway, nbfLeeway, nil)
-	err = token.Validate(ecdsaPublicKey, crypto.SigningMethodES512, validator)
+	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
+	if err != nil {
+		log.WithError(err).Error("Error reading file publicKey.pub. Are you sure you generated your EC public-private key pair?")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+	if err != nil {
+		log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	err = token.Validate(publicKey, crypto.SigningMethodES512, validator)
 	if err != nil {
 		//Invalid JWT
 		log.WithError(err).Warn("Unauthorized access attempt - invalid token.")
@@ -63,7 +71,19 @@ func (na reqNoAuthHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
         }
         validator := jws.NewValidator(nil, expLeeway, nbfLeeway, nil)
-        err = token.Validate(ecdsaPublicKey, crypto.SigningMethodES512, validator)
+	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
+        if err != nil {
+                log.WithError(err).Error("Error reading EC key-pair file. Are you sure you generated your EC public-private key pair?")
+                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+                return
+        }
+        publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+        if err != nil {
+                log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
+                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+                return
+        }
+        err = token.Validate(publicKey, crypto.SigningMethodES512, validator)
         if err != nil {
                 //Invalid JWT
                 na.handler.ServeHTTP(w, req)
