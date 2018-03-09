@@ -156,7 +156,7 @@ func CreateJWT(email string, host string) ([]byte, error) {
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
 	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
 	if err != nil {
-		log.WithError(err).Error("Error reading EC key-pair file. Are you sure you have generated your EC public-private key pair?")
+		log.WithError(err).Error("Error reading EC private key. Are you sure you have generated your EC public-private key pair?")
 		return nil, err
 	}
 	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)

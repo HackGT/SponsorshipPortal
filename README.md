@@ -116,6 +116,17 @@ export PG_URL="host=localhost port=5432 user=portal password=secret sslmode=disa
 
 More information and examples on [Postgres docs](https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING)
 
+## Generate ECDSA Key Pair
+
+The backend is currently configured to use secp521r1. First, download and install OpenSSL if you do not already have it (most flavors of Linux come with OpenSSL):
+`sudo apt install openssl`
+
+Navigate to your working directory for the SponsorshipPortal and generate your secp521r1 key pair:
+```openssl -name secp521r1 -out secp521r1.pem
+openssl ecparam -in secp521r1.pem -genkey -noout -out ecprivatekey.pem
+openssl ec -in ecprivatekey.pem -pubout -out ecpublickey.pem
+```
+
 ## Start the app!
 
 Run the database migrations (see `migrations/README.md` for more info)

@@ -42,7 +42,7 @@ func (a reqAuthHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	validator := jws.NewValidator(nil, expLeeway, nbfLeeway, nil)
 	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
 	if err != nil {
-		log.WithError(err).Error("Error reading file publicKey.pub. Are you sure you generated your EC public-private key pair?")
+		log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -73,7 +73,7 @@ func (na reqNoAuthHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
         validator := jws.NewValidator(nil, expLeeway, nbfLeeway, nil)
 	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
         if err != nil {
-                log.WithError(err).Error("Error reading EC key-pair file. Are you sure you generated your EC public-private key pair?")
+                log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
                 http.Error(w, "Internal Server Error", http.StatusInternalServerError)
                 return
         }
