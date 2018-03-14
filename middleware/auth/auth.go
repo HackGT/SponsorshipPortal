@@ -12,7 +12,7 @@ import (
 	"github.com/SermoDigital/jose/crypto"
 )
 
-//Leeways for token expiration and token not-before times. Default to 5 minutes
+//Leeways for token expiration and token not-before times. Default to 3 minutes
 const expLeeway time.Duration = 3 * time.Minute
 const nbfLeeway time.Duration = 3 * time.Minute
 
@@ -60,6 +60,8 @@ func (a reqAuthHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	//Authorized
+	eid := token.Claims().Get("eid").(string)
+	req.Header.Add("eid", eid)
 	a.handler.ServeHTTP(w, req)
 }
 

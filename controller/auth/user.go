@@ -36,7 +36,7 @@ type AuthUser struct {
 	Password string
 }
 
-type authResponse struct {
+type AuthResponse struct {
 	Token string
 }
 
@@ -70,7 +70,7 @@ func (u userController) Create(w http.ResponseWriter, r *http.Request) {
                 http.Error(w, "Internal Server Error", http.StatusInternalServerError)
                 return 
         }
-        ar := authResponse{Token: string(serializedJWT)}
+        ar := AuthResponse{Token: string(serializedJWT)}
         token, err := json.Marshal(ar)
         if err != nil {
                 log.WithError(err).Warn("Error marshalling json web token.")
@@ -113,7 +113,7 @@ func (u userController) Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	ar := authResponse{Token: string(serializedJWT)}
+	ar := AuthResponse{Token: string(serializedJWT)}
 	token, err := json.Marshal(ar)
 	if err != nil {
 		log.WithError(err).Warn("Error marshalling json web token.")
@@ -121,6 +121,24 @@ func (u userController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(token)
+}
+
+func ReToken(w http.ResponseWriter, req *http.Request) {
+	email := req.Header.Get("eid")
+        serializedJWT, err := CreateJWT(email, req.Host)
+        if err != nil { 
+                log.WithError(err).Warn("Failed to create JWT.") 
+                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+                return 
+        }
+        ar := AuthResponse{Token: string(serializedJWT)}
+        returnToken, err := json.Marshal(ar)
+        if err != nil {
+                log.WithError(err).Warn("Error marshalling json web token.")
+                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+                return
+        }
+        w.Write(returnToken)
 }
 
 //Here are the claims that will be used for the JWT
@@ -143,6 +161,7 @@ func CreateJWT(email string, host string) ([]byte, error) {
 	claims.SetJWTID(string(encodedJwtid))
 	claims.SetNotBefore(t)
 	claims.SetSubject(subject)
+	claims.Set("eid", email)
 
 	log.Debug("JWT Claims:")
 	log.Debug("Audience: " + host)
@@ -175,7 +194,13 @@ func CreateJWT(email string, host string) ([]byte, error) {
 
 func Load(r *mux.Router, db *sqlx.DB) {
 	u := &userController{db}
-	r.HandleFunc("", u.Create).Methods("PUT")
-	r.HandleFunc("/login", u.Login).Methods("POST")
-	r.Use(auth.RequireNoAuthentication())
+	createUserSubR := r.PathPrefix("").Subrouter()
+	createUserSubR.Methods("PUT").HandlerFunc(u.Create)
+	createUserSubR.Use(auth.RequireNoAuthentication())
+	loginSubR := r.PathPrefix("/login").Subrouter()
+	loginSubR.Methods("POST").HandlerFunc(u.Login)
+	loginSubR.Use(auth.RequireNoAuthentication())
+	renewSubR := r.PathPrefix("/renew").Subrouter()
+	renewSubR.Methods("GET").HandlerFunc(ReToken)
+	renewSubR.Use(auth.RequireAuthentication())
 }
