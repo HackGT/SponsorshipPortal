@@ -36,7 +36,7 @@ type AuthUser struct {
 	Password string
 }
 
-type AuthResponse struct {
+type authResponse struct {
 	Token string
 }
 
@@ -70,7 +70,7 @@ func (u userController) Create(w http.ResponseWriter, r *http.Request) {
                 http.Error(w, "Internal Server Error", http.StatusInternalServerError)
                 return 
         }
-        ar := AuthResponse{Token: string(serializedJWT)}
+        ar := authResponse{Token: string(serializedJWT)}
         token, err := json.Marshal(ar)
         if err != nil {
                 log.WithError(err).Warn("Error marshalling json web token.")
@@ -113,7 +113,7 @@ func (u userController) Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	ar := AuthResponse{Token: string(serializedJWT)}
+	ar := authResponse{Token: string(serializedJWT)}
 	token, err := json.Marshal(ar)
 	if err != nil {
 		log.WithError(err).Warn("Error marshalling json web token.")
@@ -131,7 +131,7 @@ func ReToken(w http.ResponseWriter, req *http.Request) {
                 http.Error(w, "Internal Server Error", http.StatusInternalServerError)
                 return 
         }
-        ar := AuthResponse{Token: string(serializedJWT)}
+        ar := authResponse{Token: string(serializedJWT)}
         returnToken, err := json.Marshal(ar)
         if err != nil {
                 log.WithError(err).Warn("Error marshalling json web token.")
