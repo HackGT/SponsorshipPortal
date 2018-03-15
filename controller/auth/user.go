@@ -1,18 +1,18 @@
 package auth
 
 import (
-	"time"
-	"strconv"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"crypto/sha256"
-	"encoding/base64"
+	"strconv"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/SermoDigital/jose/jws"
 	"github.com/SermoDigital/jose/crypto"
+	"github.com/SermoDigital/jose/jws"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 	log "github.com/sirupsen/logrus"
@@ -32,7 +32,7 @@ type User struct {
 }
 
 type AuthUser struct {
-	Email string
+	Email    string
 	Password string
 }
 
@@ -52,7 +52,7 @@ func (u userController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(jsonUser.Password), bcrypt.DefaultCost)
 	if err != nil {
- 		log.WithError(err).Warn("Error while generating password hash.")
+		log.WithError(err).Warn("Error while generating password hash.")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -65,19 +65,19 @@ func (u userController) Create(w http.ResponseWriter, r *http.Request) {
 	log.Debug("Email: " + string(jsonUser.Email) + ", Password Hash: " + string(jsonUser.Password) + ", OrgID: " + strconv.FormatInt(jsonUser.Org_id, 10) + ". User added to database.")
 	//send JWT back
 	serializedJWT, err := CreateJWT(jsonUser.Email, r.Host)
-        if err != nil { 
-                log.WithError(err).Warn("Failed to create JWT.") 
-                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-                return 
-        }
-        ar := authResponse{Token: string(serializedJWT)}
-        token, err := json.Marshal(ar)
-        if err != nil {
-                log.WithError(err).Warn("Error marshalling json web token.")
-                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-                return
-        }
-        w.Write(token)
+	if err != nil {
+		log.WithError(err).Warn("Failed to create JWT.")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	ar := authResponse{Token: string(serializedJWT)}
+	token, err := json.Marshal(ar)
+	if err != nil {
+		log.WithError(err).Warn("Error marshalling json web token.")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.Write(token)
 }
 
 func (u userController) Login(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +87,7 @@ func (u userController) Login(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal(response, &jsonUser)
 	if err != nil {
 		log.WithError(err).Warn("Error while unmarshalling json request")
-                http.Error(w, "Malformed JSON Request", http.StatusBadRequest)
+		http.Error(w, "Malformed JSON Request", http.StatusBadRequest)
 		return
 	}
 	validUser, exists, err := user.ByEmail(u.db, jsonUser.Email)
@@ -125,28 +125,28 @@ func (u userController) Login(w http.ResponseWriter, r *http.Request) {
 
 func ReToken(w http.ResponseWriter, req *http.Request) {
 	email := req.Header.Get("eid")
-        serializedJWT, err := CreateJWT(email, req.Host)
-        if err != nil { 
-                log.WithError(err).Warn("Failed to create JWT.") 
-                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-                return 
-        }
-        ar := authResponse{Token: string(serializedJWT)}
-        returnToken, err := json.Marshal(ar)
-        if err != nil {
-                log.WithError(err).Warn("Error marshalling json web token.")
-                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-                return
-        }
-        w.Write(returnToken)
+	serializedJWT, err := CreateJWT(email, req.Host)
+	if err != nil {
+		log.WithError(err).Warn("Failed to create JWT.")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	ar := authResponse{Token: string(serializedJWT)}
+	returnToken, err := json.Marshal(ar)
+	if err != nil {
+		log.WithError(err).Warn("Error marshalling json web token.")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.Write(returnToken)
 }
 
 //Here are the claims that will be used for the JWT
 const expires time.Duration = 15 * time.Minute
 const subject string = "auth"
+
 //JWTID is sha256 hash of the user's email concatenated with a salt
 var count int = 0 //Integer counter that ensures the jwtid is unique
-
 
 func CreateJWT(email string, host string) ([]byte, error) {
 	t := time.Now()
@@ -165,12 +165,12 @@ func CreateJWT(email string, host string) ([]byte, error) {
 
 	log.Debug("JWT Claims:")
 	log.Debug("Audience: " + host)
-        log.Debug("Expiration Time: " + t.Add(expires).String())
-        log.Debug("Issued At: " + t.String())
-        log.Debug("Issuer: " + host + "/user/login")
-        log.Debug("Base64 JWTID: " + string(encodedJwtid))
-        log.Debug("NotBefore: " + t.String())
-        log.Debug("Subject: " + subject)
+	log.Debug("Expiration Time: " + t.Add(expires).String())
+	log.Debug("Issued At: " + t.String())
+	log.Debug("Issuer: " + host + "/user/login")
+	log.Debug("Base64 JWTID: " + string(encodedJwtid))
+	log.Debug("NotBefore: " + t.String())
+	log.Debug("Subject: " + subject)
 
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
 	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")

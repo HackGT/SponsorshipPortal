@@ -5,9 +5,9 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	"github.com/HackGT/SponsorshipPortal/config"
+	"github.com/HackGT/SponsorshipPortal/controller/auth"
 	"github.com/HackGT/SponsorshipPortal/controller/health"
 	"github.com/HackGT/SponsorshipPortal/controller/sample"
-	"github.com/HackGT/SponsorshipPortal/controller/auth"
 )
 
 type Controller struct {
