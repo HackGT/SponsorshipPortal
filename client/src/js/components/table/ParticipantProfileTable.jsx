@@ -15,7 +15,8 @@ class ParticipantProfileTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentlyViewingPDF: null,
+      currentlyViewingResumeType: null,
+      currentlyViewingResumeURL: null,
       currentlyViewingParticipant: null,
     };
   }
@@ -222,8 +223,9 @@ class ParticipantProfileTable extends React.Component {
                             // PDFHelper.showResumeInModal(row.value.get('resumeId'));
                             PDFHelper.findResumeURL(row.value.get('resumeId'), (url) => {
                               this.setState({
+                                currentlyViewingResumeType: 'pdf',
                                 currentlyViewingParticipant: row.value,
-                                currentlyViewingPDF: url,
+                                currentlyViewingResumeURL: url,
                               });
                             });
                           }}
@@ -297,12 +299,19 @@ class ParticipantProfileTable extends React.Component {
     const rightColumn = (
       <div style={{ overflowY: 'scroll', height: '95vh' }}>
         {
-          this.state.currentlyViewingPDF ? (
+          this.state.currentlyViewingResumeURL && this.state.currentlyViewingResumeType === 'pdf' ? (
             <Document
-              file={this.state.currentlyViewingPDF}
+              file={this.state.currentlyViewingResumeURL}
             >
               <Page pageNumber={1} scale={1.5} />
             </Document>
+          ) : (
+            <div />
+          )
+        }
+        {
+          this.state.currentlyViewingResumeURL && this.state.currentlyViewingResumeType === 'doc' ? (
+            <iframe title="word-viewer" src={`"http://docs.google.com/gview?url=${this.state.currentlyViewingResumeURL}&embedded=true"`} />
           ) : (
             <div />
           )
