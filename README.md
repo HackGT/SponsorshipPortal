@@ -124,7 +124,7 @@ The backend is currently configured to use secp521r1. First, download and instal
 
 Navigate to your working directory for the SponsorshipPortal and generate your secp521r1 key pair:
 ```
-openssl -name secp521r1 -out secp521r1.pem
+openssl ecparam -name secp521r1 -out secp521r1.pem
 openssl ecparam -in secp521r1.pem -genkey -noout -out ecprivatekey.pem
 openssl ec -in ecprivatekey.pem -pubout -out ecpublickey.pem
 ```

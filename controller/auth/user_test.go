@@ -93,7 +93,7 @@ func generateECKeyPair() {
 	}
 	cmd = exec.Command("openssl", "ecparam", "-in", "./secp521r1.pem", "-genkey", "-noout", "-out", "./ecprivatekey.pem")
 	cmd.Stdout = &out
-        cmd.Stderr = &stderr
+	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
 		log.WithError(errors.New(stderr.String())).Warn(out.String())
@@ -101,7 +101,7 @@ func generateECKeyPair() {
 	}
 	cmd = exec.Command("openssl", "ec", "-in", "./ecprivatekey.pem", "-pubout", "-out", "./ecpublickey.pem")
 	cmd.Stdout = &out
-        cmd.Stderr = &stderr
+	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
 		log.WithError(errors.New(stderr.String())).Warn(out.String())

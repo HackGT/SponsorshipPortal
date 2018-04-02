@@ -11,7 +11,6 @@ import (
 	"testing"
 	"time"
 
-	//"github.com/gorilla/mux"
 	"github.com/SermoDigital/jose/crypto"
 	"github.com/SermoDigital/jose/jws"
 	"github.com/SermoDigital/jose/jwt"
@@ -39,7 +38,7 @@ func generateECKeyPair() {
 	}
 	cmd = exec.Command("openssl", "ecparam", "-in", "./secp521r1.pem", "-genkey", "-noout", "-out", "./ecprivatekey.pem")
 	cmd.Stdout = &out
-        cmd.Stderr = &stderr
+	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
 		log.WithError(errors.New(stderr.String())).Warn(out.String())
@@ -47,7 +46,7 @@ func generateECKeyPair() {
 	}
 	cmd = exec.Command("openssl", "ec", "-in", "./ecprivatekey.pem", "-pubout", "-out", "./ecpublickey.pem")
 	cmd.Stdout = &out
-        cmd.Stderr = &stderr
+	cmd.Stderr = &stderr
 	err = cmd.Run()
 	if err != nil {
 		log.WithError(errors.New(stderr.String())).Warn(out.String())
@@ -156,7 +155,7 @@ func TestRequireAuthenticationExpired(t *testing.T) {
 	host := "localhost:3000"
 	expires := 15 * time.Minute
 
-	//fail case - expired
+	//fail case - expired jwt
 	timeNow := time.Now()
 	claims := jws.Claims{}
 	claims.SetAudience(host)
@@ -215,7 +214,7 @@ func TestRequireAuthenticationInvalid(t *testing.T) {
 	host := "localhost:3000"
 	expires := 15 * time.Minute
 
-	//fail case - invalid
+	//fail case - invalid jwt
 	timeNow := time.Now()
 	claims := jws.Claims{}
 	claims.SetAudience(host)
@@ -275,7 +274,7 @@ func TestRequireNoAuthenticationSuccessNoJWT(t *testing.T) {
 
 	host := "localhost:3000"
 
-	//success case
+	//success case - no jwt
 	testRequest := httptest.NewRequest("GET", host, bytes.NewReader([]byte("test-success-no-jwt")))
 	w := httptest.NewRecorder()
 	//generate new keys for validation, invalidate old keys
@@ -304,7 +303,7 @@ func TestNoRequireAuthenticationSuccessExpired(t *testing.T) {
 	host := "localhost:3000"
 	expires := 15 * time.Minute
 
-	//fail case - invalid
+	//success case - expired
 	timeNow := time.Now()
 	claims := jws.Claims{}
 	claims.SetAudience(host)
