@@ -11,7 +11,6 @@ import (
 	"os"
 	"os/exec"
 	"testing"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -469,36 +468,8 @@ func TestReTokenSuccess(t *testing.T) {
 	generateECKeyPair()
 
 	host := "localhost:3000"
-	expires := 15 * time.Minute
 
-	//success case
-	timeNow := time.Now()
-	claims := jws.Claims{}
-	claims.SetAudience(host)
-	claims.SetExpiration(timeNow.Add(expires))
-	claims.SetIssuedAt(timeNow)
-	claims.SetIssuer(host)
-	claims.SetNotBefore(timeNow)
-	claims.SetSubject("test")
-	claims.Set("eid", "testretoken@hack.gt")
-	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse read private key.")
-		t.Fail()
-	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse private key.")
-		t.Fail()
-	}
-	token, err := jwt.Serialize(privateKey)
-	if err != nil {
-		log.WithError(err).Warn("Unable to serialize JWT.")
-		t.Fail()
-	}
 	testRequest := httptest.NewRequest("GET", host, bytes.NewReader([]byte("test")))
-	testRequest.Header.Set("Authorization", "Bearer " + string(token))
 	w := httptest.NewRecorder()
 	u.ReToken(w, testRequest)
 	//test http response code
