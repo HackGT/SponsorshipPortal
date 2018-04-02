@@ -67,8 +67,17 @@
   version = "v3.0.1"
 
 [[projects]]
-  name = "github.com/sirupsen/logrus"
+  name = "github.com/mattn/go-sqlite3"
   packages = ["."]
+  revision = "6c771bb9887719704b210e87e934f08be014bdb1"
+  version = "v1.6.0"
+
+[[projects]]
+  name = "github.com/sirupsen/logrus"
+  packages = [
+    ".",
+    "hooks/test"
+  ]
   revision = "d682213848ed68c0a260ca37d6dd5ace8423f5ba"
   version = "v1.0.4"
 
@@ -94,6 +103,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ad00c34bddf322244fb247f144af4ab27e783c174b443760b8f6b91bf3050c42"
+  inputs-digest = "3b405eda6b75836db9eb7e96466d0eac506351b69edcaee7285f2dc98f7fcc03"
   solver-name = "gps-cdcl"
   solver-version = 1
