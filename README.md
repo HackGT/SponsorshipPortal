@@ -129,6 +129,8 @@ openssl ecparam -in secp521r1.pem -genkey -noout -out ecprivatekey.pem
 openssl ec -in ecprivatekey.pem -pubout -out ecpublickey.pem
 ```
 
+Once you have your key pair, set the `EC_PRIVATE_KEY` and `EC_PUBLIC_KEY` environment variables to the contents of ecprivatekey.pem and ecpublickey.pem respectively.
+
 ## Start the app!
 
 Run the database migrations (see `migrations/README.md` for more info)

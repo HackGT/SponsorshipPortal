@@ -4,8 +4,10 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -167,11 +169,11 @@ func CreateJWT(email string, host string, issuer string) ([]byte, error) {
 	claims.Set("eid", email)
 
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		return nil, err
+	rawPrivateKey := os.Getenv("EC_PRIVATE_KEY")
+	if rawPrivateKey == "" {
+		return nil, errors.New("EC_PRIVATE_KEY is nil")
 	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
+	privateKey, err := crypto.ParseECPrivateKeyFromPEM([]byte(rawPrivateKey))
 	if err != nil {
 		return nil, err
 	}

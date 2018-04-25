@@ -107,6 +107,10 @@ func generateECKeyPair() {
 		log.WithError(errors.New(stderr.String())).Warn(out.String())
 		log.WithError(err).Error("Unable to generate public key.")
 	}
+	ecPrivateKeyRaw, _ := ioutil.ReadFile("./ecprivatekey.pem")
+	ecPublicKeyRaw, _ := ioutil.ReadFile("./ecpublickey.pem")
+	os.Setenv("EC_PRIVATE_KEY", string(ecPrivateKeyRaw))
+	os.Setenv("EC_PUBLIC_KEY", string(ecPublicKeyRaw))
 }
 
 func cleanPEMFiles() {
@@ -139,12 +143,12 @@ func validateResponseJWT(t *testing.T, w *httptest.ResponseRecorder, host string
 		t.Fail()
 	}
 	validator := jws.NewValidator(nil, 1, 1, nil)
-	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
-	if err != nil {
-		log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
+	rawPublicKey := os.Getenv("EC_PUBLIC_KEY")
+	if rawPublicKey == "" {
+		log.Error("Error: EC Public Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+	publicKey, err := crypto.ParseECPublicKeyFromPEM([]byte(rawPublicKey))
 	if err != nil {
 		log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
 		t.Fail()
@@ -171,12 +175,12 @@ func validateJWT(t *testing.T, jwt []byte, host string) {
 		t.Fail()
 	}
 	validator := jws.NewValidator(nil, 1, 1, nil)
-	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
-	if err != nil {
-		log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
+	rawPublicKey := os.Getenv("EC_PUBLIC_KEY")
+	if rawPublicKey == "" {
+		log.Error("Error: EC Public Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+	publicKey, err := crypto.ParseECPublicKeyFromPEM([]byte(rawPublicKey))
 	if err != nil {
 		log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
 		t.Fail()

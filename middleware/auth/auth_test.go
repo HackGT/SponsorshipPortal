@@ -52,12 +52,18 @@ func generateECKeyPair() {
 		log.WithError(errors.New(stderr.String())).Warn(out.String())
 		log.WithError(err).Error("Unable to generate public key.")
 	}
+	ecPrivateKeyRaw, _ := ioutil.ReadFile("./ecprivatekey.pem")
+	ecPublicKeyRaw, _ := ioutil.ReadFile("./ecpublickey.pem")
+	os.Setenv("EC_PRIVATE_KEY", string(ecPrivateKeyRaw))
+	os.Setenv("EC_PUBLIC_KEY", string(ecPublicKeyRaw))
 }
 
 func cleanPEMFiles() {
 	os.Remove("./secp521r1.pem")
 	os.Remove("./ecprivatekey.pem")
 	os.Remove("./ecpublickey.pem")
+	os.Unsetenv("EC_PRIVATE_KEY");
+	os.Unsetenv("EC_PUBLIC_KEY");
 }
 
 func TestRequireAuthenticationSuccess(t *testing.T) {
@@ -80,19 +86,19 @@ func TestRequireAuthenticationSuccess(t *testing.T) {
 	claims.SetSubject("test-success")
 	claims.Set("eid", "testrequireauthsuccess@hack.gt")
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse read private key.")
+	rawPrivateKey := os.Getenv("EC_PRIVATE_KEY")
+	if rawPrivateKey == "" {
+		log.Error("Error: EC Private Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
+	privateKey, err := crypto.ParseECPrivateKeyFromPEM([]byte(rawPrivateKey))
 	if err != nil {
-		log.WithError(err).Warn("Unable to parse private key.")
+		log.WithError(err).Error("Unable to parse private key.")
 		t.Fail()
 	}
 	token, err := jwt.Serialize(privateKey)
 	if err != nil {
-		log.WithError(err).Warn("Unable to serialize JWT.")
+		log.WithError(err).Error("Unable to serialize JWT.")
 		t.Fail()
 	}
 	testRequest := httptest.NewRequest("GET", host, bytes.NewReader([]byte("test-success")))
@@ -166,12 +172,12 @@ func TestRequireAuthenticationExpired(t *testing.T) {
 	claims.SetSubject("test-fail-expired")
 	claims.Set("eid", "testrequireauthexpired@hack.gt")
 	jwtObj := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse read private key.")
+	rawPrivateKey := os.Getenv("EC_PRIVATE_KEY")
+	if rawPrivateKey == "" {
+		log.Error("Error: EC Private Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
+	privateKey, err := crypto.ParseECPrivateKeyFromPEM([]byte(rawPrivateKey))
 	if err != nil {
 		log.WithError(err).Warn("Unable to parse private key.")
 		t.Fail()
@@ -225,12 +231,12 @@ func TestRequireAuthenticationInvalid(t *testing.T) {
 	claims.SetSubject("test-fail-invalid")
 	claims.Set("eid", "testrequireauthinvalid@hack.gt")
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse read private key.")
+	rawPrivateKey := os.Getenv("EC_PRIVATE_KEY")
+	if rawPrivateKey == "" {
+		log.Error("Error: EC Private Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
+	privateKey, err := crypto.ParseECPrivateKeyFromPEM([]byte(rawPrivateKey))
 	if err != nil {
 		log.WithError(err).Warn("Unable to parse private key.")
 		t.Fail()
@@ -314,12 +320,12 @@ func TestNoRequireAuthenticationSuccessExpired(t *testing.T) {
 	claims.SetSubject("test-success-expired")
 	claims.Set("eid", "testrequirenoauthexpired@hack.gt")
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse read private key.")
+	rawPrivateKey := os.Getenv("EC_PRIVATE_KEY")
+	if rawPrivateKey == "" {
+		log.Error("Error: EC Private Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
+	privateKey, err := crypto.ParseECPrivateKeyFromPEM([]byte(rawPrivateKey))
 	if err != nil {
 		log.WithError(err).Warn("Unable to parse private key.")
 		t.Fail()
@@ -367,12 +373,12 @@ func TestNoRequireAuthenticationSuccessInvalid(t *testing.T) {
 	claims.SetSubject("test-success-invalid")
 	claims.Set("eid", "testrequirenoauthinvalid@hack.gt")
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse read private key.")
+	rawPrivateKey := os.Getenv("EC_PRIVATE_KEY")
+	if rawPrivateKey == "" {
+		log.Error("Error: EC Private Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
+	privateKey, err := crypto.ParseECPrivateKeyFromPEM([]byte(rawPrivateKey))
 	if err != nil {
 		log.WithError(err).Warn("Unable to parse private key.")
 		t.Fail()
@@ -422,12 +428,12 @@ func TestNoRequireAuthenticationFail(t *testing.T) {
 	claims.SetSubject("test-fail-valid-jwt")
 	claims.Set("eid", "testrequirenoauthfail@hack.gt")
 	jwt := jws.NewJWT(claims, crypto.SigningMethodES512)
-	rawPrivateKey, err := ioutil.ReadFile("./ecprivatekey.pem")
-	if err != nil {
-		log.WithError(err).Warn("Unable to parse read private key.")
+	rawPrivateKey := os.Getenv("EC_PRIVATE_KEY")
+	if rawPrivateKey == "" {
+		log.Error("Error: EC Private Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	privateKey, err := crypto.ParseECPrivateKeyFromPEM(rawPrivateKey)
+	privateKey, err := crypto.ParseECPrivateKeyFromPEM([]byte(rawPrivateKey))
 	if err != nil {
 		log.WithError(err).Warn("Unable to parse private key.")
 		t.Fail()
