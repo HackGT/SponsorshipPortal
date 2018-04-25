@@ -2,10 +2,6 @@ git:
     remote: https://github.com/HackGT/SponsorshipPortal.git
     branch: master
 
-deployment:
-    memory: 1024Mi
-    memory_request: 500Mi
-
 health:
     path: /_health
 
