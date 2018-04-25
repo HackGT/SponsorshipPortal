@@ -14,15 +14,9 @@ secrets:
   - AWS_SECRET_ACCESS_KEY
   - signingKey
   - superToken
+  - EC_PUBLIC_KEY
+  - EC_PRIVATE_KEY
 
 wants:
     postgres:
         env: PG_URL
-files:
-    /go/src/github.com/HackGT/SponsorshipPortal:
-        secret: true
-        contents:
-            ecprivatekey.pem:
-                env: PRIVATE_KEY
-            ecpublickey.pem:
-                env: PUBLIC_KEY
