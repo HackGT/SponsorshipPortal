@@ -18,3 +18,11 @@ secrets:
 wants:
     postgres:
         env: PG_URL
+files:
+    /go/src/github.com/HackGT/SponsorshipPortal:
+        secret: true
+        contents:
+            ecprivatekey.pem:
+                env: PRIVATE_KEY
+            ecpublickey.pem:
+                env: PUBLIC_KEY
