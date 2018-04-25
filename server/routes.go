@@ -20,15 +20,17 @@ func loggingMiddleware(out io.Writer) mux.MiddlewareFunc {
 func (app *App) NewRouter() http.Handler {
 	r := mux.NewRouter()
 
+	// Create logger
+	log := logger.New(app.Config)
+
 	// Load controllers
-	controller := ctrl.New(app.DB, app.Config)
+	controller := ctrl.New(app.DB, app.Config, log)
 	controller.Load(r)
 
 	// Add handler for static files
 	r.Methods("GET").Handler(http.FileServer(http.Dir("./client/static/")))
 
 	// Attach logging and recovery middlewares
-	log := logger.New(app.Config)
 	r.Use(loggingMiddleware(log.Writer()))
 	r.Use(handlers.RecoveryHandler(handlers.RecoveryLogger(log)))
 	return r

@@ -52,10 +52,9 @@ n 8.9.4
 # Install yarn with homebrew
 brew install yarn --without-node
 
-# Install Postgres with homebrew
-brew install postgres
-# Start Postgres
-brew services start postgresql
+# Install Postgres.app with homebrew cask (open the App)
+brew cask install postgres
+# Find and open the Postgres app in your Applications folder
 ```
 
 [`n`](https://github.com/tj/n) is a version manager for Node.js and makes it very easy to switch versions painlessly.
@@ -65,7 +64,7 @@ You can confirm with `node --version`.
 
 **Note**: `go env` is very helpful in debugging go environment variables.
 
-## Installing and Setup
+## Install
 
 Get the source code:
 ```bash
@@ -92,18 +91,20 @@ Install backend dependencies:
 dep ensure
 ```
 
-### Setup
+## Setup
+
+### Postgres
 
 Make sure that PG_URL contains the connection string SponsorshipPortal will use
 to connect to Postgres.
 
-**NOTE:** `sslmode` defaults to `require` which may cause issues if you do not
+**NOTE:** The golang library `lib/pq`'s `sslmode` defaults to `require` which may cause issues if you do not
 have SSL configured. This may not be an issue on `localhost`.
 
 Examples:
 ```bash
-# connect as default user (`postgres`) to default database
-export PG_URL="postgres://postgres@localhost:5432/"
+# connect as default user (`postgres`) to default database with sslmode disabled
+export PG_URL="postgres://postgres@localhost:5432/?sslmode=disable"
 
 # connect as `portal` user with password `secret`
 # to `dev` database with ssl disabled
@@ -115,6 +116,18 @@ export PG_URL="host=localhost port=5432 user=portal password=secret sslmode=disa
 ```
 
 More information and examples on [Postgres docs](https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING)
+
+### Generate ECDSA Key Pair
+
+The backend is currently configured to use secp521r1. First, download and install OpenSSL if you do not already have it (most flavors of Linux come with OpenSSL):
+`sudo apt install openssl`
+
+Navigate to your working directory for the SponsorshipPortal and generate your secp521r1 key pair:
+```
+openssl ecparam -name secp521r1 -out secp521r1.pem
+openssl ecparam -in secp521r1.pem -genkey -noout -out ecprivatekey.pem
+openssl ec -in ecprivatekey.pem -pubout -out ecpublickey.pem
+```
 
 ## Start the app!
 
