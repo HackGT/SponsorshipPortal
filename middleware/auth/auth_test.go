@@ -15,7 +15,9 @@ import (
 	"github.com/SermoDigital/jose/jws"
 	"github.com/SermoDigital/jose/jwt"
 	log "github.com/sirupsen/logrus"
-	"github.com/sirupsen/logrus/hooks/test"	
+	"github.com/sirupsen/logrus/hooks/test"
+
+	"github.com/HackGT/SponsorshipPortal/config"
 )
 
 type testHandler struct {
@@ -69,7 +71,8 @@ func cleanPEMFiles() {
 func TestRequireAuthenticationSuccess(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
-	ra := reqAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "auth-test"}
+	ra := reqAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
@@ -123,7 +126,8 @@ func TestRequireAuthenticationSuccess(t *testing.T) {
 func TestRequireAuthenticationNoJWT(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
-	ra := reqAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "auth-test"}
+	ra := reqAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
@@ -155,7 +159,8 @@ func TestRequireAuthenticationNoJWT(t *testing.T) {
 func TestRequireAuthenticationExpired(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
-	ra := reqAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "auth-test"}
+	ra := reqAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
@@ -214,7 +219,8 @@ func TestRequireAuthenticationExpired(t *testing.T) {
 func TestRequireAuthenticationInvalid(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
-	ra := reqAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "auth-test"}
+	ra := reqAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
@@ -275,7 +281,8 @@ func TestRequireAuthenticationInvalid(t *testing.T) {
 func TestRequireNoAuthenticationSuccessNoJWT(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
-	rna := reqNoAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "noauth-test"}
+	rna := reqNoAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
@@ -303,7 +310,8 @@ func TestRequireNoAuthenticationSuccessNoJWT(t *testing.T) {
 func TestNoRequireAuthenticationSuccessExpired(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
-	rna := reqNoAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "noauth-test"}
+	rna := reqNoAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
@@ -356,7 +364,8 @@ func TestNoRequireAuthenticationSuccessExpired(t *testing.T) {
 func TestNoRequireAuthenticationSuccessInvalid(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
-	rna := reqNoAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "noauth-test"}
+	rna := reqNoAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
@@ -411,7 +420,8 @@ func TestNoRequireAuthenticationSuccessInvalid(t *testing.T) {
 func TestNoRequireAuthenticationFail(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
-	rna := reqNoAuthHandler{handler : testHandler{}, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "noauth-test"}
+	rna := reqNoAuthHandler{handler : testHandler{}, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"

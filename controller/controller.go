@@ -29,5 +29,5 @@ func (c *Controller) Load(r *mux.Router) {
 	// Register controllers and their respective path prefixes
 	health.Load(r.PathPrefix("/_health").Subrouter(), c.DB.DB, c.Config.Database)
 	sample.Load(r.PathPrefix("/sample").Subrouter())
-	auth.Load(r.PathPrefix("/user").Subrouter(), c.DB, c.Log)
+	auth.Load(r.PathPrefix("/user").Subrouter(), c.DB, c.Log, c.Config.Auth)
 }

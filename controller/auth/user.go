@@ -19,24 +19,26 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
 
+	"github.com/HackGT/SponsorshipPortal/config"
 	"github.com/HackGT/SponsorshipPortal/middleware/auth"
 	"github.com/HackGT/SponsorshipPortal/model/user"
 )
 
 type userController struct {
-	db *sqlx.DB
-	log *logrus.Logger
+	db         *sqlx.DB
+	log        *logrus.Logger
+	authConfig *config.AuthenticationConfig
 }
 
 type User struct {
-	Email    string
-	Password string
-	Org_id   int64
+	Email      string
+	Password   string
+	Org_id     int64
 }
 
 type AuthUser struct {
-	Email    string
-	Password string
+	Email      string
+	Password   string
 }
 
 type JWToken string
@@ -69,7 +71,7 @@ func (u userController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	u.log.Debug("Email: " + string(jsonUser.Email) + ", Password Hash: " + string(jsonUser.Password) + ", OrgID: " + strconv.FormatInt(jsonUser.Org_id, 10) + ". User added to database.")
 	//send JWT back
-	serializedJWT, err := CreateJWT(jsonUser.Email, r.Host, "/user")
+	serializedJWT, err := CreateJWT(jsonUser.Email, r.Host, "/user", u.authConfig.JWTExpires, u.authConfig.JWTSubject)
 	if err != nil {
 		u.log.WithError(err).Warn("Failed to create JWT.")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -112,7 +114,7 @@ func (u userController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//Logged in, send back JWT
-	serializedJWT, err := CreateJWT(jsonUser.Email, r.Host, "/user/login")
+	serializedJWT, err := CreateJWT(jsonUser.Email, r.Host, "/user/login", u.authConfig.JWTExpires, u.authConfig.JWTSubject)
 	if err != nil {
 		u.log.WithError(err).Warn("Failed to create JWT.")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -130,7 +132,7 @@ func (u userController) Login(w http.ResponseWriter, r *http.Request) {
 
 func (u userController) ReToken(w http.ResponseWriter, req *http.Request) {
 	email := req.Header.Get("eid")
-	serializedJWT, err := CreateJWT(email, req.Host, "/user/renew")
+	serializedJWT, err := CreateJWT(email, req.Host, "/user/renew", u.authConfig.JWTExpires, u.authConfig.JWTSubject)
 	if err != nil {
 		u.log.WithError(err).Warn("Failed to create JWT.")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -146,21 +148,16 @@ func (u userController) ReToken(w http.ResponseWriter, req *http.Request) {
 	w.Write(returnToken)
 }
 
-//Here are the claims that will be used for the JWT
-const expires time.Duration = 15 * time.Minute
-const subject string = "auth"
+//JWTID is sha256 hash of the user's email concatenated with the current time
 
-//JWTID is sha256 hash of the user's email concatenated with a salt
-var count int = 0 //Integer counter that ensures the jwtid is unique
-
-func CreateJWT(email string, host string, issuer string) ([]byte, error) {
+func CreateJWT(email string, host string, issuer string, expires time.Duration, subject string) ([]byte, error) {
 	t := time.Now()
 	claims := jws.Claims{}
 	claims.SetAudience(host)
 	claims.SetExpiration(t.Add(expires))
 	claims.SetIssuedAt(t)
 	claims.SetIssuer(host + issuer)
-	jwtid := sha256.Sum256([]byte(email + strconv.Itoa(count)))
+	jwtid := sha256.Sum256([]byte(email + t.String()))
 	encodedJwtid := make([]byte, base64.StdEncoding.EncodedLen(len(jwtid[:])))
 	base64.StdEncoding.Encode(encodedJwtid, jwtid[:])
 	claims.SetJWTID(string(encodedJwtid))
@@ -181,19 +178,18 @@ func CreateJWT(email string, host string, issuer string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	count++
 	return token, nil
 }
 
-func Load(r *mux.Router, db *sqlx.DB, log *logrus.Logger) {
-	u := &userController{db, log}
+func Load(r *mux.Router, db *sqlx.DB, log *logrus.Logger, config *config.AuthenticationConfig) {
+	u := &userController{db, log, config}
 	createUserSubR := r.PathPrefix("").Methods("PUT").Subrouter()
 	createUserSubR.PathPrefix("").HandlerFunc(u.Create)
-	createUserSubR.Use(auth.RequireNoAuthentication(log))
+	createUserSubR.Use(auth.RequireNoAuthentication(log, config))
 	loginSubR := r.PathPrefix("/login").Methods("POST").Subrouter()
 	loginSubR.PathPrefix("").HandlerFunc(u.Login)
-	loginSubR.Use(auth.RequireNoAuthentication(log))
+	loginSubR.Use(auth.RequireNoAuthentication(log, config))
 	renewSubR := r.PathPrefix("/renew").Methods("GET").Subrouter()
 	renewSubR.PathPrefix("").HandlerFunc(u.ReToken)
-	renewSubR.Use(auth.RequireAuthentication(log))
+	renewSubR.Use(auth.RequireAuthentication(log, config))
 }

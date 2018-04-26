@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/exec"
 	"testing"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -18,7 +19,9 @@ import (
 	"github.com/SermoDigital/jose/jws"
 	log "github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
-	"golang.org/x/crypto/bcrypt"	
+	"golang.org/x/crypto/bcrypt"
+
+	"github.com/HackGT/SponsorshipPortal/config"
 )
 
 type testUser struct {
@@ -199,7 +202,8 @@ func TestCreateUserSuccess(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "create-user-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -264,7 +268,8 @@ func TestCreateUserFail(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "create-user-fail-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -305,7 +310,8 @@ func TestLoginSuccess(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "login-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -356,7 +362,8 @@ func TestLoginNoSuchUser(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "login-fail-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -398,7 +405,8 @@ func TestLoginIncorrect(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "login-fail-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -453,7 +461,7 @@ func TestCreateJWT(t *testing.T) {
 	host := "localhost:3000"
 	
 	//success case
-	token, err := CreateJWT("testcreatejwt@hack.gt", host, host)
+	token, err := CreateJWT("testcreatejwt@hack.gt", host, host, 15 * time.Minute, "test-create-jwt")
 	if err != nil {
 		log.WithError(err).Error("Failed to create JWT.")
 		t.Fail()
@@ -468,7 +476,8 @@ func TestCreateJWT(t *testing.T) {
 func TestReTokenSuccess(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
-	u := userController{db : nil, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "retoken-test"}
+	u := userController{db : nil, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
