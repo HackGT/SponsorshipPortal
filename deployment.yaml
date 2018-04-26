@@ -6,10 +6,6 @@ health:
     path: /_health
 
 secrets:
-  - AWS_ACCESS_KEY_ID
-  - AWS_SECRET_ACCESS_KEY
-  - signingKey
-  - superToken
   - EC_PUBLIC_KEY
   - EC_PRIVATE_KEY
 
