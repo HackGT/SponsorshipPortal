@@ -12,6 +12,7 @@ type Config struct {
 	Prod     bool `default:"false"`
 	Server   *ServerConfig
 	Database *DatabaseConfig
+	Auth     *AuthenticationConfig
 }
 
 func Load() (*Config, error) {
@@ -26,6 +27,10 @@ func Load() (*Config, error) {
 		return nil, err
 	}
 	config.Database, err = LoadDatabaseConfig()
+	if err != nil {
+		return nil, err
+	}
+	config.Auth, err = LoadAuthenticationConfig()
 	if err != nil {
 		return nil, err
 	}
@@ -101,5 +106,20 @@ func LoadDatabaseConfig() (*DatabaseConfig, error) {
 		}
 	}
 
+	return &config, nil
+}
+
+type AuthenticationConfig struct {
+	EXPLeeway    time.Duration `default:"180s"`
+	NBFLeeway    time.Duration `default:"180s"`
+	JWTExpires   time.Duration `default:"15m"`
+	JWTSubject   string        `default:"auth"`
+}
+
+func LoadAuthenticationConfig() (*AuthenticationConfig, error) {
+	var config AuthenticationConfig
+	if err := envconfig.Process("", &config); err != nil {
+		return nil, err
+	}
 	return &config, nil
 }

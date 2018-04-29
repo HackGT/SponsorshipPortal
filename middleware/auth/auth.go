@@ -1,39 +1,38 @@
 package auth
 
 import (
-	"io/ioutil"
 	"net/http"
-	"time"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 
 	"github.com/SermoDigital/jose/crypto"
 	"github.com/SermoDigital/jose/jws"
+
+	"github.com/HackGT/SponsorshipPortal/config"
 )
 
-//Leeways for token expiration and token not-before times. Default to 3 minutes
-const expLeeway time.Duration = 3 * time.Minute
-const nbfLeeway time.Duration = 3 * time.Minute
-
 type reqAuthHandler struct {
-	handler http.Handler
-	log	*logrus.Logger
+	handler     http.Handler
+	log         *logrus.Logger
+	authConfig  *config.AuthenticationConfig
 }
 type reqNoAuthHandler struct {
-	handler http.Handler
-	log	*logrus.Logger
+	handler     http.Handler
+	log         *logrus.Logger
+	authConfig  *config.AuthenticationConfig
 }
 
-func RequireAuthentication(logger *logrus.Logger) mux.MiddlewareFunc {
+func RequireAuthentication(logger *logrus.Logger, authConfig *config.AuthenticationConfig) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
-		return reqAuthHandler{next, logger}
+		return reqAuthHandler{next, logger, authConfig}
 	}
 }
 
-func RequireNoAuthentication(logger *logrus.Logger) mux.MiddlewareFunc {
+func RequireNoAuthentication(logger *logrus.Logger, authConfig *config.AuthenticationConfig) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
-		return reqNoAuthHandler{next, logger}
+		return reqNoAuthHandler{next, logger, authConfig}
 	}
 }
 
@@ -45,14 +44,14 @@ func (a reqAuthHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "401 Unauthorized", http.StatusUnauthorized)
 		return
 	}
-	validator := jws.NewValidator(nil, expLeeway, nbfLeeway, nil)
-	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
-	if err != nil {
-		a.log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
+	validator := jws.NewValidator(nil, a.authConfig.EXPLeeway, a.authConfig.NBFLeeway, nil)
+	rawPublicKey := os.Getenv("EC_PUBLIC_KEY")
+	if rawPublicKey == "" {
+		a.log.Error("Error: EC Public Key env var not set. Did you generate your EC key pair?")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+	publicKey, err := crypto.ParseECPublicKeyFromPEM([]byte(rawPublicKey))
 	if err != nil {
 		a.log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -78,14 +77,14 @@ func (na reqNoAuthHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		na.handler.ServeHTTP(w, req)
 		return
 	}
-	validator := jws.NewValidator(nil, expLeeway, nbfLeeway, nil)
-	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
-	if err != nil {
-		na.log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
+	validator := jws.NewValidator(nil, na.authConfig.EXPLeeway, na.authConfig.NBFLeeway, nil)
+	rawPublicKey := os.Getenv("EC_PUBLIC_KEY")
+	if rawPublicKey == "" {
+		na.log.Error("Error: EC Public Key env var not set. Did you generate your EC key pair?")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+	publicKey, err := crypto.ParseECPublicKeyFromPEM([]byte(rawPublicKey))
 	if err != nil {
 		na.log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
