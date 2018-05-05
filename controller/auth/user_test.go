@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/exec"
 	"testing"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -18,7 +19,9 @@ import (
 	"github.com/SermoDigital/jose/jws"
 	log "github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
-	"golang.org/x/crypto/bcrypt"	
+	"golang.org/x/crypto/bcrypt"
+
+	"github.com/HackGT/SponsorshipPortal/config"
 )
 
 type testUser struct {
@@ -107,6 +110,10 @@ func generateECKeyPair() {
 		log.WithError(errors.New(stderr.String())).Warn(out.String())
 		log.WithError(err).Error("Unable to generate public key.")
 	}
+	ecPrivateKeyRaw, _ := ioutil.ReadFile("./ecprivatekey.pem")
+	ecPublicKeyRaw, _ := ioutil.ReadFile("./ecpublickey.pem")
+	os.Setenv("EC_PRIVATE_KEY", string(ecPrivateKeyRaw))
+	os.Setenv("EC_PUBLIC_KEY", string(ecPublicKeyRaw))
 }
 
 func cleanPEMFiles() {
@@ -139,12 +146,12 @@ func validateResponseJWT(t *testing.T, w *httptest.ResponseRecorder, host string
 		t.Fail()
 	}
 	validator := jws.NewValidator(nil, 1, 1, nil)
-	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
-	if err != nil {
-		log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
+	rawPublicKey := os.Getenv("EC_PUBLIC_KEY")
+	if rawPublicKey == "" {
+		log.Error("Error: EC Public Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+	publicKey, err := crypto.ParseECPublicKeyFromPEM([]byte(rawPublicKey))
 	if err != nil {
 		log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
 		t.Fail()
@@ -171,12 +178,12 @@ func validateJWT(t *testing.T, jwt []byte, host string) {
 		t.Fail()
 	}
 	validator := jws.NewValidator(nil, 1, 1, nil)
-	rawPublicKey, err := ioutil.ReadFile("./ecpublickey.pem")
-	if err != nil {
-		log.WithError(err).Error("Error reading EC public key. Are you sure you generated your EC public-private key pair?")
+	rawPublicKey := os.Getenv("EC_PUBLIC_KEY")
+	if rawPublicKey == "" {
+		log.Error("Error: EC Public Key env var not set. Did you generate your EC key pair?")
 		t.Fail()
 	}
-	publicKey, err := crypto.ParseECPublicKeyFromPEM(rawPublicKey)
+	publicKey, err := crypto.ParseECPublicKeyFromPEM([]byte(rawPublicKey))
 	if err != nil {
 		log.WithError(err).Error("Error parsing ECDSA public key from file. Are you sure you have the correct format? It should be ES512.")
 		t.Fail()
@@ -195,7 +202,8 @@ func TestCreateUserSuccess(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "create-user-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -260,7 +268,8 @@ func TestCreateUserFail(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "create-user-fail-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -301,7 +310,8 @@ func TestLoginSuccess(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "login-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -352,7 +362,8 @@ func TestLoginNoSuchUser(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "login-fail-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -394,7 +405,8 @@ func TestLoginIncorrect(t *testing.T) {
 	//initialize required resources
 	logger, hook := test.NewNullLogger()
 	db := createSQLiteDatabaseConnection(testName)
-	u := userController{db : db, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "login-fail-test"}
+	u := userController{db : db, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	//create reference sponsor_org
@@ -449,7 +461,7 @@ func TestCreateJWT(t *testing.T) {
 	host := "localhost:3000"
 	
 	//success case
-	token, err := CreateJWT("testcreatejwt@hack.gt", host, host)
+	token, err := CreateJWT("testcreatejwt@hack.gt", host, host, 15 * time.Minute, "test-create-jwt")
 	if err != nil {
 		log.WithError(err).Error("Failed to create JWT.")
 		t.Fail()
@@ -464,7 +476,8 @@ func TestCreateJWT(t *testing.T) {
 func TestReTokenSuccess(t *testing.T) {
 	//initialize required resources
 	logger, _ := test.NewNullLogger()
-	u := userController{db : nil, log : logger}
+	authConfig := config.AuthenticationConfig{3 * time.Minute, 3 * time.Minute, 15 * time.Minute, "retoken-test"}
+	u := userController{db : nil, log : logger, authConfig : &authConfig}
 	generateECKeyPair()
 
 	host := "localhost:3000"
