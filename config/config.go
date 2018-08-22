@@ -13,6 +13,7 @@ type Config struct {
 	Server   *ServerConfig
 	Database *DatabaseConfig
 	Auth     *AuthenticationConfig
+	Search   *SearchConfig
 }
 
 func Load() (*Config, error) {
@@ -31,6 +32,10 @@ func Load() (*Config, error) {
 		return nil, err
 	}
 	config.Auth, err = LoadAuthenticationConfig()
+	if err != nil {
+		return nil, err
+	}
+	config.Search, err = LoadSearchConfig()
 	if err != nil {
 		return nil, err
 	}
@@ -118,6 +123,19 @@ type AuthenticationConfig struct {
 
 func LoadAuthenticationConfig() (*AuthenticationConfig, error) {
 	var config AuthenticationConfig
+	if err := envconfig.Process("", &config); err != nil {
+		return nil, err
+	}
+	return &config, nil
+}
+
+type SearchConfig struct {
+	RegistrationGQLEndpoint string `default: "https://www.example.com"`
+	RegistrationSecretKey   string
+}
+
+func LoadSearchConfig() (*SearchConfig, error) {
+	var config SearchConfig
 	if err := envconfig.Process("", &config); err != nil {
 		return nil, err
 	}

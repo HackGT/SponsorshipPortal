@@ -30,4 +30,5 @@ func (c *Controller) Load(r *mux.Router) {
 	health.Load(r.PathPrefix("/_health").Subrouter(), c.DB.DB, c.Config.Database)
 	sample.Load(r.PathPrefix("/sample").Subrouter())
 	auth.Load(r.PathPrefix("/user").Subrouter(), c.DB, c.Log, c.Config.Auth)
+	search.Load(r.PathPrefix("/search").Subrouter(), c.Log, c.Config.Search)
 }
