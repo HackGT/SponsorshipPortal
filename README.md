@@ -76,8 +76,6 @@ For development work run the frontend and backend separately.
 
 ### Install dependencies
 
-Before running the frontend for development change the file `frontend/src/js/configs.js` to assign the HOST to `export const HOST = window.location.protocol + '//' + 'localhost:9000';` This needs to be done or server-side communication won't work. (TODO: host should change automatically from environment variable)
-
 Install frontend dependencies:
 ```bash
 # from project root
